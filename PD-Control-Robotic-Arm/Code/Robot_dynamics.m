@@ -8,14 +8,14 @@ function dstate = Robot_dynamics(t, state, robot, q_d_func, qd_d_func, qdd_d_fun
     qdd_d = qdd_d_func(t);
 
     % Compute control input (PD control)
-    Kp = diag([100, 100, 100]); % Proportional gains
-    Kd = diag([10, 10, 10]);    % Derivative gains
+    Kp = diag([80, 80, 80]); % Proportional gains
+    Kd = diag([15, 15, 15]);    % Derivative gains
     e = q_d - q;
     ed = qd_d - qd;
     tau = Kp*e + Kd*ed;
     
-    M = robot.inertia(q');    % Mass/inertia matrix
-    C = robot.coriolis(q', qd');  % Coriolis matrix
+    M = robot.inertia(q');
+    C = robot.coriolis(q', qd');
     G = robot.gravload(q');
     qdd = M\(tau - C*qd - G');
     

@@ -4,7 +4,7 @@ function [robot, arm_length] = Robotic_arm_model()
     a3 = 45/100; m3 = 1; r3 = 1.6/100;
     arm_length = [a1;a2;a3];
     
-    L(1) = Link('d', a1, 'a', 0, 'alpha', -pi/2);
+    L(1) = Link('d', a1, 'a', 0, 'alpha', pi/2);
     L(1).m = m1;
     L(1).r = [0 0 a1/2];
     L(1).I = [m1*a1^2/3 m1*a1^2/3 m1*r1^2/2];
