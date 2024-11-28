@@ -1,6 +1,6 @@
 # PD Control for Robotic Arm Trajectory Tracking
 
-[![Robotic Arm Trajectory Tracking](https://img.youtube.com/vi/h472pVSslbs/maxresdefault.jpg)](https://youtu.be/h472pVSslbs)
+![](https://github.com/AdharshAero/Robotics-Portfolio/blob/main/PD-Control-Robotic-Arm/Robotic_Arm_Simulation_Title.mp4)
 
 ## Project Overview
 [Insert technical introduction and simulation results]
