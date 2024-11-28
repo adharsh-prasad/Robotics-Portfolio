@@ -116,7 +116,7 @@ v = VideoWriter(videoPath, 'Uncompressed AVI');
 
 % Optional: Set figure resolution before recording
 % Set figure to 4K resolution
-set(gcf, 'Position', [100 100 1920 1080c]);  % 4K resolution
+set(gcf, 'Position', [100 100 1920 1080]);  % 4K resolution
 % set(gcf, 'GraphicsSmoothing', 'on');
 % set(gcf, 'Renderer', 'painters');
 open(v);
