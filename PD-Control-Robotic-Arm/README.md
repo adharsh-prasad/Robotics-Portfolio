@@ -1,6 +1,9 @@
 # PD Control for Robotic Arm Trajectory Tracking
-https://github.com/user-attachments/assets/42407092-6080-4add-b0c6-ee722c8b2b5c
-
+<div align="center">
+  <video width="60%" autoplay loop muted playsinline>
+    <source src="https://github.com/user-attachments/assets/42407092-6080-4add-b0c6-ee722c8b2b5c" type="video/mp4">
+  </video>
+</div>
 ## Project Overview
 [Insert technical introduction and simulation results]
 
