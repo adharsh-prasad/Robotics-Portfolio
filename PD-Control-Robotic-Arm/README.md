@@ -1,7 +1,7 @@
 # PD Control for Robotic Arm Trajectory Tracking
 
 <div align="center">
-  <video src="https://github.com/USERNAME/REPOSITORY/assets/ASSET_ID/VIDEO_FILENAME.mp4" autoplay loop muted playsinline width="100%">
+  <video src="(https://github.com/AdharshAero/Robotics-Portfolio/blob/main/PD-Control-Robotic-Arm/robotic_arm_simulation_title.mp4" autoplay loop muted playsinline width="100%">
   </video>
 </div>
 
