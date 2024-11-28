@@ -1,6 +1,6 @@
 # PD Control for Robotic Arm Trajectory Tracking
 
-[Insert simulation video]
+
 
 ## Project Overview
 [Insert technical introduction and simulation results]
