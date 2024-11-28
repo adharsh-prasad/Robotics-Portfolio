@@ -15,37 +15,36 @@ for i = 1:length(joint_angles)
     theta3 = joint(3);
     end_effector = [end_effector;double(subs(tranform(1:3,4)))'];
 end
-
-% % figure('Position', get(0, 'Screensize'));  % Create larger figure window
-% % % Plot desired trajectory
-% % plot3(x_func(T), y_func(T), z_func(T), 'b-', 'LineWidth', 2);
-% % hold on
+% % % figure('Position', get(0, 'Screensize'));  % Create larger figure window
+% % % % Plot desired trajectory
+% % % plot3(x_func(T), y_func(T), z_func(T), 'b-', 'LineWidth', 2);
+% % % hold on
+% % % 
+% % % % Plot actual end-effector trajectory
+% % % scatter3(end_effector(:,1), end_effector(:,2), end_effector(:,3), 20, 'r.', 'MarkerFaceAlpha', 0.6);
+% % % 
+% % Enhance plot appearance
+% % grid on
+% % box on
+% % axis equal
+% % xlabel('X (m)', 'FontSize', 12, 'FontWeight', 'bold')
+% % ylabel('Y (m)', 'FontSize', 12, 'FontWeight', 'bold')
+% % zlabel('Z (m)', 'FontSize', 12, 'FontWeight', 'bold')
+% % title('End-Effector Trajectory Tracking', 'FontSize', 14, 'FontWeight', 'bold')
 % % 
-% % % Plot actual end-effector trajectory
-% % scatter3(end_effector(:,1), end_effector(:,2), end_effector(:,3), 20, 'r.', 'MarkerFaceAlpha', 0.6);
+% % % Add legend
+% % legend('Desired Trajectory', 'Actual Trajectory', 'FontSize', 12, 'Location', 'best')
 % % 
-% Enhance plot appearance
-% grid on
-% box on
-% axis equal
-% xlabel('X (m)', 'FontSize', 12, 'FontWeight', 'bold')
-% ylabel('Y (m)', 'FontSize', 12, 'FontWeight', 'bold')
-% zlabel('Z (m)', 'FontSize', 12, 'FontWeight', 'bold')
-% title('End-Effector Trajectory Tracking', 'FontSize', 14, 'FontWeight', 'bold')
+% % % Set viewing angle for better visualization
+% % view(45, 30)
+% % 
+% % % Customize axis limits with some padding
+% % ax = gca;
+% % ax.XLim = [0 1];
+% % ax.YLim = [0 1];
+% % ax.ZLim = [0 1];
+% % ax.LineWidth = 1.5;
 % 
-% % Add legend
-% legend('Desired Trajectory', 'Actual Trajectory', 'FontSize', 12, 'Location', 'best')
-% 
-% % Set viewing angle for better visualization
-% view(45, 30)
-% 
-% % Customize axis limits with some padding
-% ax = gca;
-% ax.XLim = [0 1];
-% ax.YLim = [0 1];
-% ax.ZLim = [0 1];
-% ax.LineWidth = 1.5;
-
 fig = figure('WindowState', 'fullscreen', ...
     'MenuBar', 'none', ...
     'ToolBar', 'none', ...
@@ -108,9 +107,22 @@ legend([h1, h2], {'Desired Trajectory', 'Actual Trajectory'}, ...
     'Location', 'best', ...
     'TextColor', 'white', ...
     'Color', [0.2 0.2 0.2]);
+% 
+videoPath = 'C:/Users/ADHARSH/Desktop/Job_Search/Projects/Robotic Arm controller/robotic_arm_simulation_with_title.mp4';
+v = VideoWriter(videoPath, 'Uncompressed AVI');
+
+% v.FrameRate = 60;  % Increase frame rate for smoother motion
+% v.Quality = 100;   % Set maximum quality (0-100)
+
+% Optional: Set figure resolution before recording
+% Set figure to 4K resolution
+set(gcf, 'Position', [100 100 1920 1080c]);  % 4K resolution
+% set(gcf, 'GraphicsSmoothing', 'on');
+% set(gcf, 'Renderer', 'painters');
+open(v);
 
 % Animate robot movement
-for i = 1:5:length(joint_angles)
+for i = 1:1:length(joint_angles)
     joint = joint_angles(i,1:3);
     robot.plot(joint, 'trail', 'r-');
     theta1 = joint(1);
@@ -120,4 +132,9 @@ for i = 1:5:length(joint_angles)
     scatter3(actual_endeffector(1), actual_endeffector(2), actual_endeffector(3), ...
         20, 'g.', 'HandleVisibility', 'off');
     drawnow
+    
+    % Capture the frame
+    frame = getframe(gcf);
+    writeVideo(v, frame);
 end
+close(v);
