@@ -89,5 +89,4 @@ function [T, joint_angles] = simulate_robotic_arm(Kp, Kd)
     % Implement your robotic arm simulation here
     % This should return the time vector T and joint angles
     % You can use the dynamics equations and PD controller from your existing code
-    % ...
 end
