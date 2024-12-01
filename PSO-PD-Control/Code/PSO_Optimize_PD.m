@@ -1,7 +1,7 @@
 function [best_Kp, best_Kd] = PSO_Optimize_PD()
     % PSO parameters
     num_particles = 50;
-    num_dimensions = 2;  % Kp and Kd
+    num_dimensions = 6;  % Kp and Kd
     max_iterations = 300;
     c1 = 1.5;  % Cognitive coefficient
     c2 = 0.75;  % Social coefficient
@@ -15,8 +15,10 @@ function [best_Kp, best_Kd] = PSO_Optimize_PD()
     particles = zeros(num_particles, num_dimensions);
     velocities = zeros(num_particles, num_dimensions);
     for i = 1:num_particles
-        particles(i, 1) = Kp_range(1) + rand() * (Kp_range(2) - Kp_range(1));
-        particles(i, 2) = Kd_range(1) + rand() * (Kd_range(2) - Kd_range(1));
+        for j = 1:3
+            particles(i, j) = Kp_range(1) + rand() * (Kp_range(2) - Kp_range(1));
+            particles(i, j) = Kd_range(1) + rand() * (Kd_range(2) - Kd_range(1));
+        end
         velocities(i, :) = rand(1, num_dimensions);
     end
 
