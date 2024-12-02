@@ -5,7 +5,6 @@ function dstate = Robot_dynamics(t, state, robot, q_d_func, qd_d_func, qdd_d_fun
     % Compute desired trajectory
     q_d = q_d_func(t);
     qd_d = qd_d_func(t);
-    qdd_d = qdd_d_func(t);
 
     % Compute control input (PD control)
     Kp = diag(PD_Particle(1,1:3)); % Proportional gains
@@ -14,11 +13,14 @@ function dstate = Robot_dynamics(t, state, robot, q_d_func, qd_d_func, qdd_d_fun
     ed = qd_d - qd;
     tau = Kp*e + Kd*ed;
     
+    tic
     M = robot.inertia(q');
     C = robot.coriolis(q', qd');
     G = robot.gravload(q');
     qdd = M\(tau - C*qd - G');
+    time = toc;
     
+    disp(time); 
     % Return state derivative
     dstate = [qd; qdd];
 end
