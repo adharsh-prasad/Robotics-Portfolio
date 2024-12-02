@@ -1,4 +1,4 @@
-function dstate = Robot_dynamics(t, state, robot, q_d_func, qd_d_func, qdd_d_func)
+function dstate = Robot_dynamics(t, state, robot, q_d_func, qd_d_func, qdd_d_func, PD_Particle)
     q = state(1:3);
     qd = state(4:6);
 
@@ -8,8 +8,8 @@ function dstate = Robot_dynamics(t, state, robot, q_d_func, qd_d_func, qdd_d_fun
     qdd_d = qdd_d_func(t);
 
     % Compute control input (PD control)
-    Kp = diag([80, 80, 80]); % Proportional gains
-    Kd = diag([15, 15, 15]);    % Derivative gains
+    Kp = diag(PD_Particle(1,1:3)); % Proportional gains
+    Kd = diag(PD_Particle(1,4:6));    % Derivative gains
     e = q_d - q;
     ed = qd_d - qd;
     tau = Kp*e + Kd*ed;
