@@ -30,4 +30,12 @@ Particles_Population(:,1:3) = Kp_range(1) + (Kp_range(1)-Kp_range(2)).*rand(Part
 Particles_Population(:,4:6) = Kd_range(1) + (Kd_range(1)-Kd_range(2)).*rand(Particle_size, Dimensions/2);
 Particles_Velocity = rand(size(Particles_Velocity));
 
+end_effector = [];
+for i = 1:length(joint_angles)
+    joint = joint_angles(i,1:3);
+    theta1 = joint(1);
+    theta2 = joint(2);
+    theta3 = joint(3);
+    end_effector = [end_effector;double(subs(tranform(1:3,4)))'];
+end
 fitness = Joint_trajectory(x_func, y_func, z_func, robot, arm_length, PD_Particle);

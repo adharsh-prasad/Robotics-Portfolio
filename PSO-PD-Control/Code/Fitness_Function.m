@@ -1,4 +1,4 @@
-function [t, state] = Joint_trajectory(x_func, y_func, z_func, robot, arm_length, PD_Particle)
+function [t, state] = Fitness_Function(x_func, y_func, z_func, robot, arm_length, PD_Particle)
     syms t
     q_d_sym = Inverse_Dynamics([x_func(t); y_func(t); z_func(t)], arm_length(1), arm_length(2), arm_length(3));
     qd_d_sym = diff(q_d_sym);
