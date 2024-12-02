@@ -14,4 +14,5 @@ function [t, state] = Joint_trajectory(x_func, y_func, z_func, robot, arm_length
     
     % ODE45 call
     [t, state] = ode45(@(t, state) Robot_dynamics(t, state, robot, q_d_func, qd_d_func, qdd_d_func), t_span, initial_state, PD_Particle);
+    
 end

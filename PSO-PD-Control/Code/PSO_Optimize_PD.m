@@ -13,6 +13,9 @@ tranform = Forward_Kinematics([arm_length(1) pi/2 0], [0 0 arm_length(2)], [0 0 
 Particle_size = 50;
 Iterations = 300;
 Dimensions = 6;
+c1 = 1.5;
+c2 = 0.75;
+w = 0.9;
 
 %Range of values for Kp and Kd
 Kp_range  =[0 1000];
@@ -27,7 +30,4 @@ Particles_Population(:,1:3) = Kp_range(1) + (Kp_range(1)-Kp_range(2)).*rand(Part
 Particles_Population(:,4:6) = Kd_range(1) + (Kd_range(1)-Kd_range(2)).*rand(Particle_size, Dimensions/2);
 Particles_Velocity = rand(size(Particles_Velocity));
 
-[T, joint_angles] = Joint_trajectory(x_func, y_func, z_func, robot, arm_length, PD_Particle);
-function fitness = evaluate_fitness()
-
-end
+fitness = Joint_trajectory(x_func, y_func, z_func, robot, arm_length, PD_Particle);
