@@ -113,7 +113,7 @@ end
 time = toc;
 
 num_iterations = 300;
-figure;
+figure(1);
 plot(0:num_iterations, GBest_history, 'b-', 'LineWidth', 2);
 hold on;
 plot(0:num_iterations, PBest_avg_history, 'r--', 'LineWidth', 1.5);
@@ -121,4 +121,3 @@ xlabel('Iteration');
 ylabel('RMS Error');
 title('PSO Convergence for PD Controller Optimization');
 legend('Global Best Fitness', 'Particles Mean Fitness');
-grid on;
