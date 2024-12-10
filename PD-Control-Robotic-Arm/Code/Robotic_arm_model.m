@@ -4,11 +4,11 @@
 %    robot - SerialLink object containing complete robot model
 %    arm_length - Vector of link lengths [a1; a2; a3] in meters
 %
-% Parameters:
-%    Link lengths: 0.45m each
-%    Link masses: 1kg each
-%    Link radii: 0.016m each
-%    DH parameters configured for 3-DOF planar arm
+% Customizable Parameters:
+% Link lengths (a1, a2, a3): Default 0.45m each
+% Link masses (m1, m2, m3): Default 1kg each
+% Link radii (r1, r2, r3): Default 0.016m each
+% All parameters can be modified as per user requirements
 %
 % Notes:
 %    Uses Peter Corke's Robotics Toolbox conventions
