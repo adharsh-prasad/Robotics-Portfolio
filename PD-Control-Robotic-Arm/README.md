@@ -4,6 +4,7 @@
   <img src="https://github.com/adharsh-prasad/Robotics-Portfolio/blob/main/PD-Control-Robotic-Arm/Robotic%20Arm%20Simulation.gif" width="30%">
   <p style="font-size: 5px; color: #8b949e; font-weight: 400;">PD Control Simulation of Robotic Arm Trajectory Tracking</p>
 </div>
+
 ## Project Overview
 [Insert technical introduction and simulation 
 
