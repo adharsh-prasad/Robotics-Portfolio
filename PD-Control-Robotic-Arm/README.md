@@ -1,7 +1,7 @@
 # PD Control for Robotic Arm Trajectory Tracking
 
 <div align="center">
-  <img src="https://github.com/adharsh-prasad/Robotics-Portfolio/blob/main/PD-Control-Robotic-Arm/Robotic_Arm_Simulation.gif" width="300">
+  <img src="https://github.com/adharsh-prasad/Robotics-Portfolio/blob/main/PD-Control-Robotic-Arm/Robotic_Arm_Simulation.gif" width="50%">
 </div>
 
 ## Project Overview
