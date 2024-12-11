@@ -1,15 +1,26 @@
-% ROBOTIC_ARM_SIMULATION - Simulates and visualizes a 3-DOF robotic arm trajectory tracking
+% ROBOTIC_ARM_SIMULATION - Simulates and visualizes a 3-DOF robotic arm with workspace analysis
 %
 % This script performs the following:
-%   1. Initializes robot model and parameters
-%   2. Defines circular trajectory for end-effector
-%   3. Solves forward and inverse kinematics
-%   4. Creates high-quality visualization
-%   5. Generates video recording of the simulation
+% 1. Initializes robot model and parameters
+% 2. Generates and visualizes the complete reachable workspace
+% 3. Defines and tracks circular end-effector trajectory
+% 4. Creates high-quality visualization with custom styling
+% 5. Generates and stores video recording of the simulation locally
+%
+% Features:
+% - Complete workspace analysis using custom Forward Kinematics
+% - Customizable trajectory functions
+% - High-quality video output
 %
 % Required toolboxes:
-%   - Robotics Toolbox by Peter Corke
-%   - MATLAB R2020a or newer
+% - Robotics Toolbox by Peter Corke
+% - MATLAB R2020a or newer
+%
+% Notes:
+% - Workspace visualization helps verify the feasibility of user-defined trajectories
+% - Trajectory functions can be customized to any desired path within the robot's
+% reachable workspace, for which the simulation will generate a corresponding
+% visualization
 %
 % See also: Robotic_arm_model, Joint_trajectory, Forward_Kinematics
 
