@@ -105,7 +105,7 @@ for i = 1:3
     zlim([-0.5 1.5]);
     view(view_loop(i,1), view_loop(i,2))
     f = gcf; % Get current figure handle
-    exportgraphics(f, 'reachable_workspace_view'+string(i)+'.png', 'Resolution', 300, 'ContentType', 'vector')
+    exportgraphics(f, 'reachable_workspace_view'+string(i)+'.jpg', 'Resolution', 300,'BackgroundColor','current')
 end
 
 % Initialize end-effector position array
