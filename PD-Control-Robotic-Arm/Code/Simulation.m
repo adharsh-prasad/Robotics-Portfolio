@@ -35,6 +35,10 @@ x_func = @(t) (35 + 25*cos(2*pi*t/10))/100;  % Circular motion in X
 y_func = @(t) (35 + 25*sin(2*pi*t/10))/100;  % Circular motion in Y
 z_func = @(t) 90/100*t.^0;                   % Constant Z height
 
+% Note: Users can define their own trajectory functions by modifying the above
+% equations. Ensure the trajectory points lie within the reachable workspace
+% shown in the workspace analysis.
+
 % Solve trajectory and get joint angles
 [T, joint_angles] = Joint_trajectory(x_func, y_func, z_func, robot, arm_length);
 
@@ -100,6 +104,8 @@ for i = 1:3
     ylim([-1 1]);
     zlim([-0.5 1.5]);
     view(view_loop(i,1), view_loop(i,2))
+    f = gcf; % Get current figure handle
+    exportgraphics(f, 'reachable_workspace_view'+string(i)+'.png', 'Resolution', 300, 'ContentType', 'vector')
 end
 
 % Initialize end-effector position array
