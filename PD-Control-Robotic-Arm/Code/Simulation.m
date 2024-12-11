@@ -30,6 +30,67 @@ z_func = @(t) 90/100*t.^0;                   % Constant Z height
 % Calculate forward kinematics transformation
 tranform = Forward_Kinematics([arm_length(1) pi/2 0], [0 0 arm_length(2)], [0 0 arm_length(3)]);
 
+% WORKSPACE_ANALYSIS - Generates and visualizes the reachable workspace of the 3-DOF robotic arm
+
+% Initialize workspace points
+workspace_points = [];
+
+% Sample joint angles within limits
+theta1_range = linspace(-pi, pi, 30);
+theta2_range = linspace(-pi/2, pi/2, 30);
+theta3_range = linspace(-pi/2, pi/2, 30);
+
+% Generate workspace points through forward kinematics
+for theta1 = theta1_range
+    for theta2 = theta2_range
+        for theta3 = theta3_range
+            % Calculate end-effector position for this configuration
+            joint = [theta1; theta2; theta3];
+            pos = double(subs(tranform(1:3,4)))';
+            workspace_points = [workspace_points; pos];
+        end
+    end
+end
+
+view_loop = [40 30;0 0;0 90];
+for i = 1:3
+    % Create new figure for workspace visualization
+    fig = figure('WindowState', 'fullscreen', ...
+        'MenuBar', 'none', ...
+        'ToolBar', 'none', ...
+        'NumberTitle', 'off', ...
+        'Name', '', ...
+        'Units', 'normalized', ...
+        'OuterPosition', [0 0 1 1], ...
+        'Color', [0.7 0.7 0.7]);
+    scatter3(workspace_points(:,1), workspace_points(:,2), workspace_points(:,3), ...
+        20, 'b.', 'MarkerFaceAlpha', 0.3);
+    hold on
+
+    % Plot robot base frame for reference
+    plot3(0, 0, 0, 'r*', 'MarkerSize', 10)
+
+    % Enhance plot appearance
+    title('Reachable Workspace', 'Color', [0 0 0], 'FontWeight', 'bold', 'FontSize', 16)
+    xlabel('X (m)', 'Color', [0 0 0], 'FontSize', 13)
+    ylabel('Y (m)', 'Color', [0 0 0], 'FontSize', 13)
+    zlabel('Z (m)', 'Color', [0 0 0], 'FontSize', 13)
+
+    % Turn grid on
+    grid on
+
+    % Set grid spacing
+    xticks(-1:0.2:1);
+    yticks(-1:0.2:1);
+    zticks(-0.5:0.2:1.5);
+
+    daspect([1 1 1]);
+    xlim([-1 1]);
+    ylim([-1 1]);
+    zlim([-0.5 1.5]);
+    view(view_loop(i,1), view_loop(i,2))
+end
+
 % Initialize end-effector position array
 end_effector = [];
 
@@ -83,7 +144,7 @@ ax.GridAlpha = 0.3;
 ax.XLim = [-1 1.5];
 ax.YLim = [-1 1.5];
 ax.ZLim = [-1 1.5];
-ax.XTickLabel = [];              % Remove tick labels for clean look
+ax.XTickLabel = [];
 ax.YTickLabel = [];
 ax.ZTickLabel = [];
 ax.XTick = [];
@@ -119,18 +180,18 @@ for i = 1:1:length(joint_angles)
     % Update robot configuration
     joint = joint_angles(i,1:3);
     robot.plot(joint, 'trail', 'r-');
-    
+
     % Extract joint angles
     theta1 = joint(1);
     theta2 = joint(2);
     theta3 = joint(3);
-    
+
     % Plot actual end-effector position
     actual_endeffector = double(subs(tranform(1:3,4)));
     scatter3(actual_endeffector(1), actual_endeffector(2), actual_endeffector(3), ...
         20, 'g.', 'HandleVisibility', 'off');
     drawnow
-    
+
     % Capture and write video frame
     frame = getframe(gcf);
     writeVideo(v, frame);
