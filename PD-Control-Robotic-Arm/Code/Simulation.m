@@ -205,8 +205,7 @@ for i = 1:1:length(joint_angles)
 
     % Plot actual end-effector position
     actual_endeffector = double(subs(tranform(1:3,4)));
-    scatter3(actual_endeffector(1), actual_endeffector(2), actual_endeffector(3), ...
-        20, 'g.', 'HandleVisibility', 'off');
+    scatter3(actual_endeffector(1), actual_endeffector(2), actual_endeffector(3), 20, 'g.', 'HandleVisibility', 'off');
     drawnow
 
     % Capture and write video frame

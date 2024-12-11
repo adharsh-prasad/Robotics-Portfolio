@@ -21,18 +21,18 @@ qd_d_func = matlabFunction(qd_d_sym, 'Vars', t);
 qdd_d_func = matlabFunction(qdd_d_sym, 'Vars', t);
 
 
-[T, joint_angles] = Joint_trajectory(x_func, y_func, z_func, robot, arm_length);
-tranform = Forward_Kinematics([arm_length(1) pi/2 0], [0 0 arm_length(2)], [0 0 arm_length(3)]);
-
-end_effector = [];
-for i = 1:length(joint_angles)
-    joint = joint_angles(i,1:3);
-    theta1 = joint(1);
-    theta2 = joint(2);
-    theta3 = joint(3);
-    end_effector = [end_effector;double(subs(tranform(1:3,4)))'];
-end
-
+% [T, joint_angles] = Joint_trajectory(x_func, y_func, z_func, robot, arm_length);
+% tranform = Forward_Kinematics([arm_length(1) pi/2 0], [0 0 arm_length(2)], [0 0 arm_length(3)]);
+% 
+% end_effector = [];
+% for i = 1:length(joint_angles)
+%     joint = joint_angles(i,1:3);
+%     theta1 = joint(1);
+%     theta2 = joint(2);
+%     theta3 = joint(3);
+%     end_effector = [end_effector;double(subs(tranform(1:3,4)))'];
+% end
+% 
 view_loop = [40 30;0 0;0 90];
 for i = 1:3
 
@@ -85,7 +85,7 @@ for i = 1:3
     ylabel('Y (m)', 'Color', [0 0 0], 'FontWeight', 'bold', 'FontSize', 13)
     zlabel('Z (m)', 'Color', [0 0 0], 'FontWeight', 'bold', 'FontSize', 13)
     title('End-Effector Trajectory Tracking', 'Color', [0 0 0], ...
-        'FontWeight', 'bold', 'FontSize', 16)
+        'FontWeight', 'bold', 'FontSize', 24)
 
     % Set viewing angle
     view(view_loop(i,1), view_loop(i,2))
@@ -115,7 +115,7 @@ hold on
 plot(T, x_func(T), 'r--', 'LineWidth', 2)
 grid on
 ylabel('X Position (m)', 'FontWeight', 'bold', 'FontSize', 13)
-title('End-Effector Position vs Time', 'FontWeight', 'bold', 'FontSize', 16)
+title('End-Effector Position vs Time', 'FontWeight', 'bold', 'FontSize', 24)
 legend('Actual', 'Desired', 'Location', 'best')
 
 % Plot Y position
@@ -162,7 +162,7 @@ hold on
 plot(T, desired_joint_angles(:,1)*180/pi, 'r--', 'LineWidth', 2)
 grid on
 ylabel('\theta_1 (deg)', 'FontWeight', 'bold', 'FontSize', 13)
-title('Joint Angles vs Time', 'FontWeight', 'bold', 'FontSize', 16)
+title('Joint Angles vs Time', 'FontWeight', 'bold', 'FontSize', 48)
 legend('Actual', 'Desired', 'Location', 'best')
 
 % Plot second joint angle
@@ -209,7 +209,7 @@ hold on
 plot(T, desired_joint_angular_velocity(:,1)*180/pi, 'r--', 'LineWidth', 2)
 grid on
 ylabel('\omega_1 (deg/s)', 'FontWeight', 'bold', 'FontSize', 13)
-title('Joint Angular Velocities vs Time', 'FontWeight', 'bold', 'FontSize', 16)
+title('Joint Angular Velocities vs Time', 'FontWeight', 'bold', 'FontSize', 48)
 legend('Actual', 'Desired', 'Location', 'best')
 
 % Plot second joint angular velocity
@@ -274,7 +274,7 @@ subplot(3,1,1)
 plot(T, tau_history(1,:), 'b-', 'LineWidth', 2)
 grid on
 ylabel('τ_1 (Nm)', 'FontWeight', 'bold', 'FontSize', 13)
-title('Joint Torques vs Time', 'FontWeight', 'bold', 'FontSize', 16)
+title('Joint Torques vs Time', 'FontWeight', 'bold', 'FontSize', 48)
 
 subplot(3,1,2)
 plot(T, tau_history(2,:), 'g-', 'LineWidth', 2)
@@ -316,7 +316,7 @@ subplot(3,1,1)
 plot(T, joint_errors(:,1), 'b-', 'LineWidth', 2)
 grid on
 ylabel('e_1 (deg)', 'FontWeight', 'bold', 'FontSize', 13)
-title('Joint Angle Tracking Errors', 'FontWeight', 'bold', 'FontSize', 16)
+title('Joint Angle Tracking Errors', 'FontWeight', 'bold', 'FontSize', 48)
 
 subplot(3,1,2)
 plot(T, joint_errors(:,2), 'g-', 'LineWidth', 2)
@@ -358,7 +358,7 @@ subplot(3,1,1)
 plot(T, velocity_errors(:,1), 'b-', 'LineWidth', 2)
 grid on
 ylabel('ω_1 error (deg/s)', 'FontWeight', 'bold', 'FontSize', 13)
-title('Joint Angular Velocity Errors', 'FontWeight', 'bold', 'FontSize', 16)
+title('Joint Angular Velocity Errors', 'FontWeight', 'bold', 'FontSize', 48)
 
 subplot(3,1,2)
 plot(T, velocity_errors(:,2), 'g-', 'LineWidth', 2)
