@@ -1,11 +1,10 @@
-function dstate = Robot_dynamics(t, state, robot, q_d_func, qd_d_func, qdd_d_func)
+function dstate = Robot_dynamics(t, state, robot, q_d_func, qd_d_func)
     q = state(1:3);
     qd = state(4:6);
 
     % Compute desired trajectory
     q_d = q_d_func(t);
     qd_d = qd_d_func(t);
-    qdd_d = qdd_d_func(t);
 
     % Compute control input (PD control)
     Kp = diag([80, 80, 80]); % Proportional gains
