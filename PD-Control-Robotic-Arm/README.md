@@ -1,5 +1,3 @@
-Based on the project details, technical implementation, and personal significance, here's a comprehensive structure for your README.md:
-
 # Anthropomorphic Robotic Arm Trajectory Control
 
 <div align="center">
