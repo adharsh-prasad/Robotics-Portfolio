@@ -1,12 +1,14 @@
 # **Trajectory Tracking Control of an Anthropomorphic Robotic Arm**
 
+<div align="center"> <img src="Plots/Robotic Arm Simulation.gif" width="300"/> <p align="center"> <em>3-DOF Robotic Arm Trajectory Tracking Simulation</em> </p> </div>
+
 This repository contains the code and documentation for the **Trajectory Tracking Control of an Anthropomorphic Robotic Arm** project. The project showcases the integration of control theory, specifically a Proportional-Derivative (PD) controller, to achieve accurate trajectory tracking for a robotic arm. The simulation visualizes the arm's performance in tracking complex trajectories under varying conditions.
 
 ---
 
 ## **Motivation**
 
-![Robotic Arm and Inverse Kinematics](path/to/robotic_arm_inverse_kinematics_image.jpg)
+![Robotic Arm and Inverse Kinematics](https://github.com/adharsh-prasad/Robotics-Portfolio/blob/main/PD-Control-Robotic-Arm/Plots/robotic_arm_inverse_kinematics.jpg){: width="30%"}
 
 This project represents a significant milestone in my academic and personal journey. As a graduate student at Arizona State University (ASU), I sought to bridge my background in control systems with my interest in robotics. This project provided the perfect opportunity to merge these domains.
 
@@ -38,48 +40,58 @@ Notably, it was the only project in the class to fully integrate control theory,
 ### **Kinematic Model**
 Forward and inverse kinematics were developed to enable precise motion planning:
 - **Forward Kinematics**: 
-  ![Reachable Workspace View 1](https://github.com/adharsh-prasad/Robotics-Portfolio/blob/main/PD-Control-Robotic-Arm/Plots/reachable_workspace_view1.jpg)
+  <div align="center"> <img src="Plots/eof_trajectory_tracking1.jpg" width="400"/> <p align="center"> <em>End-Effector Trajectory Tracking in 3D Space</em> </p> </div>
   This provides the end-effector's position based on joint angles. The figure above illustrates the robot's reachable workspace.
 
 - **Inverse Kinematics**:
-  ![End-Effector Trajectory Tracking](eof_trajectory_tracking1.jpg)
-  Solved geometrically, the inverse kinematics algorithm ensures that the robotic arm's joint angles achieve desired end-effector positions. The figure above demonstrates the end-effector following a circular trajectory.
+  The inverse kinematics were derived geometrically, solving for joint angles based on the desired end-effector position. Inspired by the paper, equations for joint angles are solved analytically, ensuring precise configurations.
 
 ### **Control System**
 The PD controller ensures smooth and accurate trajectory tracking:
 - **Proportional-Derivative Control**:
   A PD controller was designed to track the desired trajectory with high precision. The control law minimizes the error between desired and actual positions while ensuring stability.
 
-  ![Joint Angles vs Time](joint_angles.png)
+  ![Joint Angles vs Time](https://github.com/adharsh-prasad/Robotics-Portfolio/blob/main/PD-Control-Robotic-Arm/Plots/joint_angles.png){: width="30%"}
+
+  The controller gains were tuned by experimentation, inspired by the method outlined in the paper. Unlike the paper, the implementation avoids PSO but achieves comparable results through iterative gain refinement.
 
 - **Performance Testing**:
   Simulation results were validated using MATLAB. The plots above show the joint angles and velocities over time, highlighting the controller's smooth and accurate performance.
 
-### **Disturbance Torque Simulation**
-The robustness of the control system was tested by introducing disturbance torques, simulating real-world uncertainties.
+### **Dynamic Model**
+The robotic arm's dynamics are represented as:
+\[
+M(q)\ddot{q} + V(q, \dot{q}) + G(q) = \tau
+\]
+Where:
+- \(M(q)\): Inertia matrix.
+- \(V(q, \dot{q})\): Coriolis and centripetal forces.
+- \(G(q)\): Gravitational force.
+- \(\tau\): Control torque.
 
-  ![Control Torques](control_torques.png)
-
-The figure above illustrates the control torques applied to each joint, showcasing the PD controller's ability to counteract disturbances effectively.
+This equation forms the basis of the PD control law:
+\[
+\tau = M(q)(\ddot{q}_d - K_p e - K_d \dot{e}) + V(q, \dot{q}) + G(q)
+\]
 
 ---
 
 ## **Simulation and Results**
 
 ### **Trajectory Tracking**
-![End-Effector Position Tracking](end_effector_position.png)
+<div align="center">
+  <img src="Plots/end_effector_position.png" width="600"/>
+  <p align="center">
+    <em>End-Effector Position Tracking</em>
+  </p>
+</div>
 
 The PD controller achieves excellent trajectory tracking, with minimal tracking errors as shown in the end-effector position tracking plots.
 
-### **Robustness to Disturbances**
-Even under disturbance conditions, the controller ensures the robotic arm follows the desired trajectory with negligible deviation. The disturbance torque and its effects are visualized in the control torque plots.
-
 ### **Singularity and Workspace Analysis**
 Singularity analysis ensures safe motion planning within the robot's workspace. The workspace is visualized across multiple views:
-- ![Reachable Workspace View 2](https://github.com/adharsh-prasad/Robotics-Portfolio/blob/main/PD-Control-Robotic-Arm/Plots/reachable_workspace_view2.jpg)
-- ![Reachable Workspace View 3](https://github.com/adharsh-prasad/Robotics-Portfolio/blob/main/PD-Control-Robotic-Arm/Plots/reachable_workspace_view3.jpg)
-
-These views depict the arm's reachable positions and highlight regions to avoid during trajectory planning.
+- ![Reachable Workspace View 2](https://github.com/adharsh-prasad/Robotics-Portfolio/blob/main/PD-Control-Robotic-Arm/Plots/reachable_workspace_view2.jpg){: width="30%"}
+- ![Reachable Workspace View 3](https://github.com/adharsh-prasad/Robotics-Portfolio/blob/main/PD-Control-Robotic-Arm/Plots/reachable_workspace_view3.jpg){: width="30%"}
 
 ---
 
@@ -115,4 +127,15 @@ This project had a profound impact on my academic and professional growth:
 ### **Setup**
 1. Clone the repository:
    ```bash
-   git clone https://github.com/username/trajectory-tracking-robotic-arm.git
+   git clone https://github.com/adharsh-prasad/trajectory-tracking-robotic-arm.git
+2. Navigate to the project directory:
+   ```bash
+   cd trajectory-tracking-robotic-arm
+3. Open the MATLAB scripts to run the simulations.
+
+### **Reference**
+1. Craig, J. J., "Introduction to Robotics Mechanics and Control", Pearson Education International, ISBN 0-13-123629-6, 2005.
+2. Salah Mahdi Swadi et al., "Design and Simulation of Robotic Arm PD Controller Based on PSO", University of Thi-Qar Journal for Engineering Sciences, 2019.
+
+### **Acknowledgments**
+Special thanks to my professors, peers, and the Space Robotics Lab at the University of Arizona for their guidance and support in this project. This work represents a significant step forward in my journey as a robotics engineer.
