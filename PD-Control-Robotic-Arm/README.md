@@ -38,7 +38,7 @@ Notably, it was the only project in the class to fully integrate control theory,
 ### **Kinematic Model**
 Forward and inverse kinematics were developed to enable precise motion planning:
 - **Forward Kinematics**: 
-  ![Reachable Workspace View 1](reachable_workspace_view1.jpg)
+  ![Reachable Workspace View 1](https://github.com/adharsh-prasad/Robotics-Portfolio/blob/main/PD-Control-Robotic-Arm/Plots/reachable_workspace_view1.jpg)
   This provides the end-effector's position based on joint angles. The figure above illustrates the robot's reachable workspace.
 
 - **Inverse Kinematics**:
@@ -76,8 +76,8 @@ Even under disturbance conditions, the controller ensures the robotic arm follow
 
 ### **Singularity and Workspace Analysis**
 Singularity analysis ensures safe motion planning within the robot's workspace. The workspace is visualized across multiple views:
-- ![Reachable Workspace View 2](reachable_workspace_view2.jpg)
-- ![Reachable Workspace View 3](reachable_workspace_view3.jpg)
+- ![Reachable Workspace View 2](https://github.com/adharsh-prasad/Robotics-Portfolio/blob/main/PD-Control-Robotic-Arm/Plots/reachable_workspace_view2.jpg)
+- ![Reachable Workspace View 3](https://github.com/adharsh-prasad/Robotics-Portfolio/blob/main/PD-Control-Robotic-Arm/Plots/reachable_workspace_view3.jpg)
 
 These views depict the arm's reachable positions and highlight regions to avoid during trajectory planning.
 
