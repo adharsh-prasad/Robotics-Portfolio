@@ -208,7 +208,7 @@ This project had a profound impact on my academic and professional growth:
 ## **Future Work**
 
 1. **Optimization**:
-   - Implementing Particle Swarm Optimization (PSO) for real-time controller parameter tuning.
+   - Implementing Particle Swarm Optimization (PSO) for real-time controller parameter tuning([visit](https://github.com/adharsh-prasad/Robotics-Portfolio/tree/main/PSO-PD-Control)).
 2. **Expanded Applications**:
    - Extending the control system to multi-DOF robotic arms.
 3. **Adaptive Control**:
@@ -216,7 +216,7 @@ This project had a profound impact on my academic and professional growth:
 
 ---
 
-## **Installation and Usage**
+## **Try It Yourself**
 
 ### **Prerequisites**
 - MATLAB with Simulink (R2022a or later).
@@ -230,6 +230,19 @@ This project had a profound impact on my academic and professional growth:
    ```bash
    cd trajectory-tracking-robotic-arm
 3. Open the MATLAB scripts to run the simulations.
+   The code is designed to be user-friendly, allowing you to run any trajectory within the workspace with minimal setup. Change the x_func, y_func and z_func as per the users need. Simply execute the following lines in MATLAB after making these changes:
+   ```bash
+       [robot, arm_length] = Robotic_arm_model();
+       x_func = @(t) (35 + 25*cos(2*pi*t/10))/100;
+       y_func = @(t) (35 + 25*sin(2*pi*t/10))/100; 
+       z_func = @(t) 90/100*t.^0;
+       [T, joint_angles] = Joint_trajectory(x_func, y_func, z_func, robot, arm_length);
+
+  Note: Ensure that your chosen trajectory remains within the defined workspace. Details of the workspace are explained above.
+
+### **Customization**
+
+If you wish to modify the robot's dimensions or parameters, you can do so by editing the [Robotic_arm_model.m](https://github.com/adharsh-prasad/Robotics-Portfolio/blob/main/PD-Control-Robotic-Arm/Code/Robotic_arm_model.m) file. Adjust any desired parameters to fit your specific requirements. This section provides a straightforward way for users to engage with and explore the simulation, emphasizing ease of use and customization potential.
 
 ### **Reference**
 1. Craig, J. J., "Introduction to Robotics Mechanics and Control", Pearson Education International, ISBN 0-13-123629-6, 2005.
