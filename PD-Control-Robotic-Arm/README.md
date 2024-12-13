@@ -158,6 +158,20 @@ $$
 
 The PD controller achieves trajectory tracking to some extent, with significant tracking errors as shown in the end-effector position tracking plots. The error is predominantly due to the fact there are not fine-tuned enough to achieve minimum error. Again the minimum error was achieved with the PSO parameter tuning, please visit my [PSO-PD Control Project](https://github.com/adharsh-prasad/Robotics-Portfolio/tree/main/PSO-PD-Control).
 
+### **Joint Angle Analysis**
+
+<div align="center">
+  <img src="Plots/joint_angles.png" width="300" alt="Joint angle tracking">
+  <img src="Plots/joint_angular_velocities.png" width="300" alt="Joint angle angular velocity tracking">
+</div>
+
+The initial tracking errors significantly impact the overall performance of the trajectory tracking. Although the velocity plots indicate that the error eventually approaches zero, the large initial error propagates through the system, adversely affecting joint angle tracking performance. The plot below of the joint angle errors provides additional insights into the previously discussed inference.
+
+<div align="center">
+  <img src="Plots/joint_angle_tracking_error.png" width="300" alt="Joint angle tracking">
+  <img src="Plots/joint_angular_velocity_errors.png" width="300" alt="Joint angle angular velocity tracking">
+</div>
+
 ### **Workspace Analysis**
 The trajectory is completely user-defined, and you are welcome to change it in the [simulation file](https://github.com/adharsh-prasad/Robotics-Portfolio/blob/main/PD-Control-Robotic-Arm/Code/Simulation.m). However, be careful to choose trajectories such that all points are within the workspace. The workspace can be visualized in the image below (files for these plots are available in the [plots folder](https://github.com/adharsh-prasad/Robotics-Portfolio/tree/main/PD-Control-Robotic-Arm/Plots)) and can also be visualized with the provided code.
 
@@ -222,4 +236,4 @@ This project had a profound impact on my academic and professional growth:
 2. Salah Mahdi Swadi et al., "Design and Simulation of Robotic Arm PD Controller Based on PSO", University of Thi-Qar Journal for Engineering Sciences, 2019.
 
 ### **Acknowledgments**
-Special thanks to my professors, peers, and the Space Robotics Lab at the University of Arizona for their guidance and support in this project. This work represents a significant step forward in my journey as a robotics engineer.
+Special thanks to my professors, peers for their guidance and support in this project. Special mention to Space Robotics Lab at the University of Arizona for recognizing my project and offering a research internship. This work represents a significant step forward in my journey as a robotics engineer.
