@@ -1,6 +1,6 @@
 # **Trajectory Tracking Control of an Anthropomorphic Robotic Arm**
 
-<div align="center"> <img src="Plots/Robotic Arm Simulation.gif" width="300"/> <p align="center"> <em>3-DOF Robotic Arm Trajectory Tracking Simulation</em> </p> </div>
+<div align="center"> <img src="Plots/Robotic Arm Simulation.gif" width="350"/> <p align="center"> <em>3-DOF Robotic Arm Trajectory Tracking Simulation</em> </p> </div>
 
 This repository contains the code and documentation for the **Trajectory Tracking Control of an Anthropomorphic Robotic Arm** project. The project showcases the integration of control theory, specifically a Proportional-Derivative (PD) controller, to achieve accurate trajectory tracking for a robotic arm. The simulation visualizes the arm's performance in tracking complex trajectories under varying conditions.
 
@@ -148,12 +148,12 @@ $$
 ### **Trajectory Tracking**
 
 <div align="center">
-  <img src="Plots/end_effector_position.png" width="300" alt="End Effector Position">
-  <img src="Plots/eof_trajectory_tracking1.jpg" width="300" alt="Trajectory Tracking 1">
+  <img src="Plots/end_effector_position.png" width="450" alt="End Effector Position">
+  <img src="Plots/eof_trajectory_tracking1.jpg" width="450" alt="Trajectory Tracking 1">
 </div>
 <div align="center">
-  <img src="Plots/eof_trajectory_tracking2.jpg" width= "300" alt="Trajectory Tracking 2">
-  <img src="Plots/eof_trajectory_tracking3.jpg" width="300" alt="Trajectory Tracking 3">
+  <img src="Plots/eof_trajectory_tracking2.jpg" width= "450" alt="Trajectory Tracking 2">
+  <img src="Plots/eof_trajectory_tracking3.jpg" width="450" alt="Trajectory Tracking 3">
 </div>
 
 The PD controller achieves trajectory tracking to some extent, with significant tracking errors as shown in the end-effector position tracking plots. The error is predominantly due to the fact there are not fine-tuned enough to achieve minimum error. Again the minimum error was achieved with the PSO parameter tuning, please visit my [PSO-PD Control Project](https://github.com/adharsh-prasad/Robotics-Portfolio/tree/main/PSO-PD-Control).
@@ -161,27 +161,33 @@ The PD controller achieves trajectory tracking to some extent, with significant 
 ### **Joint Angle Analysis**
 
 <div align="center">
-  <img src="Plots/joint_angles.png" width="300" alt="Joint angle tracking">
-  <img src="Plots/joint_angular_velocities.png" width="300" alt="Joint angle angular velocity tracking">
+  <img src="Plots/joint_angles.png" width="450" alt="Joint angle tracking">
+  <img src="Plots/joint_angular_velocities.png" width="450" alt="Joint angle angular velocity tracking">
 </div>
 
 The initial tracking errors significantly impact the overall performance of the trajectory tracking. Although the velocity plots indicate that the error eventually approaches zero, the large initial error propagates through the system, adversely affecting joint angle tracking performance. The plot below of the joint angle errors provides additional insights into the previously discussed inference.
 
 <div align="center">
-  <img src="Plots/joint_angle_tracking_error.png" width="300" alt="Joint angle tracking">
-  <img src="Plots/joint_angular_velocity_errors.png" width="300" alt="Joint angle angular velocity tracking">
+  <img src="Plots/joint_angle_tracking_error.png" width="450" alt="Joint angle tracking">
+  <img src="Plots/joint_angular_velocity_errors.png" width="450" alt="Joint angle angular velocity tracking">
+</div>
+
+### **Control Torque Plot**
+
+<div align="center">
+  <img src="Plots/control_torques.png" width="700" alt="Control Torque from each joints">
 </div>
 
 ### **Workspace Analysis**
 The trajectory is completely user-defined, and you are welcome to change it in the [simulation file](https://github.com/adharsh-prasad/Robotics-Portfolio/blob/main/PD-Control-Robotic-Arm/Code/Simulation.m). However, be careful to choose trajectories such that all points are within the workspace. The workspace can be visualized in the image below (files for these plots are available in the [plots folder](https://github.com/adharsh-prasad/Robotics-Portfolio/tree/main/PD-Control-Robotic-Arm/Plots)) and can also be visualized with the provided code.
 
 <div align="center">
-  <img src="Plots/reachable_workspace_view1.jpg" width= "300" alt="Reachable Workspace view 1">
-  <img src="Plots/reachable_workspace_view2.jpg" width="300" alt="Reachable Workspace view 2">
+  <img src="Plots/reachable_workspace_view1.jpg" width= "450" alt="Reachable Workspace view 1">
+  <img src="Plots/reachable_workspace_view2.jpg" width="450" alt="Reachable Workspace view 2">
 </div>
 
 <div align="center">
-  <img src="Plots/reachable_workspace_view3.jpg" width= "300" alt="Reachable Workspace view 3">
+  <img src="Plots/reachable_workspace_view3.jpg" width= "450" alt="Reachable Workspace view 3">
 </div>
 
 ### **Simulation Video**
