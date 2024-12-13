@@ -14,7 +14,7 @@ I set out to develop a trajectory control system for a 3-DOF robotic arm—a tas
 
 This project not only honed my skills in control system design and robotics but also instilled my passion for solving complex, real-world problems and to the field of Robotics.
 
-<div align="center"> <img src="Plots/Anthropomorphic Arm.png" width="200"/> <p align="center"> <em>This anthropomorphic arm configuration was used for our analysis, capturing the essence of complex structure while omitting the end effector.</em> </p> </div>
+<div align="center"> <img src="Plots/Anthropomorphic Arm.png" width="200"/> <p align="center"> <em>Anthropomorphic arm configuration used for our analysis, with reasonable complex structure while omitting the end effector.</em> </p> </div>
 
 ---
 
@@ -44,7 +44,54 @@ This project not only honed my skills in control system design and robotics but 
 ### **Kinematic Model**
 Forward and inverse kinematics were developed to enable precise motion planning:
 - **Forward Kinematics**: 
-  <div align="center"> <img src="Plots/eof_trajectory_tracking1.jpg" width="400"/> <p align="center"> <em>End-Effector Trajectory Tracking in 3D Space</em> </p> </div>
+  <div align="center">
+      <table>
+        <tr>
+          <th style="background-color: green; color: white;">Link</th>
+          <th style="background-color: green; color: white;">$r_i$ (m)</th>
+          <th style="background-color: green; color: white;">$\alpha_i$ (deg)</th>
+          <th style="background-color: green; color: white;">$d_i$ (m)</th>
+          <th style="background-color: green; color: white;">$\theta_i$ (deg)</th>
+        </tr>
+        <tr>
+          <td style="background-color: #fce8b2;">$1$</td>
+          <td style="background-color: #e6f4ea;">$0$</td>
+          <td style="background-color: #fbe4e6;">$\pi/2$</td>
+          <td style="background-color: #fbe4e6;">$a_1$</td>
+          <td style="background-color: #fbe4e6;">$\theta_1$</td>
+        </tr>
+        <tr>
+          <td style="background-color: #fce8b2;">$2$</td>
+          <td style="background-color: #e6f4ea;">$a_2$</td>
+          <td style="background-color: #fbe4e6;">$0$</td>
+          <td style="background-color: #fbe4e6;">$0$</td>
+          <td style="background-color: #fbe4e6;">$\theta_2$</td>
+        </tr>
+        <tr>
+          <td style="background-color: #fce8b2;">$2$</td>
+          <td style="background-color: #e6f4ea;">$a_2$</td>
+          <td style="background-color: #fbe4e6;">$0$</td>
+          <td style="background-color: #fbe4e6;">$0$</td>
+          <td style="background-color: #fbe4e6;">$\theta_3$</td>
+        </tr>
+      </table>
+    <p align="center"> <em> DH table for our chose roboti arm configuration</em> </p>
+    </div>
+    
+The transformation matrix from joint(i-1) to joint(i) is defined as:
+
+$$
+A_{i-1}^i =
+\begin{bmatrix}
+cos(\theta_i) & -sin(\theta_i)cos(\alpha_{i-1}) & sin(\theta_i)sin(\alpha_{i-1}) & a_{i-1}cos(\theta_i)\\
+sin(\theta_i) & cos(\theta_i)cos(\alpha_{i-1}) & -cos(\theta_i)sin(\alpha_{i-1}) & a_{i-1}sin(\theta_i)\\
+0 & sin(\alpha_{i-1}) & cos(\alpha_{i-1}) & d_i\\
+0 & 0 & 0 & 1
+\end{bmatrix}
+$$
+
+$$ T_{3}^0 = A_{0}^1 * A_{1}^2 * A_{2}^3$$ 
+
   This provides the end-effector's position based on joint angles. The figure above illustrates the robot's reachable workspace.
 
 - **Inverse Kinematics**:
