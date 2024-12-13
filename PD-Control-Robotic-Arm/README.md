@@ -106,17 +106,17 @@ $$
 - **Inverse Kinematics**:
   The inverse kinematics were derived geometrically, solving for joint angles based on the desired end-effector position. Inspired by the paper, equations for joint angles are solved analytically, ensuring precise configurations.
 
+  <div align="center"> <img src="Plots/Skeleton of the robotic arm.png" width="300"/> <p align="center"> <em> Detailed configuration of the arm with Co-ordinate axis for each joint of the arm</em> </p> </div>
+
 ### **Control System**
 The PD controller ensures smooth and accurate trajectory tracking:
 - **Proportional-Derivative Control**:
   A PD controller was designed to track the desired trajectory with high precision. The control law minimizes the error between desired and actual positions while ensuring stability.
+  The controller gains were manually tuned by varying kp and kd for all three joints. Although the resulting errors were relatively high, further trial and error could have reduced them. However, since this project focused on the dynamics and control of the robot, it served its purpose. In another project using the same robotic arm, I implemented PSO optimization to achieve an RMSE error as low as 0.004. If you're interested in exploring that project, please visit my [PSO-PD Control Project](https://github.com/adharsh-prasad/Robotics-Portfolio/tree/main/PSO-PD-Control).
 
-  ![Joint Angles vs Time](https://github.com/adharsh-prasad/Robotics-Portfolio/blob/main/PD-Control-Robotic-Arm/Plots/joint_angles.png){: width="30%"}
-
-  The controller gains were tuned by experimentation, inspired by the method outlined in the paper. Unlike the paper, the implementation avoids PSO but achieves comparable results through iterative gain refinement.
 
 - **Performance Testing**:
-  Simulation results were validated using MATLAB. The plots above show the joint angles and velocities over time, highlighting the controller's smooth and accurate performance.
+  Simulation results were validated using MATLAB. The plots under the "Simulation and Results" section below shows the joint angles and velocities over time, highlighting the controller's performance.
 
 ### **Dynamic Model**
 The robotic arm's dynamics are represented as:
