@@ -8,8 +8,6 @@ This repository contains the code and documentation for the **Trajectory Trackin
 
 ## **Motivation**
 
-![Robotic Arm and Inverse Kinematics](https://github.com/adharsh-prasad/Robotics-Portfolio/blob/main/PD-Control-Robotic-Arm/Plots/robotic_arm_inverse_kinematics.jpg){: width="30%"}
-
 This project represents a significant milestone in my academic and personal journey. As a graduate student at Arizona State University (ASU), I sought to bridge my background in control systems with my interest in robotics. This project provided the perfect opportunity to merge these domains.
 
 Notably, it was the only project in the class to fully integrate control theory, kinematic modeling, and dynamic simulation. The result was a peer-reviewed project that earned first place and opened doors for further research opportunities at the Space Robotics Lab.
