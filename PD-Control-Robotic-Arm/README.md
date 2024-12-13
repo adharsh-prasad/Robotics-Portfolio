@@ -12,7 +12,7 @@ During my graduate studies at Arizona State University, I sought to bridge the g
 
 I set out to develop a trajectory control system for a 3-DOF robotic arm—a task demanding precise kinematics, dynamic modeling, and control system design. While many peers stopped at basic kinematics, I designed a complete system, including forward and inverse kinematics, dynamics analysis, and a PD controller. The project culminated in real-time simulations, earning peer recognition and securing a position at the University of Arizona's Space Robotics Lab.
 
-This project not only honed my skills in control system design and robotics but also reinforced my passion for solving complex, real-world problems. I am excited to bring this expertise and enthusiasm to roles where I can contribute to cutting-edge projects in robotics and automation.
+This project not only honed my skills in control system design and robotics but also instilled my passion for solving complex, real-world problems and to the field of Robotics.
 
 ---
 
