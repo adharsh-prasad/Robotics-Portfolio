@@ -8,9 +8,11 @@ This repository contains the code and documentation for the **Trajectory Trackin
 
 ## **Motivation**
 
-This project represents a significant milestone in my academic and personal journey. As a graduate student at Arizona State University (ASU), I sought to bridge my background in control systems with my interest in robotics. This project provided the perfect opportunity to merge these domains.
+During my graduate studies at Arizona State University, I sought to bridge the gap between abstract control theory and real-world applications. My undergraduate projects had given me a strong foundation in control theory, but I wanted to tackle challenges with tangible, practical relevance. To achieve this, I enrolled in the course Modeling and Control of Robots, which provided the ideal platform for applying control systems to robotics.
 
-Notably, it was the only project in the class to fully integrate control theory, kinematic modeling, and dynamic simulation. The result was a peer-reviewed project that earned first place and opened doors for further research opportunities at the Space Robotics Lab.
+I set out to develop a trajectory control system for a 3-DOF robotic arm—a task demanding precise kinematics, dynamic modeling, and control system design. While many peers stopped at basic kinematics, I designed a complete system, including forward and inverse kinematics, dynamics analysis, and a PD controller. The project culminated in real-time simulations, earning peer recognition and securing a position at the University of Arizona's Space Robotics Lab.
+
+This project not only honed my skills in control system design and robotics but also reinforced my passion for solving complex, real-world problems. I am excited to bring this expertise and enthusiasm to roles where I can contribute to cutting-edge projects in robotics and automation.
 
 ---
 
