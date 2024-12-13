@@ -75,7 +75,7 @@ Forward and inverse kinematics were developed to enable precise motion planning:
           <td style="background-color: #fbe4e6;">$\theta_3$</td>
         </tr>
       </table>
-    <p align="center"> <em> DH table for our chose roboti arm configuration</em> </p>
+    <p align="center"> <em> DH table for our chosen robotic arm configuration</em> </p>
     </div>
     
 The transformation matrix from joint(i-1) to joint(i) is defined as:
@@ -155,7 +155,7 @@ $$
   <img src="Plots/eof_trajectory_tracking3.jpg" width="300" alt="Trajectory Tracking 3">
 </div>
 
-The PD controller achieves trajectory tracking to some extent, with significant tracking errors as shown in the end-effector position tracking plots. The error is predominantly due to the fact there are fine tuned enough to achieve minimum error. Again the minimum error was achieved with the PSO parameter tuning, please visit my [PSO-PD Control Project](https://github.com/adharsh-prasad/Robotics-Portfolio/tree/main/PSO-PD-Control).
+The PD controller achieves trajectory tracking to some extent, with significant tracking errors as shown in the end-effector position tracking plots. The error is predominantly due to the fact there are not fine-tuned enough to achieve minimum error. Again the minimum error was achieved with the PSO parameter tuning, please visit my [PSO-PD Control Project](https://github.com/adharsh-prasad/Robotics-Portfolio/tree/main/PSO-PD-Control).
 
 ### **Workspace Analysis**
 The trajectory is completely user-defined, and you are welcome to change it in the [simulation file](https://github.com/adharsh-prasad/Robotics-Portfolio/blob/main/PD-Control-Robotic-Arm/Code/Simulation.m). However, be careful to choose trajectories such that all points are within the workspace. The workspace can be visualized in the image below (files for these plots are available in the [plots folder](https://github.com/adharsh-prasad/Robotics-Portfolio/tree/main/PD-Control-Robotic-Arm/Plots)) and can also be visualized with the provided code.
