@@ -92,7 +92,16 @@ $$
 
 $$ T_{3}^0 = A_{0}^1 * A_{1}^2 * A_{2}^3$$ 
 
-  This provides the end-effector's position based on joint angles. The figure above illustrates the robot's reachable workspace.
+Upon substituting the corresponding values of the a_i 's, alpha_i's, d_i's, and theta_i's. We get position of the end effector as
+
+$$
+P_{3}^0 =
+\begin{bmatrix}
+cos(\theta_1)(a_2cos(\theta_2) + a_3cos(\theta_2+\theta_3))\\
+sin(\theta_1)(a_2cos(\theta_2) + a_3cos(\theta_2+\theta_3))\\
+a_1 + a_2sin(\theta_2) + a_3sin(\theta_2+\theta_3))
+\end{bmatrix}
+$$
 
 - **Inverse Kinematics**:
   The inverse kinematics were derived geometrically, solving for joint angles based on the desired end-effector position. Inspired by the paper, equations for joint angles are solved analytically, ensuring precise configurations.
