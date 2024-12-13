@@ -14,9 +14,13 @@ I set out to develop a trajectory control system for a 3-DOF robotic arm—a tas
 
 This project not only honed my skills in control system design and robotics but also instilled my passion for solving complex, real-world problems and to the field of Robotics.
 
+<div align="center"> <img src="Plots/Anthropomorphic Arm.png" width="200"/> <p align="center"> <em>This anthropomorphic arm configuration was used for our analysis, capturing the essence of complex structure while omitting the end effector.</em> </p> </div>
+
 ---
 
 ## **Features**
+
+<div align="center"> <img src="Plots/Skeleton of the robotic arm.png" width="300"/> <p align="center"> <em> Detailed configuration of the arm with Co-ordinate axis for each joint of the arm</em> </p> </div>
 
 - **Custom Kinematics**:
   - Forward kinematics using Denavit-Hartenberg (D-H) parameters.
