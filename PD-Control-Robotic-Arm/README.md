@@ -108,6 +108,8 @@ $$
 
   <div align="center"> <img src="Plots/Joint_1_Inverse.png" width="500"/> <p align="center"> <em> Diagram showing how to find the joint angle joint1 </em> </p> </div>
 
+  <div align="center"> <img src="Plots/Joint_23_Inverse.png" width="500"/> <p align="center"> <em> Diagram showing how to find the joint angle joint2 and joint3 </em> </p> </div>
+
 ### **Control System**
 The PD controller ensures smooth and accurate trajectory tracking:
 - **Proportional-Derivative Control**:
@@ -120,38 +122,59 @@ The PD controller ensures smooth and accurate trajectory tracking:
 
 ### **Dynamic Model**
 The robotic arm's dynamics are represented as:
-\[
+
+$$
 M(q)\ddot{q} + V(q, \dot{q}) + G(q) = \tau
-\]
+$$
+
 Where:
-- \(M(q)\): Inertia matrix.
-- \(V(q, \dot{q})\): Coriolis and centripetal forces.
-- \(G(q)\): Gravitational force.
-- \(\tau\): Control torque.
+
+$$ M(q): \quad \text{Inertia matrix,} $$
+$$ V(q, \dot{q})\: \quad \text{Coriolis and centripetal forces,} $$
+$$ G(q)\: \quad \text{Gravitational force,} $$
+$$ \tau\: \quad \text{Control torque.} $$
 
 This equation forms the basis of the PD control law:
-\[
+
+$$
 \tau = M(q)(\ddot{q}_d - K_p e - K_d \dot{e}) + V(q, \dot{q}) + G(q)
-\]
+$$
 
 ---
 
 ## **Simulation and Results**
 
 ### **Trajectory Tracking**
+
 <div align="center">
-  <img src="Plots/end_effector_position.png" width="600"/>
-  <p align="center">
-    <em>End-Effector Position Tracking</em>
-  </p>
+  <img src="Plots/end_effector_position.png" width="300" alt="End Effector Position">
+  <img src="Plots/eof_trajectory_tracking1.jpg" width="300" alt="Trajectory Tracking 1">
+</div>
+<div align="center">
+  <img src="Plots/eof_trajectory_tracking2.jpg" width= "300" alt="Trajectory Tracking 2">
+  <img src="Plots/eof_trajectory_tracking3.jpg" width="300" alt="Trajectory Tracking 3">
 </div>
 
-The PD controller achieves excellent trajectory tracking, with minimal tracking errors as shown in the end-effector position tracking plots.
+The PD controller achieves trajectory tracking to some extent, with significant tracking errors as shown in the end-effector position tracking plots. The error is predominantly due to the fact there are fine tuned enough to achieve minimum error. Again the minimum error was achieved with the PSO parameter tuning, please visit my [PSO-PD Control Project](https://github.com/adharsh-prasad/Robotics-Portfolio/tree/main/PSO-PD-Control).
 
-### **Singularity and Workspace Analysis**
-Singularity analysis ensures safe motion planning within the robot's workspace. The workspace is visualized across multiple views:
-- ![Reachable Workspace View 2](https://github.com/adharsh-prasad/Robotics-Portfolio/blob/main/PD-Control-Robotic-Arm/Plots/reachable_workspace_view2.jpg){: width="30%"}
-- ![Reachable Workspace View 3](https://github.com/adharsh-prasad/Robotics-Portfolio/blob/main/PD-Control-Robotic-Arm/Plots/reachable_workspace_view3.jpg){: width="30%"}
+### **Workspace Analysis**
+The trajectory is completely user-defined, and you are welcome to change it in the [simulation file](https://github.com/adharsh-prasad/Robotics-Portfolio/blob/main/PD-Control-Robotic-Arm/Code/Simulation.m). However, be careful to choose trajectories such that all points are within the workspace. The workspace can be visualized in the image below (files for these plots are available in the [plots folder](https://github.com/adharsh-prasad/Robotics-Portfolio/tree/main/PD-Control-Robotic-Arm/Plots)) and can also be visualized with the provided code.
+
+<div align="center">
+  <img src="Plots/reachable_workspace_view1.jpg" width= "300" alt="Reachable Workspace view 1">
+  <img src="Plots/reachable_workspace_view2.jpg" width="300" alt="Reachable Workspace view 2">
+</div>
+
+<div align="center">
+  <img src="Plots/reachable_workspace_view3.jpg" width= "300" alt="Reachable Workspace view 3">
+</div>
+
+### **Simulation Video**
+
+The following video demonstrates the complete simulation of the 3-DOF robotic arm performing trajectory tracking. It showcases the arm's smooth motion and the effectiveness of the implemented PD controller in achieving accurate trajectory tracking.
+
+<div align="center"> <video width="600" controls> <source src="Plots/Robotic Arm Simulation.mp4" type="video/mp4"> Your browser does not support the video tag. </video> </div> This simulation highlights the integration of kinematics, dynamics, and control theory, providing a visual representation of the robotic arm's performance.
+
 
 ---
 
