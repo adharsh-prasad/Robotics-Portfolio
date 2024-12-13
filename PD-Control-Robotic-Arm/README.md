@@ -35,7 +35,8 @@ This project not only honed my skills in control system design and robotics but 
   - Robust performance demonstrated with disturbance torque simulations.
 
 - **Optimization**:
-  - Comparison between traditional tuning methods and Particle Swarm Optimization (PSO) for control parameter tuning.
+  - Manual fine-tuning was performed for the PD controller gains.
+  - Further optimization using Particle Swarm Optimization (PSO) can be explored in the [PSO-PD Control Project](https://github.com/adharsh-prasad/Robotics-Portfolio/tree/main/PSO-PD-Control).
 
 ---
 
