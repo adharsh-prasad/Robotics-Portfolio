@@ -188,7 +188,7 @@ The trajectory is completely user-defined, and you are welcome to change it in t
 
 The following video demonstrates the complete simulation of the 3-DOF robotic arm performing trajectory tracking. It showcases the arm's smooth motion and the effectiveness of the implemented PD controller in achieving accurate trajectory tracking.
 
-<div align="center"> <img src="Plots/Robotic-Arm-Simulation.gif" width="800"/> <p align="center"> <em>This simulation highlights the integration of kinematics, dynamics, and control theory, providing a visual representation of the robotic arm's performance.</em> </p> </div>
+<div align="center"> <img src="Plots/Robotic-Arm-Simulation.gif"> <p align="center"> <em>This simulation highlights the integration of kinematics, dynamics, and control theory, providing a visual representation of the robotic arm's performance.</em> </p> </div>
 
 
 ---
