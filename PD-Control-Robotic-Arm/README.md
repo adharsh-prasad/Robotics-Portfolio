@@ -104,9 +104,9 @@ a_1 + a_2sin(\theta_2) + a_3sin(\theta_2+\theta_3))
 $$
 
 - **Inverse Kinematics**:
-  The inverse kinematics were derived geometrically, solving for joint angles based on the desired end-effector position. Inspired by the paper, equations for joint angles are solved analytically, ensuring precise configurations.
+  The inverse kinematics were derived geometrically, solving for joint angles based on the desired end-effector position. Finding the inverse kinematics is quite challenging and often does not have a unique solution. For the chosen configuration, solving the algebraic equations can be complex and is not recommended. The geometric method is more intuitive and easier to solve. The diagrams below help to find the joint angles for a specific end-effector point in the 3D plane.
 
-  <div align="center"> <img src="Plots/Skeleton of the robotic arm.png" width="300"/> <p align="center"> <em> Detailed configuration of the arm with Co-ordinate axis for each joint of the arm</em> </p> </div>
+  <div align="center"> <img src="Plots/Joint_1_Inverse.png" width="500"/> <p align="center"> <em> Diagram showing how to find the joint angle joint1 </em> </p> </div>
 
 ### **Control System**
 The PD controller ensures smooth and accurate trajectory tracking:
