@@ -108,6 +108,18 @@
     axis([0 x_axis 0 y_axis 0 z_axis]);
     grid off;
     set(gca, 'XColor', 'none', 'YColor', 'none', 'ZColor', 'none');
+    % Top view
+view(0, 90);
+exportgraphics(gcf, 'lunar_base_top.png', 'Resolution', 300);
+
+% Side view
+view(0, 0);
+exportgraphics(gcf, 'lunar_base_side.png', 'Resolution', 300);
+
+% Isometric view
+view(45, 30);
+exportgraphics(gcf, 'lunar_base_iso.png', 'Resolution', 300);
+
     % end
 
 function create_dome(x, y, radius, Msib, Msih, track_width, y_axis)
