@@ -1,4 +1,4 @@
-    % function create_3D_lunar_base()
+function fig = create_3D_lunar_base()
     close all
     
     % Define base parameters
@@ -35,11 +35,7 @@
     Path_Opacity = 0.4;
     
     % Set view for top-down perspective with slight angle
-    view(0, 90);
-    % view(270, 0);
-    % Set initial view angle
     view(45, 45);
-    % camva(40);
     campos([x_axis+50 -y_axis 50]);
     camtarget([x_axis/2 y_axis/2 0]);
 
@@ -188,7 +184,8 @@
     axis([0 x_axis 0 y_axis 0 z_axis]);
     grid off;
     set(gca, 'XColor', 'none', 'YColor', 'none', 'ZColor', 'none');
-    % end
+    fig = gcf;
+end
 
 function create_dome(x, y, radius, Msib, Msih, track_width, y_axis, Chamber_Opacity, Path_Opacity)
     [theta, phi] = meshgrid(linspace(0, 2*pi, 40), linspace(0, pi/2, 20));
@@ -283,6 +280,13 @@ function create_dome(x, y, radius, Msib, Msih, track_width, y_axis, Chamber_Opac
         end
     end
 
+    % Calculate path coordinates
+    x_path = x + track_radius * cos(theta);
+    y_path = y + track_radius * sin(theta);
+    z_path = ones(size(theta)) * Msih;
+    
+    % Combine coordinates
+    path_coords = [x_path', y_path', z_path'];
 end
 
 function create_connecting_cube(Cube_corner, base_z, length, breadth, height, Chamber_Opacity, Path_Opacity)
