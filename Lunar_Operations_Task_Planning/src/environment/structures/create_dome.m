@@ -106,6 +106,7 @@ function [coords, tangents] = create_dome(x, y, radius, Msib, Msih, track_width,
     else
         % Top dome: gap at 3pi/2
         theta = linspace(-pi/2+subtend_angle, 3*pi/2-subtend_angle, num_points);
+        theta = theta(:, end:-1:1);
     end
     
     % Generate path coordinates
@@ -114,12 +115,41 @@ function [coords, tangents] = create_dome(x, y, radius, Msib, Msih, track_width,
     z_coords = ones(size(theta)) * (Msih-0.1);
     
     % Combine coordinates
-    coords = [x_coords', y_coords', z_coords'];
+    complete_coords = [x_coords', y_coords', z_coords'];
+    % Remove duplicates from complete path coordinates
+    % complete_coords = unique(complete_coords, 'rows');
 
     % Tangent vectors (-sin(θ), cos(θ), 0) for clockwise motion
     arc_tangents = [-sin(theta)', cos(theta)', zeros(size(theta))'];
     
     % Normalize tangent vectors
     magnitudes = sqrt(sum(arc_tangents.^2, 2));
-    tangents = arc_tangents ./ magnitudes;
+    path_tangents = arc_tangents ./ magnitudes;
+    
+    % Get total number of points
+    n = size(complete_coords, 1);
+    mid_point = floor(n/2);
+    
+    % Split coordinates and tangents
+    coords = struct();
+    tangents = struct();
+
+    % After generating complete path coordinates
+    if y < (y_axis/2)
+        % Bottom dome
+        % First half (1 to n/2)
+        coords.right = complete_coords(1:mid_point, :);
+        tangents.right = path_tangents(1:mid_point, :);
+        % Second half (n/2 to end, including overlap point)
+        coords.left = complete_coords(end:-1:mid_point, :);
+        tangents.left = path_tangents(end:-1:mid_point, :);        
+    else
+        % Top dome
+        % First half (1 to n/2)
+        coords.left = complete_coords(1:mid_point, :);
+        tangents.left = path_tangents(1:mid_point, :);
+        % Second half (n/2 to end, including overlap point)
+        coords.right = complete_coords(end:-1:mid_point, :);
+        tangents.right = path_tangents(end:-1:mid_point, :); 
+    end
 end

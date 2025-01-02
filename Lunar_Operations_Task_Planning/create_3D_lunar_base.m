@@ -1,4 +1,4 @@
-% function fig = create_3D_lunar_base()
+function fig = create_3D_lunar_base()
     close all
     addpath('C:\Users\ADHARSH\Desktop\Job_Search\Github\Robotics-Portfolio\Lunar_Operations_Task_Planning\src\environment\structures')
 
@@ -25,9 +25,6 @@
     z_axis = 5*(floor(Psm/5) + 1);
     map_x_axis_offset = (x_axis - map_x_length)/2;
     map_y_axis_offset = (y_axis - map_y_length)/2;
-
-    % Path variables 
-    paths = dictionary();    
 
     % Create fullscreen figure with black background
     fig = figure('Units', 'normalized', 'Position', [0 0 1 1], ...
@@ -59,87 +56,64 @@
 
     
     % Define superadobe centers in a more compact arrangement
-    Superadobe_centers = zeros(11,2);
+    Superadobe_centers = [];
     Map_Start_Point = [map_x_axis_offset, y_axis/2];
     
     %top left 3
     new_sr = sqrt(Sr^2 - Msih^2);
     temp = Map_Start_Point + [Sr + Msib/2, Mcw/2 + Msil + new_sr*cos(asin(Msib/(2*new_sr)))];
-    Superadobe_centers(1,:) = temp;
-    Superadobe_centers(2,:) = temp + [Dbs,0];
-    Superadobe_centers(3,:) = temp + 2*[Dbs,0];
+    Superadobe_centers = [Superadobe_centers;temp];
+    Superadobe_centers = [Superadobe_centers;temp + [Dbs,0]];
+    Superadobe_centers = [Superadobe_centers;temp + 2*[Dbs,0]];
 
-    %top right 2
-    Superadobe_centers(4,:) = temp + 2*[Dm,0] + 2*[Dbs,0];
-    Superadobe_centers(5,:) = temp + 2*[Dm,0] + 4*[Dbs,0];
+    %top left 2
+    Superadobe_centers = [Superadobe_centers;temp + 2*[Dm,0] + 2*[Dbs,0]];
+    Superadobe_centers = [Superadobe_centers;temp + 2*[Dm,0] + 4*[Dbs,0]];
 
-    %bottom left 3
+    %bottom left 2
     new_sr = sqrt(Sr^2 - Msih^2);
     temp = Map_Start_Point + [Sr + Msib/2, -(Mcw/2 + Msil + new_sr*cos(asin(Msib/(2*new_sr))))];
-    Superadobe_centers(11,:) = temp;
-    Superadobe_centers(10,:) = temp + 1*[Dbs,0];
-    Superadobe_centers(9,:) = temp + 2*[Dbs,0];
+    Superadobe_centers = [Superadobe_centers;temp];
+    Superadobe_centers = [Superadobe_centers;temp + 1*[Dbs,0]];
+    Superadobe_centers = [Superadobe_centers;temp + 2*[Dbs,0]];
 
-    %bottom right 3
-    Superadobe_centers(8,:) = temp + 2*[Dm,0] + 2*[Dbs,0];
-    Superadobe_centers(7,:) = temp + 2*[Dm,0] + 3*[Dbs,0];
-    Superadobe_centers(6,:) = temp + 2*[Dm,0] + 4*[Dbs,0];
+    %top right 3
+    Superadobe_centers = [Superadobe_centers;temp + 2*[Dm,0] + 2*[Dbs,0]];
+    Superadobe_centers = [Superadobe_centers;temp + 2*[Dm,0] + 3*[Dbs,0]];
+    Superadobe_centers = [Superadobe_centers;temp + 2*[Dm,0] + 4*[Dbs,0]];
 
     % Create domes
-    connecting_paths = ['SA01_1', 'MA01', 'J11', 'J12', 'SA01_2', 'MA02', 'J12', 'J13';...
-                        'SA02_1', 'MA02', 'J21', 'J22', 'SA02_2', 'MA03', 'J22', 'J23';...
-                        'SA03_1', 'MA03', 'J31', 'J32', 'SA03_2', 'MA04', 'J32', 'J33';...
-                        'SA04_1', 'MA05', 'J51', 'J52', 'SA04_2', 'MA06', 'J52', 'J53';...
-                        'SA05_1', 'MA07', 'J71', 'J72', 'SA05_2', 'MA08', 'J72', 'J73';...
-                        'SA06_1', 'MA09', 'J74', 'J73', 'SA06_2', 'MA08', 'J74', 'J71';...
-                        'SA07_1', 'MA10', 'J64', 'J63', 'SA07_2', 'MA09', 'J64', 'J61';...
-                        'SA08_1', 'MA11', 'J54', 'J53', 'SA08_2', 'MA10', 'J54', 'J51';...
-                        'SA09_1', 'MA13', 'J34', 'J33', 'SA09_2', 'MA14', 'J34', 'J31';...
-                        'SA10_1', 'MA14', 'J24', 'J23', 'SA10_2', 'MA12', 'J24', 'J21';...
-                        'SA11_1', 'MA01', 'J14', 'J13', 'SA11_2', 'MA14', 'J14', 'J11'];
-    n = 1;
     for i = 1:size(Superadobe_centers, 1)
-        [coords, tangents] = create_dome(Superadobe_centers(i,1), Superadobe_centers(i,2), Sr, Msib, Msih, tw, y_axis, Chamber_Opacity, Path_Opacity);
-        
-        paths(connecting_paths(i,1:6)) = struct('connections', {{connecting_paths(i,11:13); connecting_paths(i,14:16); connecting_paths(i,7:10)}}, ...
-        'coordinates', coords.left, ...    % Path points
-        'tangents', tangents.left, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
-
-        paths(connecting_paths(i,17:22)) = struct('connections', {{connecting_paths(i,27:29); connecting_paths(i,30:32); connecting_paths(i,23:26)}}, ...
-        'coordinates', coords.right, ...    % Path points
-        'tangents', tangents.right, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        create_dome(Superadobe_centers(i,1), Superadobe_centers(i,2), Sr, Msib, Msih, tw, y_axis, Chamber_Opacity, Path_Opacity);
     end
 
     % Define superadobe centers in a more compact arrangement
-    Intersection_centers = zeros(12,2);
+    Intersection_centers = [];
     Map_Start_Point = [map_x_axis_offset, y_axis/2];
 
     %top left 3
     temp = Map_Start_Point + [Sr, Mcw/2];
-    Intersection_centers(1,:) = temp;
-    Intersection_centers(2,:) = temp + [Dbs,0];
-    Intersection_centers(3,:) = temp + 2*[Dbs,0];
+    Intersection_centers = [Intersection_centers;temp];
+    Intersection_centers = [Intersection_centers;temp + [Dbs,0]];
+    Intersection_centers = [Intersection_centers;temp + 2*[Dbs,0]];
 
-    %top right 2
-    Intersection_centers(4,:) = temp + 2*[Dm,0] + 2*[Dbs,0];
-    Intersection_centers(5,:) = temp + 2*[Dm,0] + 4*[Dbs,0];
+    %top left 2
+    Intersection_centers = [Intersection_centers;temp + 2*[Dm,0] + 2*[Dbs,0]];
+    Intersection_centers = [Intersection_centers;temp + 2*[Dm,0] + 4*[Dbs,0]];
 
-    %bottom left 3
+    %bottom left 2
     temp = Map_Start_Point + [Sr, -Mcw/2-Msil];
-    Intersection_centers(11,:) = temp;
-    Intersection_centers(10,:) = temp + 1*[Dbs,0];
-    Intersection_centers(9,:) = temp + 2*[Dbs,0];
+    Intersection_centers = [Intersection_centers;temp];
+    Intersection_centers = [Intersection_centers;temp + 1*[Dbs,0]];
+    Intersection_centers = [Intersection_centers;temp + 2*[Dbs,0]];
 
     %top right 3
-    Intersection_centers(8,:) = temp + 2*[Dm,0] + 2*[Dbs,0];
-    Intersection_centers(7,:) = temp + 2*[Dm,0] + 3*[Dbs,0];
-    Intersection_centers(6,:) = temp + 2*[Dm,0] + 4*[Dbs,0];
+    Intersection_centers = [Intersection_centers;temp + 2*[Dm,0] + 2*[Dbs,0]];
+    Intersection_centers = [Intersection_centers;temp + 2*[Dm,0] + 3*[Dbs,0]];
+    Intersection_centers = [Intersection_centers;temp + 2*[Dm,0] + 4*[Dbs,0]];
 
     %payload area
-    payload_area(Map_Start_Point + [(map_x_length/2-Psm/2) -Mcw/2-Msil-Psm], 0, Psm, Psm, Psh, Msib, Msih, tw, Chamber_Opacity, Path_Opacity)
-    Intersection_centers(12,:) = [Intersection_centers;temp + [2*Dbs+Dm,0]];
+    Intersection_centers = [Intersection_centers;temp + [2*Dbs+Dm,0]];
 
     % Create intersections
     for i = 1:size(Intersection_centers, 1)
@@ -165,6 +139,8 @@
     junction_path(Map_Start_Point + [(Sr+3*Dbs+2*Dm) -Mcw/2], 0, Msib, Mcw, Msih, tw, Chamber_Opacity, Path_Opacity)
     junction_path(Map_Start_Point + [(Sr+4*Dbs+2*Dm) -Mcw/2], 0, Msib, Mcw, Msih, tw, Chamber_Opacity, Path_Opacity)
 
+    %payload area
+    payload_area(Map_Start_Point + [(map_x_length/2-Psm/2) -Mcw/2-Msil-Psm], 0, Psm, Psm, Psh, Msib, Msih, tw, Chamber_Opacity, Path_Opacity)
 
     % Create the left most rail
     x = Map_Start_Point(1);
@@ -211,4 +187,4 @@
     grid off;
     set(gca, 'XColor', 'none', 'YColor', 'none', 'ZColor', 'none');
     fig = gcf;
-% end
+end

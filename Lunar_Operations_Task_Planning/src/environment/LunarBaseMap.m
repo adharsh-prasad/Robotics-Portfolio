@@ -19,7 +19,6 @@ classdef LunarBaseMap < handle
             % Create and store 3D map
             obj.map_figure = create_3D_lunar_base();
             hold on
-            scatter(50,50,2)
         end
     end
 end
