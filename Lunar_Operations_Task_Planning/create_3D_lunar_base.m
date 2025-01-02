@@ -36,6 +36,7 @@ function fig = create_3D_lunar_base()
     
     % Set view for top-down perspective with slight angle
     view(45, 45);
+   
     campos([x_axis+50 -y_axis 50]);
     camtarget([x_axis/2 y_axis/2 0]);
 
@@ -115,37 +116,37 @@ function fig = create_3D_lunar_base()
 
     % Create intersections
     for i = 1:size(Intersection_centers, 1)
-        create_connecting_cube(Intersection_centers(i,:), 0, Msib, Msil, Msih, Chamber_Opacity, Path_Opacity)
+        create_connecting_cube(Intersection_centers(i,:), 0, Msib, Msil, Msih, tw, Chamber_Opacity, Path_Opacity)
     end
 
     % Create main path
-    create_main_path(Map_Start_Point - [0 Mcw/2], 0, Sr, Msib, Msih, Chamber_Opacity, Path_Opacity)
-    create_main_path(Map_Start_Point + [(Sr+Msib) -Mcw/2], 0, Dbs-Msib, Msib, Msih, Chamber_Opacity, Path_Opacity)
-    create_main_path(Map_Start_Point + [(Sr+Msib+Dbs) -Mcw/2], 0, Dbs-Msib, Msib, Msih, Chamber_Opacity, Path_Opacity)
-    create_main_path(Map_Start_Point + [(Sr+Msib+2*Dbs) -Mcw/2], 0, Dm-Msib, Msib, Msih, Chamber_Opacity, Path_Opacity)
-    create_main_path(Map_Start_Point + [(Sr+Msib+2*Dbs+Dm) -Mcw/2], 0, Dm-Msib, Msib, Msih, Chamber_Opacity, Path_Opacity)
-    create_main_path(Map_Start_Point + [(Sr+Msib+2*Dbs+2*Dm) -Mcw/2], 0, Dbs-Msib, Msib, Msih, Chamber_Opacity, Path_Opacity)
-    create_main_path(Map_Start_Point + [(Sr+Msib+3*Dbs+2*Dm) -Mcw/2], 0, Dbs-Msib, Msib, Msih, Chamber_Opacity, Path_Opacity)
-    create_main_path(Map_Start_Point + [(Sr+Msib+4*Dbs+2*Dm) -Mcw/2], 0, Sr, Msib, Msih, Chamber_Opacity, Path_Opacity)
+    create_main_path(Map_Start_Point - [0 Mcw/2], 0, Sr, Msib, Msih, tw, Chamber_Opacity, Path_Opacity)
+    create_main_path(Map_Start_Point + [(Sr+Msib) -Mcw/2], 0, Dbs-Msib, Msib, Msih, tw, Chamber_Opacity, Path_Opacity)
+    create_main_path(Map_Start_Point + [(Sr+Msib+Dbs) -Mcw/2], 0, Dbs-Msib, Msib, Msih, tw, Chamber_Opacity, Path_Opacity)
+    create_main_path(Map_Start_Point + [(Sr+Msib+2*Dbs) -Mcw/2], 0, Dm-Msib, Msib, Msih, tw, Chamber_Opacity, Path_Opacity)
+    create_main_path(Map_Start_Point + [(Sr+Msib+2*Dbs+Dm) -Mcw/2], 0, Dm-Msib, Msib, Msih, tw, Chamber_Opacity, Path_Opacity)
+    create_main_path(Map_Start_Point + [(Sr+Msib+2*Dbs+2*Dm) -Mcw/2], 0, Dbs-Msib, Msib, Msih, tw, Chamber_Opacity, Path_Opacity)
+    create_main_path(Map_Start_Point + [(Sr+Msib+3*Dbs+2*Dm) -Mcw/2], 0, Dbs-Msib, Msib, Msih, tw, Chamber_Opacity, Path_Opacity)
+    create_main_path(Map_Start_Point + [(Sr+Msib+4*Dbs+2*Dm) -Mcw/2], 0, Sr, Msib, Msih, tw, Chamber_Opacity, Path_Opacity)
 
     % Create junctions
-    junction_path(Map_Start_Point + [Sr -Mcw/2], 0, Msib, Mcw, Msih, Chamber_Opacity, Path_Opacity)
-    junction_path(Map_Start_Point + [(Sr+Dbs) -Mcw/2], 0, Msib, Mcw, Msih, Chamber_Opacity, Path_Opacity)
-    junction_path(Map_Start_Point + [(Sr+2*Dbs) -Mcw/2], 0, Msib, Mcw, Msih, Chamber_Opacity, Path_Opacity)
-    junction_path(Map_Start_Point + [(Sr+2*Dbs+Dm) -Mcw/2], 0, Msib, Mcw, Msih, Chamber_Opacity, Path_Opacity)
-    junction_path(Map_Start_Point + [(Sr+2*Dbs+2*Dm) -Mcw/2], 0, Msib, Mcw, Msih, Chamber_Opacity, Path_Opacity)
-    junction_path(Map_Start_Point + [(Sr+3*Dbs+2*Dm) -Mcw/2], 0, Msib, Mcw, Msih, Chamber_Opacity, Path_Opacity)
-    junction_path(Map_Start_Point + [(Sr+4*Dbs+2*Dm) -Mcw/2], 0, Msib, Mcw, Msih, Chamber_Opacity, Path_Opacity)
+    junction_path(Map_Start_Point + [Sr -Mcw/2], 0, Msib, Mcw, Msih, tw, Chamber_Opacity, Path_Opacity)
+    junction_path(Map_Start_Point + [(Sr+Dbs) -Mcw/2], 0, Msib, Mcw, Msih, tw, Chamber_Opacity, Path_Opacity)
+    junction_path(Map_Start_Point + [(Sr+2*Dbs) -Mcw/2], 0, Msib, Mcw, Msih, tw, Chamber_Opacity, Path_Opacity)
+    junction_path(Map_Start_Point + [(Sr+2*Dbs+Dm) -Mcw/2], 0, Msib, Mcw, Msih, tw, Chamber_Opacity, Path_Opacity)
+    junction_path(Map_Start_Point + [(Sr+2*Dbs+2*Dm) -Mcw/2], 0, Msib, Mcw, Msih, tw, Chamber_Opacity, Path_Opacity)
+    junction_path(Map_Start_Point + [(Sr+3*Dbs+2*Dm) -Mcw/2], 0, Msib, Mcw, Msih, tw, Chamber_Opacity, Path_Opacity)
+    junction_path(Map_Start_Point + [(Sr+4*Dbs+2*Dm) -Mcw/2], 0, Msib, Mcw, Msih, tw, Chamber_Opacity, Path_Opacity)
 
     %payload area
-    payload_area(Map_Start_Point + [(map_x_length/2-Psm/2) -Mcw/2-Msil-Psm], 0, Psm, Psm, Psh, Msib, Msih, Chamber_Opacity, Path_Opacity)
+    payload_area(Map_Start_Point + [(map_x_length/2-Psm/2) -Mcw/2-Msil-Psm], 0, Psm, Psm, Psh, Msib, Msih, tw, Chamber_Opacity, Path_Opacity)
 
     % Create the left most rail
     x = Map_Start_Point(1);
     y = Map_Start_Point(2)-Mcw/2;
     z = 0;
 
-    [X, Y] = meshgrid([x, x+0.3], [y, y+Mcw]);
+    [X, Y] = meshgrid([x, x+tw], [y, y+Mcw]);
     Z_bottom = ones(size(X)) * (z + Msih-0.1);
     Z_top = ones(size(X)) * (z + Msih);
     h1 = mesh(X, Y, Z_bottom);
@@ -159,7 +160,7 @@ function fig = create_3D_lunar_base()
     y = Map_Start_Point(2)-Mcw/2;
     z = 0;
 
-    [X, Y] = meshgrid([x-0.3, x], [y, y+Mcw]);
+    [X, Y] = meshgrid([x-tw, x], [y, y+Mcw]);
     Z_bottom = ones(size(X)) * (z + Msih-0.1);
     Z_top = ones(size(X)) * (z + Msih);
     h3 = mesh(X, Y, Z_bottom);
@@ -171,7 +172,7 @@ function fig = create_3D_lunar_base()
     for h = meshes_structure'
         set(h, 'FaceColor', [1 1 1], ...
                'EdgeColor', 'none', ...
-               'FaceAlpha', 0.3, ...
+               'FaceAlpha', Chamber_Opacity, ...
                'FaceLighting', 'gouraud', ...
                'AmbientStrength', 0.3, ...
                'DiffuseStrength', 0.8, ...
@@ -187,7 +188,7 @@ function fig = create_3D_lunar_base()
     fig = gcf;
 end
 
-function create_dome(x, y, radius, Msib, Msih, track_width, y_axis, Chamber_Opacity, Path_Opacity)
+function [coords, tangents] = create_dome(x, y, radius, Msib, Msih, track_width, y_axis, Chamber_Opacity, Path_Opacity)
     [theta, phi] = meshgrid(linspace(0, 2*pi, 40), linspace(0, pi/2, 20));
     X = x + radius * cos(theta) .* cos(phi);
     Y = y + radius * sin(theta) .* cos(phi);
@@ -280,22 +281,48 @@ function create_dome(x, y, radius, Msib, Msih, track_width, y_axis, Chamber_Opac
         end
     end
 
-    % Calculate path coordinates
-    x_path = x + track_radius * cos(theta);
-    y_path = y + track_radius * sin(theta);
-    z_path = ones(size(theta)) * Msih;
+
+    % Calculate number of points needed for 0.25m spacing
+    arc_length = (track_radius-track_width/2) * (2*pi - 2*subtend_angle);
+    num_points = 2*ceil(ceil(arc_length / 0.1)/2);
+
+    % Calculate arc length
+    if y < (y_axis/2)
+        % Bottom dome: gap at pi/2
+        theta = [];
+        theta = [theta,linspace(pi/2+subtend_angle, 3*pi/2, 0.5*num_points)];
+        theta = [theta,linspace(-pi/2, pi/2-subtend_angle, 0.5*num_points)];
+        theta = theta(:, end:-1:1);
+    else
+        % Top dome: gap at 3pi/2
+        theta = linspace(-pi/2+subtend_angle, 3*pi/2-subtend_angle, num_points);
+    end
+    
+    % Generate path coordinates
+    x_coords = x + (track_radius-track_width/2) * cos(theta);
+    y_coords = y + (track_radius-track_width/2) * sin(theta);
+    z_coords = ones(size(theta)) * (Msih-0.1);
     
     % Combine coordinates
-    path_coords = [x_path', y_path', z_path'];
+    coords = [x_coords', y_coords', z_coords'];
+
+    % Tangent vectors (-sin(θ), cos(θ), 0) for clockwise motion
+    arc_tangents = [-sin(theta)', cos(theta)', zeros(size(theta))'];
+    
+    % Normalize tangent vectors
+    magnitudes = sqrt(sum(arc_tangents.^2, 2));
+    tangents = arc_tangents ./ magnitudes;
 end
 
-function create_connecting_cube(Cube_corner, base_z, length, breadth, height, Chamber_Opacity, Path_Opacity)
+function [coords, tangents] = create_connecting_cube(Cube_corner, base_z, len, breadth, height, track_width,Chamber_Opacity, Path_Opacity)
     x = Cube_corner(1);
     y = Cube_corner(2);
     z = base_z;
+    % Generate path coordinates with 0.25m spacing
+    [coords, tangents] = deal(struct());
 
     % Define the grid for the mesh
-    [X, Y] = meshgrid([x, x+length], [y, y+breadth]);
+    [X, Y] = meshgrid([x, x+len], [y, y+breadth]);
     Z_bottom = ones(size(X)) * z;
     Z_top = ones(size(X)) * (z + height);
 
@@ -305,23 +332,30 @@ function create_connecting_cube(Cube_corner, base_z, length, breadth, height, Ch
     
     [Y, Z] = meshgrid([y, y+breadth], [z, z+height]);
     X_front = ones(size(Y)) * x;
-    X_back = ones(size(Y)) * (x + length);
+    X_back = ones(size(Y)) * (x + len);
     h3 = mesh(X_front, Y, Z);
     h4 = mesh(X_back, Y, Z);
 
-    % Create the left top rail
-    [X, Y] = meshgrid([x, x+0.3], [y, y+breadth]);
+    % Create the left rail
+    [X, Y] = meshgrid([x, x+track_width], [y, y+breadth]);
     Z_bottom = ones(size(X)) * (z + height-0.1);
     Z_top = ones(size(X)) * (z + height);
     h5 = mesh(X, Y, Z_bottom);
     h6 = mesh(X, Y, Z_top);
 
-    % Create the right top rail
-    [X, Y] = meshgrid([x+length-0.3, x+length], [y, y+breadth]);
+    y_points = y+track_width/2:0.1:y+breadth-track_width/2;
+    coords.right = [repmat(x+track_width/2, length(y_points), 1), y_points', repmat((z + height-0.1), length(y_points), 1)];
+    tangents.right = repmat([0, 1, 0], length(y_points), 1);   % Points up 
+
+    % Create the right rail
+    [X, Y] = meshgrid([x+len-track_width, x+len], [y, y+breadth]);
     Z_bottom = ones(size(X)) * (z + height-0.1);
     Z_top = ones(size(X)) * (z + height);
     h7 = mesh(X, Y, Z_bottom);
     h8 = mesh(X, Y, Z_top);
+
+    coords.left = [repmat(x+len-track_width/2, length(y_points), 1), y_points', repmat((z + height-0.1), length(y_points), 1)];
+    tangents.left = repmat([0, 1, 0], length(y_points), 1);   % Points up
 
     % Apply properties to all mesh objects
     meshes_structure = [h1; h2; h3; h4;];
@@ -351,13 +385,15 @@ function create_connecting_cube(Cube_corner, base_z, length, breadth, height, Ch
     end
 end
 
-function create_main_path(Cube_corner, base_z, length, breadth, height, Chamber_Opacity, Path_Opacity)
+function [coords, tangents] = create_main_path(Cube_corner, base_z, len, breadth, height, track_width, Chamber_Opacity, Path_Opacity)
     x = Cube_corner(1);
     y = Cube_corner(2);
     z = base_z;
-
+    % Generate path coordinates with 0.25m spacing
+    [coords, tangents] = deal(struct());
+    
     % Define the grid for the mesh
-    [X, Y] = meshgrid([x, x+length], [y, y+breadth]);
+    [X, Y] = meshgrid([x, x+len], [y, y+breadth]);
     Z_bottom = ones(size(X)) * z;
     Z_top = ones(size(X)) * (z + height);
 
@@ -365,25 +401,33 @@ function create_main_path(Cube_corner, base_z, length, breadth, height, Chamber_
     h1 = mesh(X, Y, Z_bottom);
     h2 = mesh(X, Y, Z_top);
     
-    [X, Z] = meshgrid([x, x+length], [z, z+height]);
+    [X, Z] = meshgrid([x, x+len], [z, z+height]);
     Y_front = ones(size(X)) * y;
     Y_back = ones(size(X)) * (y + breadth);
     h3 = mesh(X, Y_front, Z);
     h4 = mesh(X, Y_back, Z);
 
     % Create the top rail
-    [X, Y] = meshgrid([x, x+length], [y, y+0.3]);
+    [X, Y] = meshgrid([x, x+len], [y, y+track_width]);
     Z_bottom = ones(size(X)) * (z + height-0.1);
     Z_top = ones(size(X)) * (z + height);
     h5 = mesh(X, Y, Z_bottom);
     h6 = mesh(X, Y, Z_top);
 
+    x_points = x+track_width/2:0.1:(x+len-track_width/2);
+    coords.top = [x_points', repmat(y+track_width/2, length(x_points), 1), repmat((z + height-0.1), length(x_points), 1)];
+    tangents.top = repmat([1, 0, 0], length(x_points), 1); 
+
     % Create the bottom rail
-    [X, Y] = meshgrid([x, x+length], [y+breadth-0.3, y+breadth]);
+    [X, Y] = meshgrid([x, x+len], [y+breadth-track_width, y+breadth]);
     Z_bottom = ones(size(X)) * (z + height-0.1);
     Z_top = ones(size(X)) * (z + height);
     h7 = mesh(X, Y, Z_bottom);
     h8 = mesh(X, Y, Z_top);
+
+    x_points = x+track_width/2:0.1:(x+len-track_width/2);
+    coords.bottom = [x_points', repmat(y+breadth-track_width/2, length(x_points), 1), repmat((z + height-0.1), length(x_points), 1)];
+    tangents.bottom = repmat([1, 0, 0], length(x_points), 1); 
 
     % Apply properties to all mesh objects
     meshes_structure = [h1; h2; h3; h4;];
@@ -413,13 +457,15 @@ function create_main_path(Cube_corner, base_z, length, breadth, height, Chamber_
     end
 end
 
-function junction_path(Cube_corner, base_z, length, breadth, height, Chamber_Opacity, Path_Opacity)
+function [coords, tangents] = junction_path(Cube_corner, base_z, len, breadth, height, track_width, Chamber_Opacity, Path_Opacity)
     x = Cube_corner(1);
     y = Cube_corner(2);
     z = base_z;
+    % Generate path coordinates with 0.25m spacing
+    [coords, tangents] = deal(struct());
 
     % Define the grid for the mesh
-    [X, Y] = meshgrid([x, x+length], [y, y+breadth]);
+    [X, Y] = meshgrid([x, x+len], [y, y+breadth]);
     Z_bottom = ones(size(X)) * z;
     Z_top = ones(size(X)) * (z + height);
 
@@ -428,32 +474,46 @@ function junction_path(Cube_corner, base_z, length, breadth, height, Chamber_Opa
     h2 = mesh(X, Y, Z_top);
 
     % Create the bottom rail
-    [X, Y] = meshgrid([x, x+length], [y, y+0.3]);
+    [X, Y] = meshgrid([x, x+len], [y, y+track_width]);
     Z_bottom = ones(size(X)) * (z + height-0.1);
     Z_top = ones(size(X)) * (z + height);
     h3 = mesh(X, Y, Z_bottom);
     h4 = mesh(X, Y, Z_top);
+    
+    x_points = x+track_width/2:0.1:(x+len-track_width/2);
+    coords.bottom = [x_points', repmat(y+track_width/2, length(x_points), 1), repmat((z + height-0.1), length(x_points), 1)];
+    tangents.bottom = repmat([1, 0, 0], length(x_points), 1);  % Points right
 
     % Create the top rail
-    [X, Y] = meshgrid([x, x+length], [y+breadth-0.3, y+breadth]);
+    [X, Y] = meshgrid([x, x+len], [y+breadth-track_width, y+breadth]);
     Z_bottom = ones(size(X)) * (z + height-0.1);
     Z_top = ones(size(X)) * (z + height);
     h5 = mesh(X, Y, Z_bottom);
     h6 = mesh(X, Y, Z_top);
 
+    coords.top = [x_points', repmat(y+breadth-track_width/2, length(x_points), 1), repmat((z + height-0.1), length(x_points), 1)];
+    tangents.top = repmat([1, 0, 0], length(x_points), 1);     % Points right
+
     % Create the right rail
-    [X, Y] = meshgrid([x+breadth-0.3, x+breadth], [y, y+breadth]);
+    [X, Y] = meshgrid([x+breadth-track_width, x+breadth], [y, y+breadth]);
     Z_bottom = ones(size(X)) * (z + height-0.1);
     Z_top = ones(size(X)) * (z + height);
     h7 = mesh(X, Y, Z_bottom);
     h8 = mesh(X, Y, Z_top);
 
+    y_points = y+track_width/2:0.1:y+breadth-track_width/2;
+    coords.right = [repmat(x+len-track_width/2, length(y_points), 1), y_points', repmat((z + height-0.1), length(y_points), 1)];
+    tangents.right = repmat([0, 1, 0], length(y_points), 1);   % Points up
+
     % Create the left rail
-    [X, Y] = meshgrid([x, x+0.3], [y, y+breadth]);
+    [X, Y] = meshgrid([x, x+track_width], [y, y+breadth]);
     Z_bottom = ones(size(X)) * (z + height-0.1);
     Z_top = ones(size(X)) * (z + height);
     h9 = mesh(X, Y, Z_bottom);
     h10 = mesh(X, Y, Z_top);
+
+    coords.left = [repmat(x+track_width/2, length(y_points), 1), y_points', repmat((z + height-0.1), length(y_points), 1)];
+    tangents.left = repmat([0, 1, 0], length(y_points), 1);   % Points up
 
     % Apply properties to all mesh objects
     meshes_structure = [h1; h2];
@@ -483,13 +543,13 @@ function junction_path(Cube_corner, base_z, length, breadth, height, Chamber_Opa
     end
 end
 
-function payload_area(Cube_corner, base_z, length, breadth, height, path, path_height, Chamber_Opacity, Path_Opacity)
+function [coords, tangents] = payload_area(Cube_corner, base_z, len, breadth, height, path, path_height, track_width, Chamber_Opacity, Path_Opacity)
     x = Cube_corner(1);
     y = Cube_corner(2);
     z = base_z;
 
     % Define the grid for the mesh
-    [X, Y] = meshgrid([x, x+length], [y, y+breadth]);
+    [X, Y] = meshgrid([x, x+len], [y, y+breadth]);
     Z_bottom = ones(size(X)) * z;
     Z_top = ones(size(X)) * (z + height);
 
@@ -498,7 +558,7 @@ function payload_area(Cube_corner, base_z, length, breadth, height, path, path_h
     h2 = mesh(X, Y, Z_top);
 
     % Define the grid for the mesh
-    [X, Z] = meshgrid([x, x+length], [z, z+height]);
+    [X, Z] = meshgrid([x, x+len], [z, z+height]);
     Y_bottom = ones(size(X)) * y;
     Y_top = ones(size(X)) * (y + breadth);
 
@@ -507,39 +567,63 @@ function payload_area(Cube_corner, base_z, length, breadth, height, path, path_h
     h4 = mesh(X, Y_top, Z);
 
     % Create the bottom rail
-    [X, Y] = meshgrid([x, x+length], [y, y+0.3]);
+    [X, Y] = meshgrid([x, x+len], [y, y+track_width]);
     Z_bottom = ones(size(X)) * (z + path_height-0.1);
     Z_top = ones(size(X)) * (z + path_height);
     h5 = mesh(X, Y, Z_bottom);
     h6 = mesh(X, Y, Z_top);
 
+    x_points = x+track_width/2:0.1:(x+len-track_width/2);
+    coords1 = [x_points', repmat(y+track_width/2, length(x_points), 1), repmat((z + path_height-0.1), length(x_points), 1)];
+    tangents1 = repmat([-1, 0, 0], length(x_points), 1);  % Points clockwise
+
     % Create the top left rail
-    [X, Y] = meshgrid([x, x+(length-path)/2+0.3], [y+breadth-0.3, y+breadth]);
+    [X, Y] = meshgrid([x, x+(len-path)/2+track_width], [y+breadth-track_width, y+breadth]);
     Z_bottom = ones(size(X)) * (z + path_height-0.1);
     Z_top = ones(size(X)) * (z + path_height);
     h7 = mesh(X, Y, Z_bottom);
     h8 = mesh(X, Y, Z_top);
 
+    x_points = x+track_width/2:0.1:(x+(len-path)/2+track_width/2);
+    coords2 = [x_points', repmat(y+breadth-track_width/2, length(x_points), 1), repmat((z + path_height-0.1), length(x_points), 1)];
+    tangents2 = repmat([1, 0, 0], length(x_points), 1);  % Points clockwise
+
     % Create the top right rail
-    [X, Y] = meshgrid([x+(length-path)/2-0.3+path, x+length], [y+breadth-0.3, y+breadth]);
+    [X, Y] = meshgrid([x+(len-path)/2-track_width+path, x+len], [y+breadth-track_width, y+breadth]);
     Z_bottom = ones(size(X)) * (z + path_height-0.1);
     Z_top = ones(size(X)) * (z + path_height);
     h9 = mesh(X, Y, Z_bottom);
     h10 = mesh(X, Y, Z_top);
 
+    x_points = x+(len-path)/2-track_width/2+path:0.1:(x+len-track_width/2);
+    coords3 = [x_points', repmat(y+breadth-track_width/2, length(x_points), 1), repmat((z + path_height-0.1), length(x_points), 1)];
+    tangents3 = repmat([1, 0, 0], length(x_points), 1);  % Points clockwise
+
     % Create the right rail
-    [X, Y] = meshgrid([x+breadth-0.3, x+breadth], [y, y+breadth]);
+    [X, Y] = meshgrid([x+breadth-track_width, x+breadth], [y, y+breadth]);
     Z_bottom = ones(size(X)) * (z + path_height-0.1);
     Z_top = ones(size(X)) * (z + path_height);
     h11 = mesh(X, Y, Z_bottom);
     h12 = mesh(X, Y, Z_top);
 
+    y_points = y+track_width/2:0.1:y+breadth-track_width/2;
+    y_points = y_points(1,end:-1:1);
+    coords4 = [repmat(x+len-track_width/2, length(y_points), 1), y_points', repmat((z + path_height-0.1), length(y_points), 1)];
+    tangents4 = repmat([0, -1, 0], length(y_points), 1);   % Points clockwise
+
     % Create the left rail
-    [X, Y] = meshgrid([x, x+0.3], [y, y+breadth]);
+    [X, Y] = meshgrid([x, x+track_width], [y, y+breadth]);
     Z_bottom = ones(size(X)) * (z + path_height-0.1);
     Z_top = ones(size(X)) * (z + path_height);
     h13 = mesh(X, Y, Z_bottom);
     h14 = mesh(X, Y, Z_top);
+
+    y_points = y+track_width/2:0.1:y+breadth-track_width/2;
+    coords5 = [repmat(x+track_width/2, length(y_points), 1), y_points', repmat((z + path_height-0.1), length(y_points), 1)];
+    tangents5 = repmat([0, 1, 0], length(y_points), 1);   % Points clockwise
+
+    coords = [coords3; coords4; coords1; coords5; coords2];
+    tangents = [tangents3; tangents4; tangents1; tangents5; tangents2];
 
     % Apply properties to all mesh objects
     meshes_structure = [h1; h2; h3; h4];

@@ -5,19 +5,21 @@ classdef LunarBaseMap < handle
         dimensions     % Map dimensions
         node_coords    % Physical coordinates of nodes
     end
-    
-    methods        
+
+    methods
         function obj = LunarBaseMap()
             % Initialize paths dictionary
-            obj.paths = containers.Map('KeyType', 'char', 'ValueType', 'any');
-            
+            % For your map nodes
+            obj.paths = dictionary();
+            obj.paths('SA31') = struct('connections', {'J32', 'J33'}, ...
+                      'coordinates', [n x 3], ...    % Path points
+                      'tangents', [n x 3], ...       % Unit vectors for orientation
+                      'headings', [n x 1]);          % Angles in radians
+
             % Create and store 3D map
             obj.map_figure = create_3D_lunar_base();
             hold on
             scatter(50,50,2)
-           
-            % Initialize path connections
-            % obj.initialize_paths();
         end
     end
 end
