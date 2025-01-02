@@ -20,7 +20,7 @@ function [coords, tangents] = create_main_path(Cube_corner, base_z, len, breadth
     h3 = mesh(X, Y_front, Z);
     h4 = mesh(X, Y_back, Z);
 
-    % Create the top rail
+    % Create the bottom rail
     [X, Y] = meshgrid([x, x+len], [y, y+track_width]);
     Z_bottom = ones(size(X)) * (z + height-0.1);
     Z_top = ones(size(X)) * (z + height);
@@ -28,10 +28,10 @@ function [coords, tangents] = create_main_path(Cube_corner, base_z, len, breadth
     h6 = mesh(X, Y, Z_top);
 
     x_points = x+track_width/2:0.1:(x+len-track_width/2);
-    coords.top = [x_points', repmat(y+track_width/2, length(x_points), 1), repmat((z + height-0.1), length(x_points), 1)];
-    tangents.top = repmat([1, 0, 0], length(x_points), 1); 
+    coords.bottom = [x_points', repmat(y+track_width/2, length(x_points), 1), repmat((z + height-0.1), length(x_points), 1)];
+    tangents.bottom = repmat([1, 0, 0], length(x_points), 1); 
 
-    % Create the bottom rail
+    % Create the top rail
     [X, Y] = meshgrid([x, x+len], [y+breadth-track_width, y+breadth]);
     Z_bottom = ones(size(X)) * (z + height-0.1);
     Z_top = ones(size(X)) * (z + height);
@@ -39,8 +39,8 @@ function [coords, tangents] = create_main_path(Cube_corner, base_z, len, breadth
     h8 = mesh(X, Y, Z_top);
 
     x_points = x+track_width/2:0.1:(x+len-track_width/2);
-    coords.bottom = [x_points', repmat(y+breadth-track_width/2, length(x_points), 1), repmat((z + height-0.1), length(x_points), 1)];
-    tangents.bottom = repmat([1, 0, 0], length(x_points), 1); 
+    coords.top = [x_points', repmat(y+breadth-track_width/2, length(x_points), 1), repmat((z + height-0.1), length(x_points), 1)];
+    tangents.top = repmat([1, 0, 0], length(x_points), 1); 
 
     % Apply properties to all mesh objects
     meshes_structure = [h1; h2; h3; h4;];

@@ -1,4 +1,4 @@
-% function fig = create_3D_lunar_base()
+function fig = create_3D_lunar_base()
     close all
     addpath('C:\Users\ADHARSH\Desktop\Job_Search\Github\Robotics-Portfolio\Lunar_Operations_Task_Planning\src\environment\structures')
 
@@ -37,10 +37,10 @@
     hold on;
     Chamber_Opacity = 0.3;
     Path_Opacity = 0.4;
-    
+
     % Set view for top-down perspective with slight angle
     view(45, 45);
-   
+
     campos([x_axis+50 -y_axis 50]);
     camtarget([x_axis/2 y_axis/2 0]);
 
@@ -57,11 +57,11 @@
     set(h,'Style','infinite');
     set(h,'Color',[1 1 1]); % White light
 
-    
+
     % Define superadobe centers in a more compact arrangement
     Superadobe_centers = zeros(11,2);
     Map_Start_Point = [map_x_axis_offset, y_axis/2];
-    
+
     %top left 3
     new_sr = sqrt(Sr^2 - Msih^2);
     temp_coord = Map_Start_Point + [Sr + Msib/2, Mcw/2 + Msil + new_sr*cos(asin(Msib/(2*new_sr)))];
@@ -100,7 +100,7 @@
     n = 1;
     for i = 1:size(Superadobe_centers, 1)
         [coords, tangents] = create_dome(Superadobe_centers(i,1), Superadobe_centers(i,2), Sr, Msib, Msih, tw, y_axis, Chamber_Opacity, Path_Opacity);
-        
+
         paths(connecting_paths(i,1:6)) = struct('connections', {{connecting_paths(i,11:13); connecting_paths(i,14:16); connecting_paths(i,7:10); connecting_paths(i,17:22)}}, ...
         'coordinates', coords.left, ...    % Path points
         'tangents', tangents.left, ...       % Unit vectors for orientation
@@ -183,8 +183,8 @@
         'headings', [n,1]);          % Angles in radians
 
     paths('MA14') = struct('connections', {{'SA11_2'; 'J14'; 'J13'; 'SA10_1'; 'J21'; 'J24'}}, ...
-        'coordinates', coords.top, ...    % Path points
-        'tangents', tangents.top, ...       % Unit vectors for orientation
+        'coordinates', coords.bottom, ...    % Path points
+        'tangents', tangents.bottom, ...       % Unit vectors for orientation
         'headings', [n,1]);          % Angles in radians
 
     [coords, tangents] = create_main_path(Map_Start_Point + [(Sr+Msib+Dbs) -Mcw/2], 0, Dbs-Msib, Msib, Msih, tw, Chamber_Opacity, Path_Opacity);
@@ -194,8 +194,8 @@
         'headings', [n,1]);          % Angles in radians
 
     paths('MA13') = struct('connections', {{'SA10_2'; 'J24'; 'J23'; 'SA9_1'; 'J31'; 'J34'}}, ...
-        'coordinates', coords.top, ...    % Path points
-        'tangents', tangents.top, ...       % Unit vectors for orientation
+        'coordinates', coords.bottom, ...    % Path points
+        'tangents', tangents.bottom, ...       % Unit vectors for orientation
         'headings', [n,1]);          % Angles in radians
 
     [coords, tangents] = create_main_path(Map_Start_Point + [(Sr+Msib+2*Dbs) -Mcw/2], 0, Dm-Msib, Msib, Msih, tw, Chamber_Opacity, Path_Opacity);
@@ -380,7 +380,7 @@
     Z_top = ones(size(X)) * (z + Msih);
     h1 = mesh(X, Y, Z_bottom);
     h2 = mesh(X, Y, Z_top);
-    
+
     temp_coord = y+tw/2:0.1: y+Mcw-tw/2;
     temp_tangent = repmat([0, 1, 0], length(temp_coord), 1);
 
@@ -438,10 +438,4 @@
     grid off;
     set(gca, 'XColor', 'none', 'YColor', 'none', 'ZColor', 'none');
     fig = gcf;
-
-    all_keys = keys(paths);
-    for i = 1:length(all_keys)
-        coords = paths(all_keys(i)).coordinates;
-        scatter3(coords(:,1), coords(:,2), coords(:,3),'o','filled','MarkerFaceColor','red')
-    end
-% end
+end
