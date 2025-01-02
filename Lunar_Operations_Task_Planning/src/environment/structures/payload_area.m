@@ -29,6 +29,7 @@ function [coords, tangents] = payload_area(Cube_corner, base_z, len, breadth, he
     h6 = mesh(X, Y, Z_top);
 
     x_points = x+track_width/2:0.1:(x+len-track_width/2);
+    x_points = x_points(1,end:-1:1);
     coords1 = [x_points', repmat(y+track_width/2, length(x_points), 1), repmat((z + path_height-0.1), length(x_points), 1)];
     tangents1 = repmat([-1, 0, 0], length(x_points), 1);  % Points clockwise
 
@@ -77,8 +78,23 @@ function [coords, tangents] = payload_area(Cube_corner, base_z, len, breadth, he
     coords5 = [repmat(x+track_width/2, length(y_points), 1), y_points', repmat((z + path_height-0.1), length(y_points), 1)];
     tangents5 = repmat([0, 1, 0], length(y_points), 1);   % Points clockwise
 
-    coords = [coords3; coords4; coords1; coords5; coords2];
-    tangents = [tangents3; tangents4; tangents1; tangents5; tangents2];
+    complete_coords = [coords3; coords4; coords1; coords5; coords2];
+    path_tangents = [tangents3; tangents4; tangents1; tangents5; tangents2];
+
+    % Get total number of points
+    n = size(complete_coords, 1);
+    mid_point = floor(n/2);
+    
+    % Split coordinates and tangents
+    coords = struct();
+    tangents = struct();
+
+    % First half (1 to n/2)
+    coords.right = complete_coords(1:mid_point, :);
+    tangents.right = path_tangents(1:mid_point, :);
+    % Second half (n/2 to end, including overlap point)
+    coords.left = complete_coords(end:-1:mid_point+1, :);
+    tangents.left = path_tangents(end:-1:mid_point+1, :);
 
     % Apply properties to all mesh objects
     meshes_structure = [h1; h2; h3; h4];
