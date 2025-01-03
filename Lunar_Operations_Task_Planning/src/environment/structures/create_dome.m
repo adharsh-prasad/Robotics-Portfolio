@@ -1,4 +1,4 @@
-function [coords, tangents] = create_dome(x, y, radius, Msib, Msih, track_width, y_axis, Chamber_Opacity, Path_Opacity)
+function [coords, tangents, arc_length] = create_dome(x, y, radius, Msib, Msih, track_width, y_axis, Chamber_Opacity, Path_Opacity)
     [theta, phi] = meshgrid(linspace(0, 2*pi, 40), linspace(0, pi/2, 20));
     X = x + radius * cos(theta) .* cos(phi);
     Y = y + radius * sin(theta) .* cos(phi);

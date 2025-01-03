@@ -1,4 +1,4 @@
-function fig = create_3D_lunar_base()
+function [fig,paths] = create_3D_lunar_base()
     close all
     addpath('C:\Users\ADHARSH\Desktop\Job_Search\Github\Robotics-Portfolio\Lunar_Operations_Task_Planning\src\environment\structures')
 
@@ -99,17 +99,23 @@ function fig = create_3D_lunar_base()
                         'SA11_1', 'MA01', 'J14', 'J13', 'SA11_2', 'MA14', 'J14', 'J11'];
     n = 1;
     for i = 1:size(Superadobe_centers, 1)
-        [coords, tangents] = create_dome(Superadobe_centers(i,1), Superadobe_centers(i,2), Sr, Msib, Msih, tw, y_axis, Chamber_Opacity, Path_Opacity);
+        [coords, tangents, arc_length] = create_dome(Superadobe_centers(i,1), Superadobe_centers(i,2), Sr, Msib, Msih, tw, y_axis, Chamber_Opacity, Path_Opacity);
 
         paths(connecting_paths(i,1:6)) = struct('connections', {{connecting_paths(i,11:13); connecting_paths(i,14:16); connecting_paths(i,7:10); connecting_paths(i,17:22)}}, ...
         'coordinates', coords.left, ...    % Path points
         'tangents', tangents.left, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.left(1,:), ...    % First point of path
+        'end_point', coords.left(end,:), ...    % Last point of path
+        'distance', arc_length/2);  % Manhattan path length
 
         paths(connecting_paths(i,17:22)) = struct('connections', {{connecting_paths(i,27:29); connecting_paths(i,30:32); connecting_paths(i,23:26); connecting_paths(i,1:6)}}, ...
         'coordinates', coords.right(end:-1:1,:), ...    % Path points
         'tangents', tangents.right(end:-1:1,:), ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.right(1,:), ...    % First point of path
+        'end_point', coords.right(end,:), ...    % Last point of path
+        'distance', arc_length/2);  % Manhattan path length
     end
 
     % Define superadobe centers in a more compact arrangement
@@ -148,7 +154,15 @@ function fig = create_3D_lunar_base()
             tangents.right = tangents.right(end:-1:1,:);
         end
         paths(all_nodes(2*i-1)).coordinates = [coords.right;paths(all_nodes(2*i-1)).coordinates];
+        distance = norm(coords.right(end,:) - coords.right(1,:));
+        paths(all_nodes(2*i-1)).distance = paths(all_nodes(2*i-1)).distance + distance;
+        paths(all_nodes(2*i-1)).start_point = coords.right(1,:);
+
         paths(all_nodes(2*i)).coordinates = [coords.left;paths(all_nodes(2*i)).coordinates];
+        distance = norm(coords.left(end,:) - coords.left(1,:));
+        paths(all_nodes(2*i)).distance = paths(all_nodes(2*i)).distance + distance;
+        paths(all_nodes(2*i)).start_point = coords.left(1,:);
+        
         paths(all_nodes(2*i-1)).tangents = [tangents.right;paths(all_nodes(2*i-1)).tangents];
         paths(all_nodes(2*i)).tangents = [tangents.left;paths(all_nodes(2*i)).tangents];
     end    
@@ -170,8 +184,17 @@ function fig = create_3D_lunar_base()
     coords.right = coords.right(end:-1:1,:);
     tangents.left = tangents.left(end:-1:1,:);
     tangents.right = tangents.right(end:-1:1,:);
+    
     paths('PA01_1').coordinates = [coords.right;paths('PA01_1').coordinates];
+    paths('PA01_1').start_point = paths('PA01_1').coordinates(1,:);
+    paths('PA01_1').end_point = paths('PA01_1').coordinates(end,:);
+    paths('PA01_1').distance = size(paths('PA01_1').coordinates,1)*0.1;
+
     paths('PA01_2').coordinates = [coords.left;paths('PA01_2').coordinates];
+    paths('PA01_2').start_point = paths('PA01_2').coordinates(1,:);
+    paths('PA01_2').end_point = paths('PA01_2').coordinates(end,:);
+    paths('PA01_2').distance = size(paths('PA01_2').coordinates,1)*0.1;
+
     paths('PA01_1').tangents = [tangents.right;paths('PA01_1').tangents];
     paths('PA01_2').tangents = [tangents.left;paths('PA01_2').tangents];
 
@@ -180,194 +203,337 @@ function fig = create_3D_lunar_base()
     paths('MA02') = struct('connections', {{'SA01_2'; 'J12'; 'J13'; 'SA02_1'; 'J21'; 'J22'}}, ...
         'coordinates', coords.top, ...    % Path points
         'tangents', tangents.top, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.top(1,:), ...    % First point of path
+        'end_point', coords.top(end,:), ...    % Last point of path
+        'distance', norm(coords.top(end,:) - coords.top(1,:)));  % Manhattan path length
 
     paths('MA14') = struct('connections', {{'SA11_2'; 'J14'; 'J13'; 'SA10_1'; 'J21'; 'J24'}}, ...
         'coordinates', coords.bottom, ...    % Path points
         'tangents', tangents.bottom, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.bottom(1,:), ...    % First point of path
+        'end_point', coords.bottom(end,:), ...    % Last point of path
+        'distance', norm(coords.bottom(end,:) - coords.bottom(1,:)));  % Manhattan path length
 
     [coords, tangents] = create_main_path(Map_Start_Point + [(Sr+Msib+Dbs) -Mcw/2], 0, Dbs-Msib, Msib, Msih, tw, Chamber_Opacity, Path_Opacity);
     paths('MA03') = struct('connections', {{'SA02_2'; 'J22'; 'J23'; 'SA03_1'; 'J31'; 'J32'}}, ...
         'coordinates', coords.top, ...    % Path points
         'tangents', tangents.top, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.top(1,:), ...    % First point of path
+        'end_point', coords.top(end,:), ...    % Last point of path
+        'distance', norm(coords.top(end,:) - coords.top(1,:)));  % Manhattan path length
 
-    paths('MA13') = struct('connections', {{'SA10_2'; 'J24'; 'J23'; 'SA9_1'; 'J31'; 'J34'}}, ...
+    paths('MA13') = struct('connections', {{'SA10_2'; 'J24'; 'J23'; 'SA09_1'; 'J31'; 'J34'}}, ...
         'coordinates', coords.bottom, ...    % Path points
         'tangents', tangents.bottom, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.bottom(1,:), ...    % First point of path
+        'end_point', coords.bottom(end,:), ...    % Last point of path
+        'distance', norm(coords.bottom(end,:) - coords.bottom(1,:)));  % Manhattan path length
 
     [coords, tangents] = create_main_path(Map_Start_Point + [(Sr+Msib+2*Dbs) -Mcw/2], 0, Dm-Msib, Msib, Msih, tw, Chamber_Opacity, Path_Opacity);
     paths('MA04') = struct('connections', {{'SA03_2'; 'J32'; 'J33'; 'J41'; 'J42'}}, ...
         'coordinates', coords.top, ...    % Path points
         'tangents', tangents.top, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.top(1,:), ...    % First point of path
+        'end_point', coords.top(end,:), ...    % Last point of path
+        'distance', norm(coords.top(end,:) - coords.top(1,:)));  % Manhattan path length
 
     paths('MA12') = struct('connections', {{'SA09_2'; 'J34'; 'J33'; 'PA01_1'; 'J41'; 'J44'}}, ...
         'coordinates', coords.bottom, ...    % Path points
         'tangents', tangents.bottom, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.bottom(1,:), ...    % First point of path
+        'end_point', coords.bottom(end,:), ...    % Last point of path
+        'distance', norm(coords.bottom(end,:) - coords.bottom(1,:)));  % Manhattan path length
 
     [coords, tangents] = create_main_path(Map_Start_Point + [(Sr+Msib+2*Dbs+Dm) -Mcw/2], 0, Dm-Msib, Msib, Msih, tw, Chamber_Opacity, Path_Opacity);
     paths('MA05') = struct('connections', {{'SA04_2'; 'J42'; 'J43'; 'J51'; 'J52'}}, ...
         'coordinates', coords.top, ...    % Path points
         'tangents', tangents.top, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.top(1,:), ...    % First point of path
+        'end_point', coords.top(end,:), ...    % Last point of path
+        'distance', norm(coords.top(end,:) - coords.top(1,:)));  % Manhattan path length
 
     paths('MA11') = struct('connections', {{'SA08_1'; 'J44'; 'J43'; 'PA01_2'; 'J51'; 'J54'}}, ...
         'coordinates', coords.bottom, ...    % Path points
         'tangents', tangents.bottom, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.bottom(1,:), ...    % First point of path
+        'end_point', coords.bottom(end,:), ...    % Last point of path
+        'distance', norm(coords.bottom(end,:) - coords.bottom(1,:)));  % Manhattan path length
 
     [coords, tangents] = create_main_path(Map_Start_Point + [(Sr+Msib+2*Dbs+2*Dm) -Mcw/2], 0, Dbs-Msib, Msib, Msih, tw, Chamber_Opacity, Path_Opacity);
     paths('MA06') = struct('connections', {{'SA05_2'; 'J52'; 'J53'; 'SA06_2'; 'J61'; 'J62'}}, ...
         'coordinates', coords.top, ...    % Path points
         'tangents', tangents.top, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.top(1,:), ...    % First point of path
+        'end_point', coords.top(end,:), ...    % Last point of path
+        'distance', norm(coords.top(end,:) - coords.top(1,:)));  % Manhattan path length
+
 
     paths('MA10') = struct('connections', {{'SA08_2'; 'J44'; 'J43'; 'SA07_1'; 'J51'; 'J54'}}, ...
         'coordinates', coords.bottom, ...    % Path points
         'tangents', tangents.bottom, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.bottom(1,:), ...    % First point of path
+        'end_point', coords.bottom(end,:), ...    % Last point of path
+        'distance', norm(coords.bottom(end,:) - coords.bottom(1,:)));  % Manhattan path length
 
     [coords, tangents] = create_main_path(Map_Start_Point + [(Sr+Msib+3*Dbs+2*Dm) -Mcw/2], 0, Dbs-Msib, Msib, Msih, tw, Chamber_Opacity, Path_Opacity);
     paths('MA07') = struct('connections', {{'J62'; 'J63'; 'SA05_1'; 'J71'; 'J72'}}, ...
         'coordinates', coords.top, ...    % Path points
         'tangents', tangents.top, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.top(1,:), ...    % First point of path
+        'end_point', coords.top(end,:), ...    % Last point of path
+        'distance', norm(coords.top(end,:) - coords.top(1,:)));  % Manhattan path length
 
     paths('MA09') = struct('connections', {{'SA07_1'; 'J64'; 'J63'; 'SA06_1'; 'J71'; 'J74'}}, ...
         'coordinates', coords.bottom, ...    % Path points
         'tangents', tangents.bottom, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.bottom(1,:), ...    % First point of path
+        'end_point', coords.bottom(end,:), ...    % Last point of path
+        'distance', norm(coords.bottom(end,:) - coords.bottom(1,:)));  % Manhattan path length
 
     % Create junctions
     [coords, tangents] = junction_path(Map_Start_Point + [Sr -Mcw/2], 0, Msib, Mcw, Msih, tw, Chamber_Opacity, Path_Opacity);
     paths('J11') = struct('connections', {{'MA01'; 'SA01_1'; 'SA11_1'; 'J12'; 'J14'}}, ...
         'coordinates', coords.left, ...    % Path points
         'tangents', tangents.left, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.left(1,:), ...    % First point of path
+        'end_point', coords.left(end,:), ...    % Last point of path
+        'distance', norm(coords.left(end,:) - coords.left(1,:)));  % Manhattan path length
+
     paths('J12') = struct('connections', {{'SA01_1'; 'SA01_2'; 'J11'; 'J13'; 'MA01'; 'MA02'}}, ...
         'coordinates', coords.top, ...    % Path points
         'tangents', tangents.top, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.top(1,:), ...    % First point of path
+        'end_point', coords.top(end,:), ...    % Last point of path
+        'distance', norm(coords.top(end,:) - coords.top(1,:)));  % Manhattan path length
+
     paths('J13') = struct('connections', {{'MA02'; 'MA14';'SA01_2'; 'SA11_2'; 'J12'; 'J14'}}, ...
         'coordinates', coords.right, ...    % Path points
         'tangents', tangents.right, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.right(1,:), ...    % First point of path
+        'end_point', coords.right(end,:), ...    % Last point of path
+        'distance', norm(coords.right(end,:) - coords.right(1,:)));  % Manhattan path length
+
     paths('J14') = struct('connections', {{'SA11_1'; 'SA11_2'; 'J11'; 'J13'; 'MA01'; 'MA14'}}, ...
         'coordinates', coords.bottom, ...    % Path points
         'tangents', tangents.bottom, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.bottom(1,:), ...    % First point of path
+        'end_point', coords.bottom(end,:), ...    % Last point of path
+        'distance', norm(coords.bottom(end,:) - coords.bottom(1,:)));  % Manhattan path length
 
     [coords, tangents] = junction_path(Map_Start_Point + [(Sr+Dbs) -Mcw/2], 0, Msib, Mcw, Msih, tw, Chamber_Opacity, Path_Opacity);
     paths('J21') = struct('connections', {{'MA02'; 'MA14'; 'SA02_1'; 'SA10_1'; 'J22'; 'J24'}}, ...
         'coordinates', coords.left, ...    % Path points
         'tangents', tangents.left, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.left(1,:), ...    % First point of path
+        'end_point', coords.left(end,:), ...    % Last point of path
+        'distance', norm(coords.left(end,:) - coords.left(1,:)));  % Manhattan path length
+
     paths('J22') = struct('connections', {{'SA02_1'; 'SA02_2'; 'J21'; 'J23'; 'MA02'; 'MA03'}}, ...
         'coordinates', coords.top, ...    % Path points
         'tangents', tangents.top, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.top(1,:), ...    % First point of path
+        'end_point', coords.top(end,:), ...    % Last point of path
+        'distance', norm(coords.top(end,:) - coords.top(1,:)));  % Manhattan path length
+
     paths('J23') = struct('connections', {{'MA03'; 'MA13';'SA02_2'; 'SA10_2'; 'J22'; 'J24'}}, ...
         'coordinates', coords.right, ...    % Path points
         'tangents', tangents.right, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.right(1,:), ...    % First point of path
+        'end_point', coords.right(end,:), ...    % Last point of path
+        'distance', norm(coords.right(end,:) - coords.right(1,:)));  % Manhattan path length
+
     paths('J24') = struct('connections', {{'SA10_1'; 'SA10_2'; 'J21'; 'J23'; 'MA14'; 'MA13'}}, ...
         'coordinates', coords.bottom, ...    % Path points
         'tangents', tangents.bottom, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.bottom(1,:), ...    % First point of path
+        'end_point', coords.bottom(end,:), ...    % Last point of path
+        'distance', norm(coords.bottom(end,:) - coords.bottom(1,:)));  % Manhattan path length
 
     [coords, tangents] = junction_path(Map_Start_Point + [(Sr+2*Dbs) -Mcw/2], 0, Msib, Mcw, Msih, tw, Chamber_Opacity, Path_Opacity);
     paths('J31') = struct('connections', {{'MA03'; 'MA13'; 'SA03_1'; 'SA09_1'; 'J32'; 'J34'}}, ...
         'coordinates', coords.left, ...    % Path points
         'tangents', tangents.left, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.left(1,:), ...    % First point of path
+        'end_point', coords.left(end,:), ...    % Last point of path
+        'distance', norm(coords.left(end,:) - coords.left(1,:)));  % Manhattan path length
+
     paths('J32') = struct('connections', {{'SA03_1'; 'SA03_2'; 'J31'; 'J33'; 'MA03'; 'MA04'}}, ...
         'coordinates', coords.top, ...    % Path points
         'tangents', tangents.top, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.top(1,:), ...    % First point of path
+        'end_point', coords.top(end,:), ...    % Last point of path
+        'distance', norm(coords.top(end,:) - coords.top(1,:)));  % Manhattan path length
+
     paths('J33') = struct('connections', {{'MA04'; 'MA12';'SA03_2'; 'SA09_2'; 'J32'; 'J34'}}, ...
         'coordinates', coords.right, ...    % Path points
         'tangents', tangents.right, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.right(1,:), ...    % First point of path
+        'end_point', coords.right(end,:), ...    % Last point of path
+        'distance', norm(coords.right(end,:) - coords.right(1,:)));  % Manhattan path length
+
     paths('J34') = struct('connections', {{'SA09_1'; 'SA09_2'; 'J31'; 'J33'; 'MA13'; 'MA12'}}, ...
         'coordinates', coords.bottom, ...    % Path points
         'tangents', tangents.bottom, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.bottom(1,:), ...    % First point of path
+        'end_point', coords.bottom(end,:), ...    % Last point of path
+        'distance', norm(coords.bottom(end,:) - coords.bottom(1,:)));  % Manhattan path length
+
 
     [coords, tangents] = junction_path(Map_Start_Point + [(Sr+2*Dbs+Dm) -Mcw/2], 0, Msib, Mcw, Msih, tw, Chamber_Opacity, Path_Opacity);
     paths('J41') = struct('connections', {{'MA04'; 'MA12'; 'PA01_1'; 'J42'; 'J44'}}, ...
         'coordinates', coords.left, ...    % Path points
         'tangents', tangents.left, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.left(1,:), ...    % First point of path
+        'end_point', coords.left(end,:), ...    % Last point of path
+        'distance', norm(coords.left(end,:) - coords.left(1,:)));  % Manhattan path length
+
     paths('J42') = struct('connections', {{'J31'; 'J33'; 'MA04'; 'MA05'}}, ...
         'coordinates', coords.top, ...    % Path points
         'tangents', tangents.top, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.top(1,:), ...    % First point of path
+        'end_point', coords.top(end,:), ...    % Last point of path
+        'distance', norm(coords.top(end,:) - coords.top(1,:)));  % Manhattan path length
+
     paths('J43') = struct('connections', {{'MA04'; 'MA12'; 'PA01_2'; 'J42'; 'J44'}}, ...
         'coordinates', coords.right, ...    % Path points
         'tangents', tangents.right, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.right(1,:), ...    % First point of path
+        'end_point', coords.right(end,:), ...    % Last point of path
+        'distance', norm(coords.right(end,:) - coords.right(1,:)));  % Manhattan path length
+
     paths('J44') = struct('connections', {{'PA01_1'; 'PA01_2'; 'J41'; 'J43'; 'MA12'; 'MA11'}}, ...
         'coordinates', coords.bottom, ...    % Path points
         'tangents', tangents.bottom, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.bottom(1,:), ...    % First point of path
+        'end_point', coords.bottom(end,:), ...    % Last point of path
+        'distance', norm(coords.bottom(end,:) - coords.bottom(1,:)));  % Manhattan path length
 
     [coords, tangents] = junction_path(Map_Start_Point + [(Sr+2*Dbs+2*Dm) -Mcw/2], 0, Msib, Mcw, Msih, tw, Chamber_Opacity, Path_Opacity);
     paths('J51') = struct('connections', {{'MA05'; 'MA11'; 'SA04_1'; 'SA08_1'; 'J52'; 'J54'}}, ...
         'coordinates', coords.left, ...    % Path points
         'tangents', tangents.left, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.left(1,:), ...    % First point of path
+        'end_point', coords.left(end,:), ...    % Last point of path
+        'distance', norm(coords.left(end,:) - coords.left(1,:)));  % Manhattan path length
+
     paths('J52') = struct('connections', {{'SA04_1'; 'SA04_2'; 'J51'; 'J53'; 'MA05'; 'MA06'}}, ...
         'coordinates', coords.top, ...    % Path points
         'tangents', tangents.top, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.top(1,:), ...    % First point of path
+        'end_point', coords.top(end,:), ...    % Last point of path
+        'distance', norm(coords.top(end,:) - coords.top(1,:)));  % Manhattan path length
+
     paths('J53') = struct('connections', {{'MA06'; 'MA10'; 'SA04_2'; 'SA08_2'; 'J52'; 'J54'}}, ...
         'coordinates', coords.right, ...    % Path points
         'tangents', tangents.right, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.right(1,:), ...    % First point of path
+        'end_point', coords.right(end,:), ...    % Last point of path
+        'distance', norm(coords.right(end,:) - coords.right(1,:)));  % Manhattan path length
+    
     paths('J54') = struct('connections', {{'SA08_1'; 'SA08_2'; 'J51'; 'J53'; 'MA11'; 'MA10'}}, ...
         'coordinates', coords.bottom, ...    % Path points
         'tangents', tangents.bottom, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.bottom(1,:), ...    % First point of path
+        'end_point', coords.bottom(end,:), ...    % Last point of path
+        'distance', norm(coords.bottom(end,:) - coords.bottom(1,:)));  % Manhattan path length
 
     [coords, tangents] = junction_path(Map_Start_Point + [(Sr+3*Dbs+2*Dm) -Mcw/2], 0, Msib, Mcw, Msih, tw, Chamber_Opacity, Path_Opacity);
     paths('J61') = struct('connections', {{'MA06'; 'MA10'; 'SA07_1'; 'J62'; 'J64'}}, ...
         'coordinates', coords.left, ...    % Path points
         'tangents', tangents.left, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.left(1,:), ...    % First point of path
+        'end_point', coords.left(end,:), ...    % Last point of path
+        'distance', norm(coords.left(end,:) - coords.left(1,:)));  % Manhattan path length
+
     paths('J62') = struct('connections', {{'J61'; 'J63'; 'MA06'; 'MA07'}}, ...
         'coordinates', coords.top, ...    % Path points
         'tangents', tangents.top, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.top(1,:), ...    % First point of path
+        'end_point', coords.top(end,:), ...    % Last point of path
+        'distance', norm(coords.top(end,:) - coords.top(1,:)));  % Manhattan path length
+
     paths('J63') = struct('connections', {{'MA07'; 'MA09'; 'SA07_2'; 'J62'; 'J64'}}, ...
         'coordinates', coords.right, ...    % Path points
         'tangents', tangents.right, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.right(1,:), ...    % First point of path
+        'end_point', coords.right(end,:), ...    % Last point of path
+        'distance', norm(coords.right(end,:) - coords.right(1,:)));  % Manhattan path length
+
     paths('J64') = struct('connections', {{'SA07_1'; 'SA07_2'; 'J61'; 'J63'; 'MA10'; 'MA09'}}, ...
         'coordinates', coords.bottom, ...    % Path points
         'tangents', tangents.bottom, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.bottom(1,:), ...    % First point of path
+        'end_point', coords.bottom(end,:), ...    % Last point of path
+        'distance', norm(coords.bottom(end,:) - coords.bottom(1,:)));  % Manhattan path length
 
     [coords, tangents] = junction_path(Map_Start_Point + [(Sr+4*Dbs+2*Dm) -Mcw/2], 0, Msib, Mcw, Msih, tw, Chamber_Opacity, Path_Opacity);
     paths('J71') = struct('connections', {{'MA07'; 'MA09'; 'SA05_1'; 'J72'; 'J74'}}, ...
         'coordinates', coords.left, ...    % Path points
         'tangents', tangents.left, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.left(1,:), ...    % First point of path
+        'end_point', coords.left(end,:), ...    % Last point of path
+        'distance', norm(coords.left(end,:) - coords.left(1,:)));  % Manhattan path length
+
     paths('J72') = struct('connections', {{'J71'; 'J73'; 'MA07'; 'MA08'}}, ...
         'coordinates', coords.top, ...    % Path points
         'tangents', tangents.top, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.top(1,:), ...    % First point of path
+        'end_point', coords.top(end,:), ...    % Last point of path
+        'distance', norm(coords.top(end,:) - coords.top(1,:)));  % Manhattan path length
+
     paths('J73') = struct('connections', {{'MA08'; 'SA06_2';'SA06_2'; 'J72'; 'J74'}}, ...
         'coordinates', coords.right, ...    % Path points
         'tangents', tangents.right, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.right(1,:), ...    % First point of path
+        'end_point', coords.right(end,:), ...    % Last point of path
+        'distance', norm(coords.right(end,:) - coords.right(1,:)));  % Manhattan path length
+
     paths('J74') = struct('connections', {{'SA06_1'; 'SA06_2'; 'J71'; 'J73'; 'MA08'; 'MA09'}}, ...
         'coordinates', coords.bottom, ...    % Path points
         'tangents', tangents.bottom, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords.bottom(1,:), ...    % First point of path
+        'end_point', coords.bottom(end,:), ...    % Last point of path
+        'distance', norm(coords.bottom(end,:) - coords.bottom(1,:)));  % Manhattan path length
 
     % Create the left most rail
     [coords, tangents] = create_main_path(Map_Start_Point - [0 Mcw/2], 0, Sr, Msib, Msih, tw, Chamber_Opacity, Path_Opacity);
@@ -390,7 +556,10 @@ function fig = create_3D_lunar_base()
     paths('MA01') = struct('connections', {{'SA01_1'; 'SA11_1'; 'J12'; 'J14'; 'J11'}}, ...
         'coordinates', coords, ...    % Path points
         'tangents', tangents, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords(1,:), ...    % First point of path
+        'end_point', coords(end,:), ...    % Last point of path
+        'distance', 0.1*size(coords,1));  % Manhattan path length
 
     % Apply properties to all mesh objects
     meshes_structure = [h1; h2];
@@ -416,7 +585,10 @@ function fig = create_3D_lunar_base()
     paths('MA08') = struct('connections', {{'SA05_2'; 'SA06_2'; 'J72'; 'J74'; 'J13'}}, ...
         'coordinates', coords, ...    % Path points
         'tangents', tangents, ...       % Unit vectors for orientation
-        'headings', [n,1]);          % Angles in radians
+        'headings', [n,1],...          % Angles in radians
+        'start_point', coords(1,:), ...    % First point of path
+        'end_point', coords(end,:), ...    % Last point of path
+        'distance', 0.1*size(coords,1));  % Manhattan path length
 
     % Apply properties to all mesh objects
     meshes_structure = [meshes_structure; h3; h4];
