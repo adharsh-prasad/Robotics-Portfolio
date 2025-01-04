@@ -91,12 +91,12 @@ function [fig,paths] = create_3D_lunar_base()
                         'SA03_1', 'MA03', 'J31', 'J32', 'SA03_2', 'MA04', 'J32', 'J33';...
                         'SA04_1', 'MA05', 'J51', 'J52', 'SA04_2', 'MA06', 'J52', 'J53';...
                         'SA05_1', 'MA07', 'J71', 'J72', 'SA05_2', 'MA08', 'J72', 'J73';...
-                        'SA06_1', 'MA09', 'J74', 'J73', 'SA06_2', 'MA08', 'J74', 'J71';...
-                        'SA07_1', 'MA10', 'J64', 'J63', 'SA07_2', 'MA09', 'J64', 'J61';...
-                        'SA08_1', 'MA11', 'J54', 'J53', 'SA08_2', 'MA10', 'J54', 'J51';...
-                        'SA09_1', 'MA13', 'J34', 'J33', 'SA09_2', 'MA12', 'J34', 'J31';...
-                        'SA10_1', 'MA14', 'J24', 'J23', 'SA10_2', 'MA13', 'J24', 'J21';...
-                        'SA11_1', 'MA01', 'J14', 'J13', 'SA11_2', 'MA14', 'J14', 'J11'];
+                        'SA06_1', 'MA09', 'J74', 'J71', 'SA06_2', 'MA08', 'J74', 'J73';...
+                        'SA07_1', 'MA10', 'J64', 'J61', 'SA07_2', 'MA09', 'J64', 'J63';...
+                        'SA08_1', 'MA11', 'J54', 'J51', 'SA08_2', 'MA10', 'J54', 'J53';...
+                        'SA09_1', 'MA13', 'J34', 'J31', 'SA09_2', 'MA12', 'J34', 'J33';...
+                        'SA10_1', 'MA14', 'J24', 'J21', 'SA10_2', 'MA13', 'J24', 'J23';...
+                        'SA11_1', 'MA01', 'J14', 'J11', 'SA11_2', 'MA14', 'J14', 'J13'];
     n = 1;
     for i = 1:size(Superadobe_centers, 1)
         [coords, tangents, arc_length] = create_dome(Superadobe_centers(i,1), Superadobe_centers(i,2), Sr, Msib, Msih, tw, y_axis, Chamber_Opacity, Path_Opacity);
@@ -251,7 +251,7 @@ function [fig,paths] = create_3D_lunar_base()
         'distance', norm(coords.bottom(end,:) - coords.bottom(1,:)));  % Manhattan path length
 
     [coords, tangents] = create_main_path(Map_Start_Point + [(Sr+Msib+2*Dbs+Dm) -Mcw/2], 0, Dm-Msib, Msib, Msih, tw, Chamber_Opacity, Path_Opacity);
-    paths('MA05') = struct('connections', {{'SA04_2'; 'J42'; 'J43'; 'J51'; 'J52'}}, ...
+    paths('MA05') = struct('connections', {{'SA04_1'; 'J42'; 'J43'; 'J51'; 'J52'}}, ...
         'coordinates', coords.top, ...    % Path points
         'tangents', tangents.top, ...       % Unit vectors for orientation
         'headings', [n,1],...          % Angles in radians
@@ -268,7 +268,7 @@ function [fig,paths] = create_3D_lunar_base()
         'distance', norm(coords.bottom(end,:) - coords.bottom(1,:)));  % Manhattan path length
 
     [coords, tangents] = create_main_path(Map_Start_Point + [(Sr+Msib+2*Dbs+2*Dm) -Mcw/2], 0, Dbs-Msib, Msib, Msih, tw, Chamber_Opacity, Path_Opacity);
-    paths('MA06') = struct('connections', {{'SA05_2'; 'J52'; 'J53'; 'SA06_2'; 'J61'; 'J62'}}, ...
+    paths('MA06') = struct('connections', {{'SA04_2'; 'J52'; 'J53'; 'J61'; 'J62'}}, ...
         'coordinates', coords.top, ...    % Path points
         'tangents', tangents.top, ...       % Unit vectors for orientation
         'headings', [n,1],...          % Angles in radians
@@ -277,7 +277,7 @@ function [fig,paths] = create_3D_lunar_base()
         'distance', norm(coords.top(end,:) - coords.top(1,:)));  % Manhattan path length
 
 
-    paths('MA10') = struct('connections', {{'SA08_2'; 'J44'; 'J43'; 'SA07_1'; 'J51'; 'J54'}}, ...
+    paths('MA10') = struct('connections', {{'SA08_2'; 'J54'; 'J53'; 'SA07_1'; 'J61'; 'J64'}}, ...
         'coordinates', coords.bottom, ...    % Path points
         'tangents', tangents.bottom, ...       % Unit vectors for orientation
         'headings', [n,1],...          % Angles in radians
@@ -294,7 +294,7 @@ function [fig,paths] = create_3D_lunar_base()
         'end_point', coords.top(end,:), ...    % Last point of path
         'distance', norm(coords.top(end,:) - coords.top(1,:)));  % Manhattan path length
 
-    paths('MA09') = struct('connections', {{'SA07_1'; 'J64'; 'J63'; 'SA06_1'; 'J71'; 'J74'}}, ...
+    paths('MA09') = struct('connections', {{'SA07_2'; 'J64'; 'J63'; 'SA06_1'; 'J71'; 'J74'}}, ...
         'coordinates', coords.bottom, ...    % Path points
         'tangents', tangents.bottom, ...       % Unit vectors for orientation
         'headings', [n,1],...          % Angles in radians
@@ -412,7 +412,7 @@ function [fig,paths] = create_3D_lunar_base()
         'end_point', coords.left(end,:), ...    % Last point of path
         'distance', norm(coords.left(end,:) - coords.left(1,:)));  % Manhattan path length
 
-    paths('J42') = struct('connections', {{'J31'; 'J33'; 'MA04'; 'MA05'}}, ...
+    paths('J42') = struct('connections', {{'MA04'; 'MA05'}}, ...
         'coordinates', coords.top, ...    % Path points
         'tangents', tangents.top, ...       % Unit vectors for orientation
         'headings', [n,1],...          % Angles in radians
@@ -420,7 +420,7 @@ function [fig,paths] = create_3D_lunar_base()
         'end_point', coords.top(end,:), ...    % Last point of path
         'distance', norm(coords.top(end,:) - coords.top(1,:)));  % Manhattan path length
 
-    paths('J43') = struct('connections', {{'MA04'; 'MA12'; 'PA01_2'; 'J42'; 'J44'}}, ...
+    paths('J43') = struct('connections', {{'MA05'; 'MA11'; 'PA01_2'; 'J42'; 'J44'}}, ...
         'coordinates', coords.right, ...    % Path points
         'tangents', tangents.right, ...       % Unit vectors for orientation
         'headings', [n,1],...          % Angles in radians
@@ -503,7 +503,7 @@ function [fig,paths] = create_3D_lunar_base()
         'distance', norm(coords.bottom(end,:) - coords.bottom(1,:)));  % Manhattan path length
 
     [coords, tangents] = junction_path(Map_Start_Point + [(Sr+4*Dbs+2*Dm) -Mcw/2], 0, Msib, Mcw, Msih, tw, Chamber_Opacity, Path_Opacity);
-    paths('J71') = struct('connections', {{'MA07'; 'MA09'; 'SA05_1'; 'J72'; 'J74'}}, ...
+    paths('J71') = struct('connections', {{'MA07'; 'MA09'; 'SA05_1'; 'SA06_1'; 'J72'; 'J74'}}, ...
         'coordinates', coords.left, ...    % Path points
         'tangents', tangents.left, ...       % Unit vectors for orientation
         'headings', [n,1],...          % Angles in radians
@@ -511,7 +511,7 @@ function [fig,paths] = create_3D_lunar_base()
         'end_point', coords.left(end,:), ...    % Last point of path
         'distance', norm(coords.left(end,:) - coords.left(1,:)));  % Manhattan path length
 
-    paths('J72') = struct('connections', {{'J71'; 'J73'; 'MA07'; 'MA08'}}, ...
+    paths('J72') = struct('connections', {{'J71'; 'J73'; 'SA05_1'; 'SA05_2'; 'MA07'; 'MA08'}}, ...
         'coordinates', coords.top, ...    % Path points
         'tangents', tangents.top, ...       % Unit vectors for orientation
         'headings', [n,1],...          % Angles in radians
@@ -519,7 +519,7 @@ function [fig,paths] = create_3D_lunar_base()
         'end_point', coords.top(end,:), ...    % Last point of path
         'distance', norm(coords.top(end,:) - coords.top(1,:)));  % Manhattan path length
 
-    paths('J73') = struct('connections', {{'MA08'; 'SA06_2';'SA06_2'; 'J72'; 'J74'}}, ...
+    paths('J73') = struct('connections', {{'MA08'; 'SA05_2';'SA06_2'; 'J72'; 'J74'}}, ...
         'coordinates', coords.right, ...    % Path points
         'tangents', tangents.right, ...       % Unit vectors for orientation
         'headings', [n,1],...          % Angles in radians
@@ -579,10 +579,10 @@ function [fig,paths] = create_3D_lunar_base()
     temp_coord = y+tw/2:0.1: y+Mcw-tw/2;
     temp_tangent = repmat([0, 1, 0], length(temp_coord), 1);
 
-    temp = [ones(size(temp_coord))'*(x+tw/2) temp_coord(end:-1:1,:)' ones(size(temp_coord))'*(z + Msih-0.1)];
+    temp = [ones(size(temp_coord))'*(x+tw/2) temp_coord(:,end:-1:1)' ones(size(temp_coord))'*(z + Msih-0.1)];
     coords = [coords.top; temp; coords.bottom(end:-1:1,:)];
     tangents = [tangents.top; temp_tangent; tangents.bottom(end:-1:1,:)];
-    paths('MA08') = struct('connections', {{'SA05_2'; 'SA06_2'; 'J72'; 'J74'; 'J13'}}, ...
+    paths('MA08') = struct('connections', {{'SA05_2'; 'SA06_2'; 'J72'; 'J74'; 'J73'}}, ...
         'coordinates', coords, ...    % Path points
         'tangents', tangents, ...       % Unit vectors for orientation
         'headings', [n,1],...          % Angles in radians

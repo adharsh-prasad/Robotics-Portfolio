@@ -1,5 +1,7 @@
-function final_path = Constrained_Rail_Astar_Array(paths, start_node, end_node, node_list, node_to_idx)
+function final_path = Constrained_Rail_Astar_Array(paths, start_node, end_node)
     % Initialize arrays
+    node_list = keys(paths);
+    node_to_idx = containers.Map(node_list, 1:length(node_list));
     n_nodes = length(node_list);
     g_score = inf(n_nodes, 1);
     f_score = inf(n_nodes, 1);
@@ -11,8 +13,7 @@ function final_path = Constrained_Rail_Astar_Array(paths, start_node, end_node, 
     
     % Initialize start node
     g_score(start_idx) = 0;
-    f_score(start_idx) = manhattan_distance(paths(start_node).coordinates(end,:), ...
-                                          paths(end_node).coordinates(1,:));
+    f_score(start_idx) = manhattan_distance(paths(start_node).end_point, paths(end_node).start_point);
     
     open_set = start_idx;
     
@@ -35,15 +36,14 @@ function final_path = Constrained_Rail_Astar_Array(paths, start_node, end_node, 
             neighbor_str = paths(current_node).connections{i};
             neighbor = node_to_idx(neighbor_str);
             
-            tentative_g_score = g_score(current) + ...
-                size(paths(current_node).coordinates, 1) * 0.25;
+            tentative_g_score = g_score(current) + paths(current_node).distance;
             
             if tentative_g_score < g_score(neighbor)
                 came_from(neighbor) = current;
                 g_score(neighbor) = tentative_g_score;
                 f_score(neighbor) = tentative_g_score + manhattan_distance(...
-                    paths(node_list{neighbor}).coordinates(end,:), ...
-                    paths(end_node).coordinates(1,:));
+                    paths(node_list{neighbor}).end_point, ...
+                    paths(end_node).start_point);
                 
                 if ~ismember(neighbor, open_set)
                     open_set = [open_set; neighbor];
@@ -77,11 +77,11 @@ end
 
 function path = reconstruct_numeric_path(came_from, current, node_list)
     % Initialize path with end node
-    path = {node_list{current}};
+    path = node_list(current);
     
     % Trace back through parents until reaching start node (where came_from is 0)
     while came_from(current) ~= 0
         current = came_from(current);
-        path = [{node_list{current}}, path];
+        path = [node_list(current), path];
     end
 end
