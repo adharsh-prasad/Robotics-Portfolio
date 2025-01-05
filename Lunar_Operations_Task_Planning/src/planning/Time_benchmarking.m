@@ -35,4 +35,4 @@ end
 total_time = toc;
 
 % Calculate average time per path
-avg_time = total_time/m
+avg_time = total_time/m;
