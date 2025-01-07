@@ -1,5 +1,5 @@
 % addpath('C:\Users\ADHARSH\Desktop\Job_Search\Github\Robotics-Portfolio\Lunar_Operations_Task_Planning\src\environment\map_generation')
-% [fig,paths] = create_3D_lunar_base();
+[fig,paths] = create_3D_lunar_base();
 
 path_keys = keys(paths);
 for i = 1:length(path_keys)
