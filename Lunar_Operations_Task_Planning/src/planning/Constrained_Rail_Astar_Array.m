@@ -39,6 +39,7 @@ function final_path = Constrained_Rail_Astar_Array(paths, start_node, end_node)
             tentative_g_score = g_score(current) + paths(current_node).distance;
             
             if tentative_g_score < g_score(neighbor)
+                disp(neighbor)
                 came_from(neighbor) = current;
                 g_score(neighbor) = tentative_g_score;
                 f_score(neighbor) = tentative_g_score + manhattan_distance(...
