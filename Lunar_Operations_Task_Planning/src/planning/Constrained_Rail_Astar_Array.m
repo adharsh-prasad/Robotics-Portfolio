@@ -63,17 +63,6 @@ function dist = manhattan_distance(point1, point2)
     dist = abs(point1(1) - point2(1)) + abs(point1(2) - point2(2));
 end
 
-function current = get_lowest_fscore(open_set, f_score)
-    min_score = inf;
-    current = '';
-    for i = 1:length(open_set)
-        node = open_set{i};
-        if f_score(node) < min_score
-            min_score = f_score(node);
-            current = node;
-        end
-    end
-end
 
 function path = reconstruct_numeric_path(came_from, current, node_list)
     % Initialize path with end node
