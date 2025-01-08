@@ -1,4 +1,4 @@
-function final_path = Constrained_Rail_Astar_Array(paths, start_node, end_node)
+function final_path = Constrained_Rail_Astar_PriotiyQueue(paths, start_node, end_node)
     % Initialize arrays
     node_list = keys(paths);
     node_to_idx = containers.Map(node_list, 1:length(node_list));
@@ -15,23 +15,31 @@ function final_path = Constrained_Rail_Astar_Array(paths, start_node, end_node)
     g_score(start_idx) = 0;
     f_score(start_idx) = manhattan_distance(paths(start_node).end_point, paths(end_node).start_point);
     
-    open_set = start_idx;
+    % Create priority queue and add start node
+    open_set = PriorityQueue();
+    open_set.insert(start_idx, f_score(start_idx));
     
-    while ~isempty(open_set)
-        % Find node with minimum f_score in open_set
-        [~, min_idx] = min(f_score(open_set));
-        current = open_set(min_idx);
+    % Keep track of nodes in open set
+    in_open_set = false(n_nodes, 1);
+    in_open_set(start_idx) = true;
+
+    end_coords = paths(end_node).start_point;
+    
+    while ~open_set.isempty()
+        % Get node with minimum f_score
+        [current, ~] = open_set.pop();
+        in_open_set(current) = false;
         
-        if current == end_idx
+        % Process neighbors
+        current_node = node_list{current};
+        
+        % Check if current node's end point is close to target
+        if (norm(paths(current_node).end_point - end_coords) < 0.5) || norm(paths(current_node).start_point - end_coords) < 0.5
             final_path = reconstruct_numeric_path(came_from, current, node_list);
             return;
         end
         
-        % Remove current node from open_set
-        open_set(min_idx) = [];
         
-        % Process neighbors
-        current_node = node_list{current};
         for i = 1:length(paths(current_node).connections)
             neighbor_str = paths(current_node).connections{i};
             neighbor = node_to_idx(neighbor_str);
@@ -39,15 +47,15 @@ function final_path = Constrained_Rail_Astar_Array(paths, start_node, end_node)
             tentative_g_score = g_score(current) + paths(current_node).distance;
             
             if tentative_g_score < g_score(neighbor)
-                disp(neighbor)
                 came_from(neighbor) = current;
                 g_score(neighbor) = tentative_g_score;
                 f_score(neighbor) = tentative_g_score + manhattan_distance(...
                     paths(node_list{neighbor}).end_point, ...
                     paths(end_node).start_point);
                 
-                if ~ismember(neighbor, open_set)
-                    open_set = [open_set; neighbor];
+                if ~in_open_set(neighbor)
+                    open_set.insert(neighbor, f_score(neighbor));
+                    in_open_set(neighbor) = true;
                 end
             end
         end
@@ -56,8 +64,6 @@ function final_path = Constrained_Rail_Astar_Array(paths, start_node, end_node)
     % If no path found
     final_path = {};
 end
-
-
 
 function dist = manhattan_distance(point1, point2)
     % Use Manhattan distance for grid-like rail system
