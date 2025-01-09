@@ -1,18 +1,19 @@
-# **Trajectory Tracking Control of an Anthropomorphic Robotic Arm**
+# **Path Planning Algorithms for Lunar Base Operations**
 
 <div align="center"> <img src="Plots/Robotic Arm Simulation.gif" width="350"/> <p align="center"> <em>3-DOF Robotic Arm Trajectory Tracking Simulation</em> </p> </div>
 
-This repository contains the code and documentation for the **Trajectory Tracking Control of an Anthropomorphic Robotic Arm** project. The project showcases the integration of control theory, specifically a Proportional-Derivative (PD) controller, to achieve accurate trajectory tracking for a robotic arm. The simulation visualizes the arm's performance in tracking complex trajectories under varying conditions.
+This project is part of a larger multi-robot coordination system for lunar base operations and warehouse management. The current focus is on developing and benchmarking efficient path planning algorithms for a segmented lunar base map. The main goals are:
+
+1. Implement and compare three different path planning algorithms
+2. Optimize performance for a segmented map structure
+3. Lay groundwork for future collision avoidance implementation
+
 
 ---
 
 ## **Motivation**
 
-During my graduate studies at Arizona State University, I sought to bridge the gap between abstract control theory and real-world applications. My undergraduate projects had given me a strong foundation in control theory, but I wanted to tackle challenges with tangible, practical relevance. To achieve this, I enrolled in the course Modeling and Control of Robots, which provided the ideal platform for applying control systems to robotics.
-
-I set out to develop a trajectory control system for a 3-DOF robotic arm—a task demanding precise kinematics, dynamic modeling, and control system design. While many peers stopped at basic kinematics, I designed a complete system, including forward and inverse kinematics, dynamics analysis, and a PD controller. The project culminated in real-time simulations, earning peer recognition and securing a position at the University of Arizona's Space Robotics Lab.
-
-This project not only honed my skills in control system design and robotics but also instilled my passion for solving complex, real-world problems and to the field of Robotics.
+Establishing and maintaining a lunar base involves numerous challenges, including navigation in constrained environments. Robots operating in such environments require efficient path planning algorithms to minimize energy consumption and computation time while ensuring precise navigation. This project addresses these needs by developing and benchmarking path planning approaches tailored to the lunar base's unique constraints.
 
 <div align="center"> <img src="Plots/Anthropomorphic Arm.png" width="200"/> <p align="center"> <em>Anthropomorphic arm configuration used for our analysis, with reasonable complex structure while omitting the end effector.</em> </p> </div>
 
@@ -22,21 +23,23 @@ This project not only honed my skills in control system design and robotics but 
 
 <div align="center"> <img src="Plots/Skeleton of the robotic arm.png" width="300"/> <p align="center"> <em> Detailed configuration of the arm with Co-ordinate axis for each joint of the arm</em> </p> </div>
 
-- **Custom Kinematics**:
-  - Forward kinematics using Denavit-Hartenberg (D-H) parameters.
-  - Geometrically solved inverse kinematics for accurate joint configuration.
+- **Path Planning**:
+   - Custom A* Algorithm: An optimized implementation of A* with heuristics adapted for the lunar environment and segmented map structure
+   - Built-in MATLAB A* Algorithm: Utilizing MATLAB's native A* implementation as a baseline
+   - Modified A* with Geometric Constraints: Enhanced version incorporating line-of-sight constraints for improved navigation in the lunar environment
 
-- **Trajectory Control**:
-  - Designed and implemented a PD controller for precise trajectory tracking.
-  - Tuned controller gains for zero steady-state error and minimal overshoot.
+- **3D Lunar Base Map Creation**:
+   - Generated using MATLAB to represent rail-based paths and modular super-adobe structures
+   - Includes binary occupancy maps derived from the 3D map
+   - Segmented map structure for improved computational efficiency
 
-- **Simulation and Visualization**:
-  - Comprehensive 3D simulation of trajectory tracking.
-  - Robust performance demonstrated with disturbance torque simulations.
+- **Benchmarking and Visualization**:
+   - Comparative analysis of execution times and path lengths
+   - Visualization of paths on binary occupancy map and 3D environment
+   - Rover simulation along generated paths
 
-- **Optimization**:
-  - Manual fine-tuning was performed for the PD controller gains.
-  - Further optimization using Particle Swarm Optimization (PSO) can be explored in the [PSO-PD Control Project](https://github.com/adharsh-prasad/Robotics-Portfolio/tree/main/PSO-PD-Control).
+- **Scalability**:
+  - Modular design allows integration with future collision avoidance and task scheduling algorithms
 
 ---
 
