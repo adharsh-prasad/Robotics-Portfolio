@@ -1,39 +1,37 @@
 function final_path = Custom_Rail_Astar(paths, start_node, end_node)
-    % Initialize arrays
-    current_node = start_node;
+    % Pre-compute end coordinates
     end_coords = paths(end_node).start_point;
-    final_path = start_node;
+    final_path = zeros(ceil(length(paths)/4), 1);  % Pre-allocate max possible size
+    path_idx = 1;
+    final_path(path_idx) = start_node;
+    current_node = start_node;
+    
     while true
         neighbours = paths(current_node).connections;
-        min_score = manhattan_distance(paths(neighbours(1)).mid_point, end_coords);
-        min_neighbor = neighbours(1);
-        for i = 2:length(neighbours)
-            temp_score = manhattan_distance(paths(neighbours(i)).mid_point, end_coords);
-            if temp_score<min_score
-                min_neighbor = neighbours(i);
-            end
+        n_neighbors = length(neighbours);
+        scores = zeros(n_neighbors, 1);  % Pre-allocate scores array
+        
+        % Vectorized distance calculation
+        for i = 1:n_neighbors
+            scores(i) = manhattan_distance(paths(neighbours(i)).mid_point, end_coords);
         end
-        current_node = min_neighbor;
-        final_path = [final_path;min_neighbor];
-        if ((norm(paths(current_node).end_point - end_coords) < 0.5) || norm(paths(current_node).start_point - end_coords) < 0.5)
+        
+        [~, min_idx] = min(scores);
+        current_node = neighbours(min_idx);
+        path_idx = path_idx + 1;
+        final_path(path_idx) = current_node;
+        
+        % Early termination check
+        if (min(norm(paths(current_node).end_point - end_coords), ...
+               norm(paths(current_node).start_point - end_coords)) < 0.5)
             break
         end
     end
+    final_path = final_path(1:path_idx);  % Trim excess allocation
 end
+
 
 function dist = manhattan_distance(point1, point2)
     % Use Manhattan distance for grid-like rail system
     dist = abs(point1(1) - point2(1)) + abs(point1(2) - point2(2));
-end
-
-
-function path = reconstruct_numeric_path(came_from, current, node_list)
-    % Initialize path with end node
-    path = node_list(current);
-    
-    % Trace back through parents until reaching start node (where came_from is 0)
-    while came_from(current) ~= 0
-        current = came_from(current);
-        path = [node_list(current), path];
-    end
 end

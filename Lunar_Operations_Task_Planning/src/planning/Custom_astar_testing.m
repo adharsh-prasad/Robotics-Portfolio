@@ -62,7 +62,7 @@ for i = 1:length(node_list)
 end
 
 start_node = 'SA01_1';
-end_node = 'J74';
+end_node = 'SA06_1';
 
 time = 0;
 for i = 1:1000
@@ -72,8 +72,9 @@ temp = toc;
 time = time + temp;
 end
 
-time/1000;
 final = '';
 for i = 1:length(path)
 disp(id_to_name(path(i)))
 end
+
+time/1000
