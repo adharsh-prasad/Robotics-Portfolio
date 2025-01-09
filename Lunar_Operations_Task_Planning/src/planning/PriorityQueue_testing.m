@@ -1,7 +1,7 @@
 addpath('C:\Users\ADHARSH\Desktop\Job_Search\Github\Robotics-Portfolio\Lunar_Operations_Task_Planning\src\environment\map_generation')
 
 % [fig, paths] = create_3D_lunar_base();
-% [fig, paths_branchless] = create_3D_lunar_base_branch_less();
+[fig, paths_branchless] = create_3D_lunar_base_branch_less();
 start_node = 'SA01_1';
 end_node = 'SA06_1';
 tic 

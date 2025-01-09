@@ -101,7 +101,7 @@ function [fig,paths] = create_3D_lunar_base_branch_less()
     for i = 1:size(Superadobe_centers, 1)
         [coords, tangents, arc_length] = create_dome(Superadobe_centers(i,1), Superadobe_centers(i,2), Sr, Msib, Msih, tw, y_axis, Chamber_Opacity, Path_Opacity);
 
-        paths(connecting_paths(i,1:6)) = struct('connections', {{connecting_paths(i,11:13); connecting_paths(i,14:16); connecting_paths(i,7:10); connecting_paths(i,17:22)}}, ...
+        paths(connecting_paths(i,1:6)) = struct('connections', {{connecting_paths(i,11:13); connecting_paths(i,14:16); connecting_paths(i,7:10)}}, ...
         'coordinates', coords.left, ...    % Path points
         'tangents', tangents.left, ...       % Unit vectors for orientation
         'headings', [n,1],...          % Angles in radians
@@ -109,7 +109,7 @@ function [fig,paths] = create_3D_lunar_base_branch_less()
         'end_point', coords.left(end,:), ...    % Last point of path
         'distance', arc_length/2);  % Manhattan path length
 
-        paths(connecting_paths(i,17:22)) = struct('connections', {{connecting_paths(i,27:29); connecting_paths(i,30:32); connecting_paths(i,23:26); connecting_paths(i,1:6)}}, ...
+        paths(connecting_paths(i,17:22)) = struct('connections', {{connecting_paths(i,27:29); connecting_paths(i,30:32); connecting_paths(i,23:26)}}, ...
         'coordinates', coords.right(end:-1:1,:), ...    % Path points
         'tangents', tangents.right(end:-1:1,:), ...       % Unit vectors for orientation
         'headings', [n,1],...          % Angles in radians
