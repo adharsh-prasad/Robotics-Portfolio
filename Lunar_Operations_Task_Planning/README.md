@@ -3,7 +3,7 @@
 This project is part of a larger multi-robot coordination system for lunar base operations and warehouse management. The current focus is on developing and benchmarking efficient path planning algorithms for a segmented lunar base map. The main goals are:
 
 1. Implement and compare three different path planning algorithms
-2. Optimize performance for a segmented map structure
+2. Propose segmented map data storage for realtime pat planning
 3. Lay groundwork for future collision avoidance implementation
 
 
@@ -11,7 +11,7 @@ This project is part of a larger multi-robot coordination system for lunar base 
 
 ## **Motivation**
 
-Establishing and maintaining a lunar base involves numerous challenges, including navigation in constrained environments. Robots operating in such environments require efficient path planning algorithms to minimize energy consumption and computation time while ensuring precise navigation. This project addresses these needs by developing and benchmarking path planning approaches tailored to the lunar base's unique constraints.
+Establishing and maintaining a lunar base involves numerous challenges, including navigation in constrained environments. Robots operating in such environments require efficient path planning algorithms to better Traffic Flow Optimization and ensure smooth coordination while maintaining precise navigation. This project addresses these needs by developing and benchmarking path planning approaches tailored to the lunar base's unique constraints.
 
 ---
 
@@ -97,13 +97,6 @@ paths = Dictionary() containing:
       - Leverages segment-based navigation (66 segments) vs. grid-based approach (2100 grids)
    - #### Pseudocode:
 ```
-function CustomAstar(paths, start_node, end_node):
-    // Pre-compute end coordinates
-    end_coords = paths[end_node].start_point
-    
-    // Initialize path array
-    final_path = zeros(ceil(length(paths)/4))
-    path_idx = 1
     final_path[path_idx] = start_node
     current_node = start_node
     
@@ -114,13 +107,10 @@ function CustomAstar(paths, start_node, end_node):
         
         // Calculate Manhattan distance scores using mid-points
         for each neighbor in neighbours:
-            scores[i] = manhattan_distance(
-                paths[neighbor].mid_point, 
-                end_coords
-            )
+            scores[i] = manhattan_distance(paths[neighbor].mid_point, end_coords)
         
         // Select best neighbor
-        current_node = neighbours[argmin(scores)]
+        current_node = neighbours[min(scores)]
         final_path[++path_idx] = current_node
         
         // Check termination condition
@@ -131,27 +121,21 @@ function CustomAstar(paths, start_node, end_node):
 ```
 
 - **Priority Queue Astar Implementation**:
-   - This version enhances the basic A* algorithm with a priority queue data structure for improved performance.
+   - This version uses the A* algorithm with a priority queue data structure for the segmented map.
    - #### Key Optimizations:
       - Uses mid-points instead of endpoints for heuristic calculations to reduce computational overhead
       - Implements Manhattan distance heuristic to match the grid-based movement constraints
       - Leverages segment-based navigation (66 segments) vs. grid-based approach (2100 grids)
    - #### Pseudocode:
 ```
-function PriorityQueueAstar(paths, start_node, end_node):
     // Initialize data structures
-    node_list = keys(paths)
     g_score = inf(n_nodes)
     f_score = inf(n_nodes)
     came_from = zeros(n_nodes)
     
     // Setup start node
-    start_idx = node_to_idx[start_node]
     g_score[start_idx] = 0
-    f_score[start_idx] = manhattan_distance(
-        paths[start_node].end_point,
-        paths[end_node].start_point
-    )
+    f_score[start_idx] = manhattan_distance(paths[start_node].end_point,paths[end_node].start_point)
     
     // Initialize priority queue
     open_set = PriorityQueue()
@@ -172,10 +156,7 @@ function PriorityQueueAstar(paths, start_node, end_node):
                 // Update path
                 came_from[neighbor] = current
                 g_score[neighbor] = tentative_g
-                f_score[neighbor] = tentative_g + manhattan_distance(
-                    paths[neighbor].mid_point,
-                    paths[end_node].start_point
-                )
+                f_score[neighbor] = tentative_g + manhattan_distance(paths[neighbor].mid_point, paths[end_node].start_point)
                 open_set.insert(neighbor, f_score[neighbor])
                 
     return null  // No path found
