@@ -1,7 +1,5 @@
 # **Path Planning Algorithms for Lunar Base Operations**
 
-<div align="center"> <img src="Plots/Robotic Arm Simulation.gif" width="350"/> <p align="center"> <em>3-DOF Robotic Arm Trajectory Tracking Simulation</em> </p> </div>
-
 This project is part of a larger multi-robot coordination system for lunar base operations and warehouse management. The current focus is on developing and benchmarking efficient path planning algorithms for a segmented lunar base map. The main goals are:
 
 1. Implement and compare three different path planning algorithms
@@ -15,13 +13,9 @@ This project is part of a larger multi-robot coordination system for lunar base 
 
 Establishing and maintaining a lunar base involves numerous challenges, including navigation in constrained environments. Robots operating in such environments require efficient path planning algorithms to minimize energy consumption and computation time while ensuring precise navigation. This project addresses these needs by developing and benchmarking path planning approaches tailored to the lunar base's unique constraints.
 
-<div align="center"> <img src="Plots/Anthropomorphic Arm.png" width="200"/> <p align="center"> <em>Anthropomorphic arm configuration used for our analysis, with reasonable complex structure while omitting the end effector.</em> </p> </div>
-
 ---
 
 ## **Features**
-
-<div align="center"> <img src="Plots/Skeleton of the robotic arm.png" width="300"/> <p align="center"> <em> Detailed configuration of the arm with Co-ordinate axis for each joint of the arm</em> </p> </div>
 
 - **Path Planning**:
    - Custom A* Algorithm: An optimized implementation of A* with heuristics adapted for the lunar environment and segmented map structure
@@ -46,158 +40,227 @@ Establishing and maintaining a lunar base involves numerous challenges, includin
 ## **Technical Approach**
 
 ### **Map Creation and Evolution**
-- **Initial Approach**: 
-  <div align="center">
-      <table>
-        <tr>
-          <th style="background-color: green; color: white;">Link</th>
-          <th style="background-color: green; color: white;">$r_i$ (m)</th>
-          <th style="background-color: green; color: white;">$\alpha_i$ (deg)</th>
-          <th style="background-color: green; color: white;">$d_i$ (m)</th>
-          <th style="background-color: green; color: white;">$\theta_i$ (deg)</th>
-        </tr>
-        <tr>
-          <td style="background-color: #fce8b2;">$1$</td>
-          <td style="background-color: #e6f4ea;">$0$</td>
-          <td style="background-color: #fbe4e6;">$\pi/2$</td>
-          <td style="background-color: #fbe4e6;">$a_1$</td>
-          <td style="background-color: #fbe4e6;">$\theta_1$</td>
-        </tr>
-        <tr>
-          <td style="background-color: #fce8b2;">$2$</td>
-          <td style="background-color: #e6f4ea;">$a_2$</td>
-          <td style="background-color: #fbe4e6;">$0$</td>
-          <td style="background-color: #fbe4e6;">$0$</td>
-          <td style="background-color: #fbe4e6;">$\theta_2$</td>
-        </tr>
-        <tr>
-          <td style="background-color: #fce8b2;">$2$</td>
-          <td style="background-color: #e6f4ea;">$a_2$</td>
-          <td style="background-color: #fbe4e6;">$0$</td>
-          <td style="background-color: #fbe4e6;">$0$</td>
-          <td style="background-color: #fbe4e6;">$\theta_3$</td>
-        </tr>
-      </table>
-    <p align="center"> <em> DH table for our chosen robotic arm configuration</em> </p>
-    </div>
+- **Initial Approach**:
+   - First iteration: Static 3D map created in SolidWorks and imported into MATLAB
+   - Used for preliminary testing and proof of concept
+   - Limitations included:
+      - Difficult to modify or expand
+      - Static nature restricted dynamic operations
+      - Limited flexibility for testing different configurations
+
+
+- **Current Implementation**:
+   - Fully programmatic 3D map generation in MATLAB
+   - Features modular and interconnected paths
+   - Key components:
+      - Super-adobe structures (SA) with rail-based paths
+      - Main pathways connecting different sections
+      - Junction points for path intersections
+      - User-configurable parameters for easy modification
+   Innovative Path Connection Strategy
+      - Implemented directional connections to optimize path planning:
+         - Super-adobe structures (SA) → Main paths (one-way connections)
+         - Main paths ↛ Super-adobe structures (no direct connection)
+         - Removal of redundant SA connections from MA and J nodes
+         - One-way connections from SA to MA/J nodes
+      - Benefits:
+         - Preservation of path completeness while reducing search space
+         - Prevents circular path dependencies
+         - Reduces computational complexity during path planning
+         - Optimizes search space for A* algorithm
+   Map Parameters
+      - Binary Occupancy Map:
+         - Paths represented as traversable areas (0s)
+         - Obstacles as non-traversable areas (1s)
+      - Dimensions: 30x70 units
+      - Robot step size: 0.1x0.1 unit
+      - Visualization using MATLAB's patch objects
+
+#### Map Data Structure:
+```matlab
+paths = Dictionary() containing:
+- connections: Adjacent path segments
+- coordinates: [n×3] array of path coordinates
+- tangents: [n×3] array of path tangent vectors
+- headings: Path direction indicators
+- start_point: [x, y, z] coordinates
+- end_point: [x, y, z] coordinates
+- distance: Path segment length
+```
+
+### **Path Planning Algorithm**
+- **Custom AStar Implementation**:
+   - Our custom A* algorithm is optimized for the lunar base's segmented path structure, utilizing several key optimizations:
+   - #### Key Optimizations:
+      - Uses mid-points instead of endpoints for heuristic calculations to reduce computational overhead
+      - Implements Manhattan distance heuristic to match the grid-based movement constraints
+      - Leverages segment-based navigation (66 segments) vs. grid-based approach (2100 grids)
+   - #### Pseudocode:
+```
+function CustomAstar(paths, start_node, end_node):
+    // Pre-compute end coordinates
+    end_coords = paths[end_node].start_point
     
-The transformation matrix from joint(i-1) to joint(i) is defined as:
+    // Initialize path array
+    final_path = zeros(ceil(length(paths)/4))
+    path_idx = 1
+    final_path[path_idx] = start_node
+    current_node = start_node
+    
+    while true:
+        // Get neighboring segments
+        neighbours = paths[current_node].connections
+        scores = zeros(length(neighbours))
+        
+        // Calculate Manhattan distance scores using mid-points
+        for each neighbor in neighbours:
+            scores[i] = manhattan_distance(
+                paths[neighbor].mid_point, 
+                end_coords
+            )
+        
+        // Select best neighbor
+        current_node = neighbours[argmin(scores)]
+        final_path[++path_idx] = current_node
+        
+        // Check termination condition
+        if distance_to_goal < threshold:
+            break
+            
+    return final_path[1:path_idx]
+```
 
-$$
-A_{i-1}^i =
-\begin{bmatrix}
-cos(\theta_i) & -sin(\theta_i)cos(\alpha_{i-1}) & sin(\theta_i)sin(\alpha_{i-1}) & a_{i-1}cos(\theta_i)\\
-sin(\theta_i) & cos(\theta_i)cos(\alpha_{i-1}) & -cos(\theta_i)sin(\alpha_{i-1}) & a_{i-1}sin(\theta_i)\\
-0 & sin(\alpha_{i-1}) & cos(\alpha_{i-1}) & d_i\\
-0 & 0 & 0 & 1
-\end{bmatrix}
-$$
+- **Priority Queue Astar Implementation**:
+   - This version enhances the basic A* algorithm with a priority queue data structure for improved performance.
+   - #### Key Optimizations:
+      - Uses mid-points instead of endpoints for heuristic calculations to reduce computational overhead
+      - Implements Manhattan distance heuristic to match the grid-based movement constraints
+      - Leverages segment-based navigation (66 segments) vs. grid-based approach (2100 grids)
+   - #### Pseudocode:
+```
+function PriorityQueueAstar(paths, start_node, end_node):
+    // Initialize data structures
+    node_list = keys(paths)
+    g_score = inf(n_nodes)
+    f_score = inf(n_nodes)
+    came_from = zeros(n_nodes)
+    
+    // Setup start node
+    start_idx = node_to_idx[start_node]
+    g_score[start_idx] = 0
+    f_score[start_idx] = manhattan_distance(
+        paths[start_node].end_point,
+        paths[end_node].start_point
+    )
+    
+    // Initialize priority queue
+    open_set = PriorityQueue()
+    open_set.insert(start_idx, f_score[start_idx])
+    
+    while !open_set.empty():
+        current = open_set.pop()
+        
+        // Check goal condition
+        if distance_to_goal < threshold:
+            return reconstruct_path(came_from, current)
+            
+        // Process neighbors
+        for neighbor in paths[current].connections:
+            tentative_g = g_score[current] + paths[current].distance
+            
+            if tentative_g < g_score[neighbor]:
+                // Update path
+                came_from[neighbor] = current
+                g_score[neighbor] = tentative_g
+                f_score[neighbor] = tentative_g + manhattan_distance(
+                    paths[neighbor].mid_point,
+                    paths[end_node].start_point
+                )
+                open_set.insert(neighbor, f_score[neighbor])
+                
+    return null  // No path found
+```
+- **Built-in MATLAB Astar**:
+   - Utilizes MATLAB's Navigation Toolbox for baseline comparison, operating on a full grid representation rather than segments.
+   
+- **Key Implementation Notes:**:
+   - Manhattan Distance Choice
+      - Selected due to lunar base's orthogonal path structure
+      - Perfectly matches vertical and horizontal movement constraints
+      - Reduces computational complexity compared to Euclidean distance
+   - Mid-point Optimization
+      - Using mid-points instead of endpoints for heuristic calculations
+      - Reduces computational overhead without significant impact on path quality
+      - Particularly effective in segment-based approach
+   - Segment-based Navigation
+      - Reduces decision space from 2100 grids to 66 segments
+      - Each segment contains pre-computed connectivity information
+      - Significantly improves computational efficiency
+---
 
-$$ T_{3}^0 = A_{0}^1 * A_{1}^2 * A_{2}^3$$ 
+### **Rover Simulation**
 
-Upon substituting the corresponding values of the a_i 's, alpha_i's, d_i's, and theta_i's. We get position of the end effector as
+**Implementation Details**
+- Rover modeled as a cuboid with dimensions:
+  - Length: 0.5m
+  - Width: 0.4m
+  - Height: 0.2m
+- Visualization using MATLAB's patch objects for 3D rendering
 
-$$
-P_{3}^0 =
-\begin{bmatrix}
-cos(\theta_1)(a_2cos(\theta_2) + a_3cos(\theta_2+\theta_3))\\
-sin(\theta_1)(a_2cos(\theta_2) + a_3cos(\theta_2+\theta_3))\\
-a_1 + a_2sin(\theta_2) + a_3sin(\theta_2+\theta_3))
-\end{bmatrix}
-$$
+**Path Following Mechanics**
+- Utilizes pre-computed tangent vectors stored in path data structure
+- Smooth transitions achieved through:
+  - Direct use of pre-computed path tangents for orientation
+  - Automatic rotation calculation based on path direction
+  - Position updates synchronized with orientation changes
 
-- **Inverse Kinematics**:
-  The inverse kinematics were derived geometrically, solving for joint angles based on the desired end-effector position. Finding the inverse kinematics is quite challenging and often does not have a unique solution. For the chosen configuration, solving the algebraic equations can be complex and is not recommended. The geometric method is more intuitive and easier to solve. The diagrams below help to find the joint angles for a specific end-effector point in the 3D plane.
+**Key Features**
+- Real-time visualization of rover movement along planned path
+- Smooth transitions between path segments due to pre-computed tangent data
+- Accurate representation of rover orientation using rotation matrices
 
-  <div align="center"> <img src="Plots/Joint_1_Inverse.png" width="500"/> <p align="center"> <em> Diagram showing how to find the joint angle joint1 </em> </p> </div>
-
-  <div align="center"> <img src="Plots/Joint_23_Inverse.png" width="500"/> <p align="center"> <em> Diagram showing how to find the joint angle joint2 and joint3 </em> </p> </div>
-
-### **Control System**
-The PD controller ensures smooth and accurate trajectory tracking:
-- **Proportional-Derivative Control**:
-  A PD controller was designed to track the desired trajectory with high precision. The control law minimizes the error between desired and actual positions while ensuring stability.
-  The controller gains were manually tuned by varying kp and kd for all three joints. Although the resulting errors were relatively high, further trial and error could have reduced them. However, since this project focused on the dynamics and control of the robot, it served its purpose. In another project using the same robotic arm, I implemented PSO optimization to achieve an RMSE error as low as 0.004. If you're interested in exploring that project, please visit my [PSO-PD Control Project](https://github.com/adharsh-prasad/Robotics-Portfolio/tree/main/PSO-PD-Control).
-
-
-- **Performance Testing**:
-  Simulation results were validated using MATLAB. The plots under the "Simulation and Results" section below shows the joint angles and velocities over time, highlighting the controller's performance.
-
-### **Dynamic Model**
-The robotic arm's dynamics are represented as:
-
-$$
-M(q)\ddot{q} + V(q, \dot{q}) + G(q) = \tau
-$$
-
-Where:
-
-$$ M(q): \quad \text{Inertia matrix,} $$
-$$ V(q, \dot{q})\: \quad \text{Coriolis and centripetal forces,} $$
-$$ G(q)\: \quad \text{Gravitational force,} $$
-$$ \tau\: \quad \text{Control torque.} $$
-
-This equation forms the basis of the PD control law:
-
-$$
-\tau = M(q)(\ddot{q}_d - K_p e - K_d \dot{e}) + V(q, \dot{q}) + G(q)
-$$
+**Implementation Benefits**
+- Pre-computed tangent vectors eliminate need for runtime angle calculations
+- Results in exceptionally smooth movement and natural-looking transitions
+- Reduces computational overhead during simulation
+- Enables realistic visualization of rover behavior on lunar base paths
 
 ---
 
-## **Simulation and Results**
 
-### **Trajectory Tracking**
+### **Benchmarking and Results**
 
-<div align="center">
-  <img src="Plots/end_effector_position.png" width="450" alt="End Effector Position">
-  <img src="Plots/eof_trajectory_tracking1.jpg" width="450" alt="Trajectory Tracking 1">
-</div>
-<div align="center">
-  <img src="Plots/eof_trajectory_tracking2.jpg" width= "450" alt="Trajectory Tracking 2">
-  <img src="Plots/eof_trajectory_tracking3.jpg" width="450" alt="Trajectory Tracking 3">
-</div>
+- Metrics: Execution time, path length, computational complexity
+- Comparison of segment-based (66 segments, max 6 branches) vs. grid-based (2100 grids, 4 branches) approaches
+- Performance analysis at different resolutions (1x1 and 0.1x0.1 grid sizes)
 
-The PD controller achieves trajectory tracking to some extent, with significant tracking errors as shown in the end-effector position tracking plots. The error is predominantly due to the fact there are not fine-tuned enough to achieve minimum error. Again the minimum error was achieved with the PSO parameter tuning, please visit my [PSO-PD Control Project](https://github.com/adharsh-prasad/Robotics-Portfolio/tree/main/PSO-PD-Control).
+**Methodology**
+- Number of test cases: 50 random start-end pairs
+- Number of runs per pair: 10 runs
+- Two resolution settings tested: 0.1 and 1.0
+- Both real-time and CPU time measurements
 
-### **Joint Angle Analysis**
+**Performance Metrics**
+- Execution time (real and CPU)
+- Path length
+- Success rate
+- Statistical variance
 
-<div align="center">
-  <img src="Plots/joint_angles.png" width="450" alt="Joint angle tracking">
-  <img src="Plots/joint_angular_velocities.png" width="450" alt="Joint angle angular velocity tracking">
-</div>
+**Visualization**
 
-The initial tracking errors significantly impact the overall performance of the trajectory tracking. Although the velocity plots indicate that the error eventually approaches zero, the large initial error propagates through the system, adversely affecting joint angle tracking performance. The plot below of the joint angle errors provides additional insights into the previously discussed inference.
+The comprehensive benchmarking approach ensures reliable performance comparison between the different path planning implementations.
+| Algorithm | Avg. Execution Time (ms) | Avg. Path Length (units) | Computational Complexity |
+|-----------|--------------------------|--------------------------|--------------------------|
+| Custom A* |                          |                          | O(n log n)               |
+| Built-in A* |                        |                          | O(n log n)               |
+| Modified A* |                        |                          | O(n log n)               |
 
-<div align="center">
-  <img src="Plots/joint_angle_tracking_error.png" width="450" alt="Joint angle tracking">
-  <img src="Plots/joint_angular_velocity_errors.png" width="450" alt="Joint angle angular velocity tracking">
-</div>
-
-### **Control Torque Plot**
-
-<div align="center">
-  <img src="Plots/control_torques.png" width="700" alt="Control Torque from each joints">
-</div>
-
-### **Workspace Analysis**
-The trajectory is completely user-defined, and you are welcome to change it in the [simulation file](https://github.com/adharsh-prasad/Robotics-Portfolio/blob/main/PD-Control-Robotic-Arm/Code/Simulation.m). However, be careful to choose trajectories such that all points are within the workspace. The workspace can be visualized in the image below (files for these plots are available in the [plots folder](https://github.com/adharsh-prasad/Robotics-Portfolio/tree/main/PD-Control-Robotic-Arm/Plots)) and can also be visualized with the provided code.
-
-<div align="center">
-  <img src="Plots/reachable_workspace_view1.jpg" width= "450" alt="Reachable Workspace view 1">
-  <img src="Plots/reachable_workspace_view2.jpg" width="450" alt="Reachable Workspace view 2">
-</div>
-
-<div align="center">
-  <img src="Plots/reachable_workspace_view3.jpg" width= "450" alt="Reachable Workspace view 3">
-</div>
-
-### **Simulation Video**
-
-The following video demonstrates the complete simulation of the 3-DOF robotic arm performing trajectory tracking. It showcases the arm's smooth motion and the effectiveness of the implemented PD controller in achieving accurate trajectory tracking.
-
-<div align="center"> <img src="Plots/Robotic-Arm-Simulation.gif"> <p align="center"> <em>This simulation highlights the integration of kinematics, dynamics, and control theory, providing a visual representation of the robotic arm's performance.</em> </p> </div>
-
+**Key Findings**
+- Custom A* shows improved performance in segmented map structure
+- Built-in A* serves as reliable baseline but lacks lunar-specific optimizations
+- Modified A* demonstrates superior performance in constrained environments
+- Segment-based approach significantly reduces decision space compared to grid-based method
+- Performance improvements more pronounced at higher resolutions (0.1x0.1 grid)
 
 ---
 
@@ -214,13 +277,11 @@ This project had a profound impact on my academic and professional growth:
 ---
 
 ## **Future Work**
+   - Collision Avoidance: Enhance algorithms for dynamic obstacles and multi-robot scenarios
+   - Task Planning: Implement genetic algorithm for optimal task allocation and scheduling
+   - Hardware Integration: Test algorithms on physical robots in simulated lunar environments
+   - Performance Optimization: Further investigate and optimize Custom A* implementation to fully leverage reduced decision space in segmented approach
 
-1. **Optimization**:
-   - Implementing Particle Swarm Optimization (PSO) for real-time controller parameter tuning([visit](https://github.com/adharsh-prasad/Robotics-Portfolio/tree/main/PSO-PD-Control)).
-2. **Expanded Applications**:
-   - Extending the control system to multi-DOF robotic arms.
-3. **Adaptive Control**:
-   - Introducing adaptive controllers for better performance under uncertain conditions.
 
 ---
 
@@ -233,28 +294,16 @@ This project had a profound impact on my academic and professional growth:
 ### **Setup**
 1. Clone the repository:
    ```bash
-   git clone https://github.com/adharsh-prasad/trajectory-tracking-robotic-arm.git
-2. Navigate to the project directory:
-   ```bash
-   cd trajectory-tracking-robotic-arm
-3. Open the MATLAB scripts to run the simulations.
-   The code is designed to be user-friendly, allowing you to run any trajectory within the workspace with minimal setup. Change the x_func, y_func and z_func as per the users need. Simply execute the following lines in MATLAB after making these changes:
-   ```bash
-       [robot, arm_length] = Robotic_arm_model();
-       x_func = @(t) (35 + 25*cos(2*pi*t/10))/100;
-       y_func = @(t) (35 + 25*sin(2*pi*t/10))/100; 
-       z_func = @(t) 90/100*t.^0;
-       [T, joint_angles] = Joint_trajectory(x_func, y_func, z_func, robot, arm_length);
-
-  Note: Ensure that your chosen trajectory remains within the defined workspace. Details of the workspace are explained above.
+   git clone https://github.com/adharsh-prasad/Robotics-Portfolio/tree/main/Lunar_Operations_Task_Planning
+   ```
+2. Open MATLAB and navigate to the project directory
+3. Run the main script to generate maps, execute algorithms, and visualize results
 
 ### **Customization**
-
-If you wish to modify the robot's dimensions or parameters, you can do so by editing the [Robotic_arm_model.m](https://github.com/adharsh-prasad/Robotics-Portfolio/blob/main/PD-Control-Robotic-Arm/Code/Robotic_arm_model.m) file. Adjust any desired parameters to fit your specific requirements. This section provides a straightforward way for users to engage with and explore the simulation, emphasizing ease of use and customization potential.
-
-### **Reference**
-1. Craig, J. J., "Introduction to Robotics Mechanics and Control", Pearson Education International, ISBN 0-13-123629-6, 2005.
-2. Salah Mahdi Swadi et al., "Design and Simulation of Robotic Arm PD Controller Based on PSO", University of Thi-Qar Journal for Engineering Sciences, 2019.
+Modify parameters in the script files to explore different scenarios:
+- Map dimensions and resolution
+- Rover dimensions and movement characteristics
+- Algorithm-specific parameters
 
 ### **Acknowledgments**
-Special thanks to my professors, peers for their guidance and support in this project. Special mention to Space Robotics Lab at the University of Arizona for recognizing my project and offering a research internship. This work represents a significant step forward in my journey as a robotics engineer.
+This project is part of ongoing research to optimize robotic operations for lunar base construction and maintenance. 
