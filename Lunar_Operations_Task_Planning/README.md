@@ -45,9 +45,8 @@ Establishing and maintaining a lunar base involves numerous challenges, includin
 
 ## **Technical Approach**
 
-### **Kinematic Model**
-Forward and inverse kinematics were developed to enable precise motion planning:
-- **Forward Kinematics**: 
+### **Map Creation and Evolution**
+- **Initial Approach**: 
   <div align="center">
       <table>
         <tr>
