@@ -115,6 +115,8 @@ paths = Dictionary() containing:
     return final_path[1:path_idx]
 ```
 
+<div align="center"> <img src="simulation_plots_and_images/path_verification_gif.gif" width="700"/> <p align="center"> <em>3D schematic of lunar base rail network layout with proper connection labels</em> </p> </div>
+
 - **Priority Queue Astar Implementation**:
    - This version uses the A* algorithm with a priority queue data structure for the segmented map.
    - #### Key Optimizations:
