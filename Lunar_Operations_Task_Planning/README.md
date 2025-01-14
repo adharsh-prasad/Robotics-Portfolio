@@ -40,41 +40,29 @@ Establishing and maintaining a lunar base involves numerous challenges, includin
 ## **Technical Approach**
 
 ### **Map Creation and Evolution**
-- **Initial Approach**:
-   - First iteration: Static 3D map created in SolidWorks and imported into MATLAB
-   - Used for preliminary testing and proof of concept
-   - Limitations included:
-      - Difficult to modify or expand
-      - Static nature restricted dynamic operations
-      - Limited flexibility for testing different configurations
+**Initial Approach**:
+   The project's initial approach utilized a static 3D map created in SolidWorks and imported into MATLAB for preliminary testing and proof of concept. However, this approach had significant limitations: the map was difficult to modify or expand, its static nature restricted dynamic operations, and it offered limited flexibility for testing different configurations.
 
+**Current Implementation**:
+  The current implementation features a fully programmatic 3D map generation in MATLAB with modular and interconnected paths. The system comprises super-adobe structures (SA) with rail-based paths, main pathways connecting different sections, and junction points for path intersections, all controlled through user-configurable parameters for easy modification.
+  
+**Innovative Path Connection Strategy**:
+- Implemented directional connections to minimize branches and optimize path planning:
+  - Super-adobe structures (SA) → Main paths (one-way connections)
+  - Main paths → Super-adobe structures (no connection)
+  - Removal of redundant SA connections from MA and J nodes
+  - One-way connections from SA to MA/J nodes
+- **Benefits**:
+  - Preservation of path completeness while reducing search space
+  - Prevents loops from the circular path dependencies
+  - Reduces computational complexity during path planning
+  - Optimizes search space for the A* algorithm
 
-- **Current Implementation**:
-   - Fully programmatic 3D map generation in MATLAB
-   - Features modular and interconnected paths
-   - Key components:
-      - Super-adobe structures (SA) with rail-based paths
-      - Main pathways connecting different sections
-      - Junction points for path intersections
-      - User-configurable parameters for easy modification
-   Innovative Path Connection Strategy
-      - Implemented directional connections to optimize path planning:
-         - Super-adobe structures (SA) → Main paths (one-way connections)
-         - Main paths ↛ Super-adobe structures (no direct connection)
-         - Removal of redundant SA connections from MA and J nodes
-         - One-way connections from SA to MA/J nodes
-      - Benefits:
-         - Preservation of path completeness while reducing search space
-         - Prevents circular path dependencies
-         - Reduces computational complexity during path planning
-         - Optimizes search space for A* algorithm
-   Map Parameters
-      - Binary Occupancy Map:
-         - Paths represented as traversable areas (0s)
-         - Obstacles as non-traversable areas (1s)
-      - Dimensions: 30x70 units
-      - Robot step size: 0.1x0.1 unit
-      - Visualization using MATLAB's patch objects
+**Map Parameters**:
+- Dimensions: 30x70 units
+- Robot step size: 0.1x0.1 unit
+- Visualization using MATLAB's patch objects
+
 
 #### Map Data Structure:
 ```matlab
