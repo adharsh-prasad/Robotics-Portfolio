@@ -48,7 +48,7 @@ Establishing and maintaining a lunar base involves numerous challenges, includin
 **Current Implementation**:
   The current implementation features a fully programmatic 3D map generation in MATLAB with modular and interconnected paths. The system comprises super-adobe structures (SA) with rail-based paths, main pathways connecting different sections, and junction points for path intersections, all controlled through user-configurable parameters for easy modification.
   
-  <div align="center"> <img src="simulation_plots_and_images/lunar_base_labeled.png" width="1000"/> <p align="center"> <em>3D schematic of lunar base rail network layout with proper connection labels</em> </p> </div>
+  <div align="center"> <img src="simulation_plots_and_images/3d_lunar_base_map.png" width="1000"/> <p align="center"> <em>3D schematic of lunar base rail network layout with proper connection labels</em> </p> </div>
   
 **Innovative Path Connection Strategy**:
 - Implemented directional connections to minimize branches and optimize path planning:
