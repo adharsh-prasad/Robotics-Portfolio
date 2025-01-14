@@ -183,6 +183,8 @@ paths = Dictionary() containing:
   - Height: 0.2m
 - Visualization using MATLAB's patch objects for 3D rendering
 
+<div align="center"> <img src="simulation_plots_and_images/lunar_rover_simulation_gif.gif" width="750"/> <p align="center"> <em>3D schematic of lunar base rail network layout with proper connection labels</em> </p> </div>
+
 **Path Following Mechanics**
 - Utilizes pre-computed tangent vectors stored in path data structure
 - Smooth transitions achieved through:
