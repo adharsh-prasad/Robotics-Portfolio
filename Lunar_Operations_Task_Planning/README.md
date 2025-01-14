@@ -41,10 +41,14 @@ Establishing and maintaining a lunar base involves numerous challenges, includin
 
 ### **Map Creation and Evolution**
 **Initial Approach**:
-   The project's initial approach utilized a static 3D map created in SolidWorks and imported into MATLAB for preliminary testing and proof of concept. However, this approach had significant limitations: the map was difficult to modify or expand, its static nature restricted dynamic operations, and it offered limited flexibility for testing different configurations.
+   The project's initial approach utilized a static 2D map created in SolidWorks and imported into MATLAB for preliminary testing and proof of concept. The schematic features SuperAdobe structures (circles) connected by rail networks (lines) and junction blocks (squares), providing a simplified representation of the lunar base layout. While this design established the foundation for path planning algorithms, its limitations became apparent: the map was difficult to modify, its static nature restricted dynamic operations, and it offered limited flexibility for testing different configurations. These constraints ultimately led to the development of a more dynamic 3D implementation.
+
+<div align="center"> <img src="simulation_plots_and_images/Lunar Base.PNG" width="600"/> <p align="center"> <em>2D schematic of lunar base rail network layout</em> </p> </div>
 
 **Current Implementation**:
   The current implementation features a fully programmatic 3D map generation in MATLAB with modular and interconnected paths. The system comprises super-adobe structures (SA) with rail-based paths, main pathways connecting different sections, and junction points for path intersections, all controlled through user-configurable parameters for easy modification.
+  
+  <div align="center"> <img src="simulation_plots_and_images/lunar_base_labeled.png" width="1000"/> <p align="center"> <em>3D schematic of lunar base rail network layout with proper connection labels</em> </p> </div>
   
 **Innovative Path Connection Strategy**:
 - Implemented directional connections to minimize branches and optimize path planning:
@@ -52,6 +56,9 @@ Establishing and maintaining a lunar base involves numerous challenges, includin
   - Main paths → Super-adobe structures (no connection)
   - Removal of redundant SA connections from MA and J nodes
   - One-way connections from SA to MA/J nodes
+
+<div align="center"> <img src="simulation_plots_and_images/lunar_base_labeled.png" width="1000"/> <p align="center"> <em>3D schematic of lunar base rail network layout with proper connection labels</em> </p> </div>
+
 - **Benefits**:
   - Preservation of path completeness while reducing search space
   - Prevents loops from the circular path dependencies
