@@ -18,12 +18,12 @@ Establishing and maintaining a lunar base involves numerous challenges, includin
 ## **Features**
 
 - **Path Planning**:
-   - Custom A* Algorithm: An optimized implementation of A* with heuristics adapted for the lunar environment and segmented map structure
-   - Built-in MATLAB A* Algorithm: Utilizing MATLAB's native A* implementation as a baseline
-   - Modified A* with Geometric Constraints: Enhanced version incorporating line-of-sight constraints for improved navigation in the lunar environment
+   - Greedy heuristics segmented Algorithm: An optimized implementation of A* with heuristics adapted for the lunar environment and segmented map structure
+   - Rail Segment A* Algorithm: Implemented the A* algorithm for the segemented map data instead of binary grid map
+   - Built-in MATLAB A* Algorithm: Utilizing MATLAB's in-built A* implementation for benchmarking
 
 - **3D Lunar Base Map Creation**:
-   - Generated using MATLAB to represent rail-based paths and modular super-adobe structures
+   - Generated using 3D visualization tools to represent rail-based paths and modular super-adobe structures
    - Includes binary occupancy maps derived from the 3D map
    - Segmented map structure for improved computational efficiency
 
@@ -48,7 +48,7 @@ Establishing and maintaining a lunar base involves numerous challenges, includin
 **Current Implementation**:
   The current implementation features a fully programmatic 3D map generation in MATLAB with modular and interconnected paths. The system comprises super-adobe structures (SA) with rail-based paths, main pathways connecting different sections, and junction points for path intersections, all controlled through user-configurable parameters for easy modification.
   
-  <div align="center"> <img src="simulation_plots_and_images/3d_lunar_base_map.png" width="600"/> <p align="center"> <em>3D schematic of lunar base rail network layout with proper connection labels</em> </p> </div>
+  <div align="center"> <img src="simulation_plots_and_images/3d_lunar_base.png" width="600"/> <p align="center"> <em>3D schematic of the above 2D lunar base</em> </p> </div>
   
 **Innovative Path Connection Strategy**:
 - Implemented directional connections to minimize branches and optimize path planning:
@@ -57,7 +57,7 @@ Establishing and maintaining a lunar base involves numerous challenges, includin
   - Removal of redundant SA connections from MA and J nodes
   - One-way connections from SA to MA/J nodes
 
-<div align="center"> <img src="simulation_plots_and_images/lunar_base_labeled.png" width="1000"/> <p align="center"> <em>3D schematic of lunar base rail network layout with proper connection labels</em> </p> </div>
+<div align="center"> <img src="simulation_plots_and_images/lunar_base_labeled.png" width="1000"/> <p align="center"> <em>3D schematic of lunar base rail network layout with connection labels</em> </p> </div>
 
 - **Benefits**:
   - Preservation of path completeness while reducing search space
@@ -82,6 +82,21 @@ paths = Dictionary() containing:
 - end_point: [x, y, z] coordinates
 - distance: Path segment length
 ```
+
+**Junction Design**
+
+- The project explored multiple design iterations for junction mechanisms and side-wall climbing solutions, culminating in a comprehensive trade study of five distinct approaches. The selected T-junction configuration demonstrates efficient path transitions through a compact extending rail mechanism. The design was prototyped using an Endura 3D printer with PVC material and UltiMaker Cura slicing software, ensuring precise manufacturing tolerances and optimal print parameters for functional validation.
+
+- The design exploration included static, mobile, magnetic, rotating, and extending rail configurations in SolidWorks, each evaluated for the lunar base's unique requirements. The extending rail design was selected and prototyped for its minimal moving parts, compact form factor, and reliable transition mechanism.
+
+<div align="center"> <img src="simulation_plots_and_images/Junction_mechanism_design.gif" width="800"/> <p align="center"> <em>Demonstration of extending rail junction mechanism showing transition between main rail and branch path. The T-junction design features compact extending segments (cyan) that enable smooth path switching.</em> </p> </div>
+
+**Design Studies and Validation**
+
+- A detailed trade study evaluated all variants across critical parameters including setup complexity, space utilization, structural stability, and failure modes. The study, supported by comprehensive SolidWorks models and simulations, demonstrates each design's mechanical feasibility within the pressurized lunar environment. For those interested in the complete design process, including detailed CAD models, trade studies, and mechanical analyses, I encourage reviewing my [comprehensive presentation](https://docs.google.com/presentation/d/1dFwunILNPZTwwPv7HNrZGY5GEilcVW4LtZWf2WEUo2U/edit?usp=sharing)
+ that covers pressurized chamber optimization, sidewall climb mechanisms for inverted robots, and junction designs.
+
+- The successful 3D printing implementation, using professional-grade manufacturing tools and software, validated the design considerations while providing crucial insights into manufacturing constraints and assembly requirements. This practical validation strengthened the overall system design and confirmed its suitability for lunar operations.
 
 ### **Path Planning Algorithm**
 - **Custom AStar Implementation**:
