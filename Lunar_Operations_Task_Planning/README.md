@@ -99,7 +99,7 @@ paths = Dictionary() containing:
 - The successful 3D printing implementation, using professional-grade manufacturing tools and software, validated the design considerations while providing crucial insights into manufacturing constraints and assembly requirements. This practical validation strengthened the overall system design and confirmed its suitability for lunar operations.
 
 ### **Path Planning Algorithm**
-- **Custom AStar Implementation**:
+- **Greedy heuristics segmented Algorithm**:
    - Our custom A* algorithm is optimized for the lunar base's segmented path structure, utilizing several key optimizations:
    - #### Key Optimizations:
       - Uses mid-points instead of endpoints for heuristic calculations to reduce computational overhead
@@ -132,7 +132,7 @@ paths = Dictionary() containing:
 
 <div align="center"> <img src="simulation_plots_and_images/path_verification_gif.gif" width="700"/> <p align="center"> <em>3D schematic of lunar base rail network layout with proper connection labels</em> </p> </div>
 
-- **Priority Queue Astar Implementation**:
+- **Rail Segment Astar Algorithm**:
    - This version uses the A* algorithm with a priority queue data structure for the segmented map.
    - #### Key Optimizations:
       - Uses mid-points instead of endpoints for heuristic calculations to reduce computational overhead
@@ -246,14 +246,14 @@ paths = Dictionary() containing:
 The comprehensive benchmarking approach ensures reliable performance comparison between the different path planning implementations.
 | Algorithm | Avg. Execution Time (ms) | Avg. Path Length (units) | Computational Complexity |
 |-----------|--------------------------|--------------------------|--------------------------|
-| Custom A* |                          |                          | O(n log n)               |
+| Greedy heuristics segmented Algorithm |                          |                          | O(n log n)               |
+| Rail Segment A* Algorithm |                        |                          | O(n log n)               |
 | Built-in A* |                        |                          | O(n log n)               |
-| Modified A* |                        |                          | O(n log n)               |
 
 **Key Findings**
-- Custom A* shows improved performance in segmented map structure
+- Greedy heuristics segmented Algorithm shows improved performance in segmented map structure
 - Built-in A* serves as reliable baseline but lacks lunar-specific optimizations
-- Modified A* demonstrates superior performance in constrained environments
+- Rail Segment A* Algorithm demonstrates superior performance in constrained environments
 - Segment-based approach significantly reduces decision space compared to grid-based method
 - Performance improvements more pronounced at higher resolutions (0.1x0.1 grid)
 
