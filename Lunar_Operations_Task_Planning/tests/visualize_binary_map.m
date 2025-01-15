@@ -1,4 +1,4 @@
-% function visualize_binary_map(binary_map)
+function visualize_binary_map(binary_map)
     % Get current axes
     hold on
     
@@ -21,4 +21,4 @@
     % Keep axis properties
     % axis equal;
     grid off;
-% end
+end
