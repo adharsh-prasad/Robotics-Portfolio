@@ -258,6 +258,9 @@ The comprehensive benchmarking approach ensures reliable performance comparison 
 | Rail Segment A* Algorithm |                        |                          | O(n log n)               |
 | Built-in A* |                        |                          | O(n log n)               |
 
+
+<div align="center"> <img src="simulation_plots_and_images/Benchmarking_plots.png" width="1500"/> <p align="center"> <em>Realtime and CPU runtime benchmark plots</em> </p> </div>
+
 **Key Findings**
 - Greedy heuristics segmented Algorithm shows improved performance in segmented map structure
 - Built-in A* serves as reliable baseline but lacks lunar-specific optimizations
