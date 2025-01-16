@@ -183,6 +183,8 @@ paths = Dictionary() containing:
 ```
 - **Built-in MATLAB Astar**:
    - Utilizes MATLAB's Navigation Toolbox for baseline comparison, operating on a full grid representation rather than segments.
+
+   <div align="center"> <img src="simulation_plots_and_images/Benchmarking_plots.png" width="1500"/> <p align="center"> <em>Realtime and CPU runtime benchmark plots</em> </p> </div>
    
 - **Key Implementation Notes:**:
    - Manhattan Distance Choice
