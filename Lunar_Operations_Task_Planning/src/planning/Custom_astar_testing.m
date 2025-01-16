@@ -18,6 +18,23 @@ for j = 1:length(keys(paths))
     paths(segment{j}).mid_point = (paths(segment{j}).start_point + paths(segment{j}).end_point)/2;
 end
 
+node_list = keys(paths);
+for i = 1:length(node_list)
+    paths(node_list{i}).id = i;
+end
+
+% Convert string connections to ID connections
+segment = keys(paths);
+for j = 1:length(keys(paths))
+    current_connections = paths(segment{j}).connections;
+    id_connections = zeros(length(current_connections), 1);
+    for i = 1:length(current_connections)
+        id_connections(i) = paths(current_connections{i}).id;
+    end
+    paths(segment{j}).connections_id = id_connections;
+    paths(segment{j}).mid_point = (paths(segment{j}).start_point + paths(segment{j}).end_point)/2;
+end
+
 % Create ID-based path structure
 id_paths = struct();
 
@@ -76,5 +93,3 @@ final = '';
 for i = 1:length(path)
 disp(id_to_name(path(i)))
 end
-
-time/1000
