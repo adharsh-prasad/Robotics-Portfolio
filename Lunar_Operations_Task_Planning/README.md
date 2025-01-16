@@ -138,7 +138,7 @@ paths = Dictionary() containing:
     return final_path[1:path_idx]
 ```
 
-<div align="center"> <img src="simulation_plots_and_images/path_verification_gif.gif" width="700"/> <p align="center"> <em>3D schematic of lunar base rail network layout with proper connection labels</em> </p> </div>
+<div align="center"> <img src="simulation_plots_and_images/path_verification_gif.gif" width="700"/> <p align="center"> <em>Path planning based on the above Greedy heuristics algorithm, showing the planned route (red line) between SuperAdobe structures with waypoints overlaid on the 3D lunar base model.</em> </p> </div>
 
 - **Rail Segment Astar Algorithm**:
    - This version uses the A* algorithm with a priority queue data structure for the segmented map.
@@ -184,7 +184,7 @@ paths = Dictionary() containing:
 - **Built-in MATLAB Astar**:
    - Utilizes MATLAB's Navigation Toolbox for baseline comparison, operating on a full grid representation rather than segments.
 
-   <div align="center"> <img src="simulation_plots_and_images/Benchmarking_plots.png" width="1500"/> <p align="center"> <em>Realtime and CPU runtime benchmark plots</em> </p> </div>
+   <div align="center"> <img src="simulation_plots_and_images/path_planning_res_01.jpg" width="700"/> <p align="center"> <em>Path planning using in-built A* function and binaryoccupancy map</em> </p> </div>
    
 - **Key Implementation Notes:**:
    - Manhattan Distance Choice
@@ -210,7 +210,7 @@ paths = Dictionary() containing:
   - Height: 0.2m
 - Visualization using MATLAB's patch objects for 3D rendering
 
-<div align="center"> <img src="simulation_plots_and_images/lunar_rover_simulation_gif.gif" width="750"/> <p align="center"> <em>3D schematic of lunar base rail network layout with proper connection labels</em> </p> </div>
+<div align="center"> <img src="simulation_plots_and_images/lunar_rover_simulation_gif.gif" width="750"/> <p align="center"> <em>Path execution visualization showing a simulated rover (red cuboid object) traversing the generated path from start to goal location.</em> </p> </div>
 
 **Path Following Mechanics**
 - Utilizes pre-computed tangent vectors stored in path data structure
@@ -254,21 +254,24 @@ paths = Dictionary() containing:
 **Visualization**
 
 The comprehensive benchmarking approach ensures reliable performance comparison between the different path planning implementations.
-| Algorithm | Avg. Execution Time (ms) | Avg. Path Length (units) | Computational Complexity |
+| Algorithm | Avg. Execution Time (ms) | Feasible path success rate (%) | Computational Complexity |
 |-----------|--------------------------|--------------------------|--------------------------|
-| Greedy heuristics segmented Algorithm |                          |                          | O(n log n)               |
-| Rail Segment A* Algorithm |                        |                          | O(n log n)               |
-| Built-in A* |                        |                          | O(n log n)               |
+| Greedy heuristics segmented Algorithm | 0.04                         | 100                         | O(n log n)               |
+| Rail Segment A* Algorithm | 1.74                       | 100                         | O(n log n)               |
+| Built-in A*(res 0.1) | 64.5                       | 100                         | O(n log n)               |
+| Built-in A*(res 1) | 1.52                       | 100                         | O(n log n)               |
 
 
-<div align="center"> <img src="simulation_plots_and_images/Benchmarking_plots.png" width="1500"/> <p align="center"> <em>Realtime and CPU runtime benchmark plots</em> </p> </div>
+<div align="center"> <img src="simulation_plots_and_images/Benchmarking_plots.png" width="1500"/> <p align="center"> <em>Performance comparison of path planning algorithms showing: (top left) real-time execution comparison, (top right) CPU time comparison, (bottom left) average execution time in milliseconds, and (bottom right) path finding success rate.</em> </p> </div>
 
 **Key Findings**
-- Greedy heuristics segmented Algorithm shows improved performance in segmented map structure
-- Built-in A* serves as reliable baseline but lacks lunar-specific optimizations
-- Rail Segment A* Algorithm demonstrates superior performance in constrained environments
-- Segment-based approach significantly reduces decision space compared to grid-based method
-- Performance improvements more pronounced at higher resolutions (0.1x0.1 grid)
+- The benchmarking results reveal significant performance differences between the implemented path planning approaches. The Custom A* (Greedy) algorithm demonstrates exceptional performance with an average execution time of just 0.04ms, making it ideal for real-time applications. The Rail Segment A* (Priority Queue) implementation achieves respectable performance at 1.74ms, while the built-in A* with 0.1 resolution requires 64.50ms. All algorithms maintain 100% path-finding success rates, validating their reliability.
+
+- The built-in A* with 0.1 resolution, though computationally more intensive, is necessary for precise robot movement control, enabling velocities below 1 m/s and finer granularity in path execution. The 1.0 resolution variant was included purely for benchmarking purposes.
+
+- Each algorithm offers distinct advantages: The Rail Segment A* provides universal applicability and extensibility to more complex lunar base layouts, leveraging classical A* principles for robust path planning. The Greedy approach, while optimized for the current layout, achieves remarkable efficiency by requiring only 4 decisions to determine the final path. Its exceptional runtime performance makes it particularly suitable for real-time collision avoidance implementations. While the Greedy algorithm shows promise for complex branched environments, this capability requires further validation through testing.
+
+- The boxplots in both real-time and CPU time comparisons demonstrate consistent performance across multiple runs, with the Custom A* showing minimal variance, indicating reliable real-time operation. This stability, combined with its minimal computational overhead, makes it particularly valuable for dynamic path planning scenarios.
 
 ---
 
