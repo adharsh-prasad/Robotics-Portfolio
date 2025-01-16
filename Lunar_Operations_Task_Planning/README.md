@@ -49,7 +49,15 @@ Establishing and maintaining a lunar base involves numerous challenges, includin
   The current implementation features a fully programmatic 3D map generation in MATLAB with modular and interconnected paths. The system comprises super-adobe structures (SA) with rail-based paths, main pathways connecting different sections, and junction points for path intersections, all controlled through user-configurable parameters for easy modification.
   
   <div align="center"> <img src="simulation_plots_and_images/3d_lunar_base.png" width="600"/> <p align="center"> <em>3D schematic of the above 2D lunar base</em> </p> </div>
-  
+
+**Core Implementation**: The map generation utilizes a structured approach where each component (SuperAdobe chambers, main paths, and connecting segments) is created through specialized functions. The system employs meshgrid for surface generation and implements sophisticated lighting for realistic visualization. Key features include:
+   - Modular construction using mesh objects for structures and paths
+   - Configurable parameters for dimensions, opacity, and lighting
+   - Automated path coordinate generation with tangent vectors
+   - Hierarchical organization of components
+   - Users can modify the base layout through adjustable parameters
+   - The entire map is also scalable to more intricate complex 3d map
+
 **Innovative Path Connection Strategy**:
 - Implemented directional connections to minimize branches and optimize path planning:
   - Super-adobe structures (SA) → Main paths (one-way connections)
