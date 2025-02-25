@@ -7,9 +7,6 @@ function dstate = Robot_dynamics(t, state, q_d_traj, qd_d_traj, Kp, Kd, params, 
     
     Cqd = compute_Cqd(q, qd, params, M);
 
-    % Cqd_cus = robot.coriolis(q', qd');
-    % disp(sum(Cqd_cus*qd - Cqd))
-
     % Rest of the computations
     q_d = interp1(lin, q_d_traj, t);
     qd_d = interp1(lin, qd_d_traj, t);
