@@ -1,14 +1,13 @@
 function params = Robotic_arm_model()
-    % UR5e DH parameters [theta(rad) a(m) d(m) alpha(rad)]
     params.dh = [
-        0       0.1625  0       pi/2;
-        0       0       -0.425  0;
-        0       0       -0.3922 0;
-        0       0.1333  0       pi/2;
-        0       0.0997  0       -pi/2;
-        0       0.0996  0       0
+    0       0       0.1625  pi/2;   % Joint 1
+    0       -0.425  0       0;      % Joint 2
+    0       -0.3922 0       0;      % Joint 3
+    0       0       0.1333  pi/2;   % Joint 4
+    0       0       0.0997  -pi/2;  % Joint 5
+    0       0       0.0996  0;      % Joint 6
     ];
-    
+
     % Link masses (kg)
     params.masses = [3.7, 8.393, 2.275, 1.219, 1.219, 0.1879];
     
