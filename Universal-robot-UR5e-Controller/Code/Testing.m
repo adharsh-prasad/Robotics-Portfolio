@@ -73,7 +73,6 @@ initial_state = [q0;      % Initial positions
 tspan = linspace(0, 10, 100);
 tic
 options = odeset('RelTol',1e-3,'AbsTol',1e-6, 'MaxStep', 0.01);
-% [t, state] = ode15s(@(t, state) Robot_dynamics_MPC(t, state, q_d_traj, qd_d_traj, params, tspan), tspan, initial_state, options);
  
 [t, state] = ode15s(@(t, state) Robot_dynamics(t, state, q_d_traj, qd_d_traj, Kp, Kd, params, tspan), tspan, initial_state, options);
 
