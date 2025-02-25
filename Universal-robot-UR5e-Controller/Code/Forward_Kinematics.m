@@ -1,4 +1,4 @@
-function Transform_matrix = Forward_Kinematics(params)
+function [Transform_matrix, theta] = Forward_Kinematics(params)
     syms theta1 theta2 theta3 theta4 theta5 theta6
     theta = [theta1; theta2; theta3; theta4; theta5; theta6];
     
