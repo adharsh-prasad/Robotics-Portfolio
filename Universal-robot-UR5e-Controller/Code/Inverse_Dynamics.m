@@ -12,5 +12,5 @@ function jointAngles = Inverse_Dynamics(position, robot, params)
     T_desired = trvec2tform(position); 
 
     % Solve inverse kinematics
-    [jointAngles, ~] = ikSolver('tool0', T_desired, weights, initialGuess);
+    [jointAngles, ~] = ikSolver('tool0', T_desired, weights, initialGuess, 'ConstraintInputs', {'position'});
 end
