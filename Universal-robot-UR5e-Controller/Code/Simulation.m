@@ -1,3 +1,4 @@
+close all
 % Forward Kinematics and Inverse Dynamics
 params = Robotic_arm_model();
 [transform, theta] = Forward_Kinematics(params);
@@ -77,15 +78,86 @@ options = odeset('RelTol',1e-3,'AbsTol',1e-6, 'MaxStep', 0.01);
 [t, state] = ode15s(@(t, state) Robot_dynamics(t, state, q_d_traj, qd_d_traj, Kp, Kd, params, tspan), tspan, initial_state, options);
 
 time = toc;
-% Modified visualization loop
-figure;
-ax = show(robot);
-hold on;
-view(3);  % Set 3D view
 
 config = homeConfiguration(robot);
+
+% Modified visualization loop with cinematic styling
+fig = figure('WindowState', 'fullscreen', ...
+    'MenuBar', 'none', ...
+    'ToolBar', 'none', ...
+    'NumberTitle', 'off', ...
+    'Name', 'UR5e Dynamic Trajectory Tracking', ...
+    'Color', [0.85 0.88 0.91], ... % White background
+    'Position', [0 0 1920 1080]);
+
+ax = show(robot);
+hold on;
+
+% Set axes appearance for a clean, white look
+set(ax, 'Color', [0.85 0.88 0.91]);
+
+% axis equal
+xlim([-0.5 1.5])
+ylim([-1 1])
+zlim([0 1.2])
+daspect([1 1 1])
+
+% Remove grid and ticks/numbers
+grid off
+ax.XTick = [];
+ax.YTick = [];
+ax.ZTick = [];
+ax.XTickLabel = [];
+ax.YTickLabel = [];
+ax.ZTickLabel = [];
+
+% Initialize trajectory containers
 actual_path = [];
 desired_path = [];
+
+% Add professional annotations
+title('UR5e Dynamic Trajectory Tracking', ...
+    'Color', 'black', 'FontSize', 24, 'FontWeight', 'bold')
+xlabel('X (m)', 'FontSize', 16, 'Color', 'black')
+ylabel('Y (m)', 'FontSize', 16, 'Color', 'black')
+zlabel('Z (m)', 'FontSize', 16, 'Color', 'black')
+
+% Initialize video writer (optional)
+v = VideoWriter('UR5e_simulation.mp4', 'MPEG-4');
+v.FrameRate = 30;
+v.Quality = 100;
+
+% Define the plane size and position
+plane_size = 2; % meters (adjust as needed)
+plane_z = 0;      % Z height of the plane (usually 0 for the base)
+
+% Create a grid for the plane
+[X, Y] = meshgrid(linspace(-plane_size/2, plane_size/2, 2), ...
+                  linspace(-plane_size/2, plane_size/2, 2));
+Z = plane_z * ones(size(X));
+
+% Plot the solid plane (floor)
+surf(X, Y, Z, ...
+    'FaceColor', [0.22 0.22 0.22], ...   % Soft workspace gray-blue
+    'EdgeColor', 'none', ...
+    'FaceAlpha', 1);                     % Solid (opaque) plane
+
+% Optionally, add a subtle border
+plot3(X(1,:), Y(1,:), Z(1,:), 'Color', [0.7 0.7 0.7], 'LineWidth', 1.5);
+plot3(X(2,:), Y(2,:), Z(2,:), 'Color', [0.7 0.7 0.7], 'LineWidth', 1.5);
+plot3(X(:,1), Y(:,1), Z(:,1), 'Color', [0.7 0.7 0.7], 'LineWidth', 1.5);
+plot3(X(:,2), Y(:,2), Z(:,2), 'Color', [0.7 0.7 0.7], 'LineWidth', 1.5);
+
+open(v);
+
+% Set camera to top-angled view
+view(-45, 30)  % Azimuth 45 degrees, Elevation 30 degrees
+
+% Add lighting for depth
+% light('Position', [1 1 1], 'Style', 'infinite');
+% light('Position', [-1 -1 1], 'Style', 'infinite');
+lighting gouraud
+axis off
 
 for i = 1:length(t)
     % Update robot configuration   
@@ -93,18 +165,28 @@ for i = 1:length(t)
         config(j).JointPosition = state(i,j);
     end
     
-    % Update robot visualization
-    show(robot, config, 'Parent', ax, 'PreservePlot', false);
+    % Update visualization
+    show(robot, config, 'Parent', ax, 'PreservePlot', false, ...
+        'Visuals', 'on', 'Collisions', 'off', ...
+        'FastUpdate', true);
     
-    % Store and plot trajectories
-    desired_path = [desired_path; x_func(i) y_func(i) z_func(i)];
+    % Store trajectories
     actual_pos = getTransform(robot, config, 'tool0');
-    actual_path = [actual_path; actual_pos(1:3,4)'];
     
-    % Plot paths
-    plot3(desired_path(:,1), desired_path(:,2), desired_path(:,3), 'r-', 'LineWidth', 2);
-    plot3(actual_path(:,1), actual_path(:,2), actual_path(:,3), 'b-', 'LineWidth', 2);
+    % Update trajectory plots
+    scatter3(x_func(i), y_func(i), z_func(i), '.', 'r')
+    scatter3(actual_pos(1,4), actual_pos(2,4), actual_pos(3,4), '.', 'b')
     
-    drawnow;
-    pause(0.01);  % Smooth visualization
+    % Add dynamic timestamp
+    timeStamp = text(ax, 0.05, 0.95, 1.1, ...
+        sprintf('Time: %.2f s', t(i)), ...
+        'Color', 'black', 'FontSize', 14, ...
+        'Units', 'normalized');
+    
+    drawnow limitrate
+    frame = getframe(fig);
+    writeVideo(v, frame);
+    delete(timeStamp); % Remove timestamp for next frame
 end
+
+close(v);
