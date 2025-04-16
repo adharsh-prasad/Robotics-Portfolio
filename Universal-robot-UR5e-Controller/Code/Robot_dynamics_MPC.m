@@ -1,21 +1,16 @@
-function dstate = Robot_dynamics(t, state, q_d_traj, qd_d_traj, Kp, Kd, params, lin)
+function dstate = Robot_dynamics_MPCTest(state, u, params)
+    % Extract states
     q = state(1:6);
     qd = state(7:12);
 
-    % dynamics matrices
+    % Compute dynamics matrices
     [M, G] = compute_dynamics_matrices(q, params);
-    
     Cqd = compute_Cqd(q, qd, params, M);
-
-    % Rest of the computations
-    q_d = interp1(lin, q_d_traj, t);
-    qd_d = interp1(lin, qd_d_traj, t);
     
-    e = q_d' - q;
-    edot = qd_d' - qd;
-    tau = Kp * e + Kd * edot;
-       
-    qdd = M \ (tau - Cqd - G);
+    % Compute accelerations using the input torque u
+    qdd = M \ (u - Cqd - G);
+    
+    % Return state derivatives
     dstate = [qd; qdd];
 end
 
