@@ -1,18 +1,11 @@
-# **Trajectory Tracking Control of an Anthropomorphic Robotic Arm**
+# **UR5e Robotic Arm Advanced Trajectory Tracking with MPC**
 
-<div align="center"> <img src="Plots/Robotic Arm Simulation.gif" width="350"/> <p align="center"> <em>3-DOF Robotic Arm Trajectory Tracking Simulation</em> </p> </div>
-
-This repository contains the code and documentation for the **Trajectory Tracking Control of an Anthropomorphic Robotic Arm** project. The project showcases the integration of control theory, specifically a Proportional-Derivative (PD) controller, to achieve accurate trajectory tracking for a robotic arm. The simulation visualizes the arm's performance in tracking complex trajectories under varying conditions.
-
----
 
 ## **Motivation**
 
-During my graduate studies at Arizona State University, I sought to bridge the gap between abstract control theory and real-world applications. My undergraduate projects had given me a strong foundation in control theory, but I wanted to tackle challenges with tangible, practical relevance. To achieve this, I enrolled in the course Modeling and Control of Robots, which provided the ideal platform for applying control systems to robotics.
+During my internship at SpaceTREx, I worked hands-on with the UR5e Universal Robots industrial arm for a block assembly task using miniature sandbags. Operating the arm via UR’s HMI teach pendant—with its intuitive waypoint programming and real-time force/torque monitoring—gave me firsthand insight into industrial robotics. Observing robust collision avoidance and singularity handling in real-time operations inspired me to explore advanced control strategies for complex robotic systems.
 
-I set out to develop a trajectory control system for a 3-DOF robotic arm—a task demanding precise kinematics, dynamic modeling, and control system design. While many peers stopped at basic kinematics, I designed a complete system, including forward and inverse kinematics, dynamics analysis, and a PD controller. The project culminated in real-time simulations, earning peer recognition and securing a position at the University of Arizona's Space Robotics Lab.
-
-This project not only honed my skills in control system design and robotics but also instilled my passion for solving complex, real-world problems and to the field of Robotics.
+This experience motivated me to adapt my prior [PD-controlled trajectory tracking](https://github.com/adharsh-prasad/Robotics-Portfolio/tree/main/PSO-PD-Control) work to the UR5e platform using Model Predictive Control (MPC). While classical controllers excel in many scenarios, MPC’s predictive optimization and constraint-handling capabilities make it ideal for high-precision industrial applications. Implementing MPC on this 6-DOF arm deepened my understanding of advanced control theory while bridging academic concepts with real-world robotic challenges.
 
 <div align="center"> <img src="Plots/Anthropomorphic Arm.png" width="200"/> <p align="center"> <em>Anthropomorphic arm configuration used for our analysis, with reasonable complex structure while omitting the end effector.</em> </p> </div>
 
