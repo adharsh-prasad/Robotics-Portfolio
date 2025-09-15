@@ -275,18 +275,6 @@ The comprehensive benchmarking approach ensures reliable performance comparison 
 
 ---
 
-## **Impact**
-
-This project had a profound impact on my academic and professional growth:
-- **Academic Recognition**: 
-  - Earned top project recognition in a peer-reviewed class evaluation.
-- **Professional Development**: 
-  - Helped secure a position at the Space Robotics Lab at the University of Arizona.
-- **Personal Growth**: 
-  - Reinforced my passion for robotics and control systems through hands-on application and dynamic simulations.
-
----
-
 ## **Future Work**
    - Collision Avoidance: Enhance algorithms for dynamic obstacles and multi-robot scenarios
    - Task Planning: Implement genetic algorithm for optimal task allocation and scheduling
