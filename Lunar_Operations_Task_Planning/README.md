@@ -3,7 +3,7 @@
 This project is part of a larger multi-robot coordination system for lunar base operations and warehouse management. The current focus is on developing and benchmarking efficient path planning algorithms for a segmented lunar base map. The main goals are:
 
 1. Implement and compare three different path planning algorithms
-2. Propose segmented map data storage for realtime pat planning
+2. Propose segmented map data storage for realtime path planning
 3. Lay groundwork for future collision avoidance implementation
 
 
